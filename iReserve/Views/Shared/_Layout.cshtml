@@ -1,45 +1,51 @@
 ﻿<!DOCTYPE html>
+@{
+    ViewBag.Title = "iReserve";
+    ViewBag.TimeStamp = System.DateTime.Now.ToString("hh:mm:ss tt");
+    ViewBag.DateStamp = System.DateTime.Now.ToString("dddd") + ", " + System.DateTime.Now.ToString("dd MMMM yyyy");
+}
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
-        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <title>@ViewBag.Title</title>
         <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")
-        @Scripts.Render("~/bundles/modernizr")
+        @Styles.Render("~/Content/css")        
     </head>
+
     <body>
-        <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@Html.ActionLink("your logo here", "Index", "Home")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+        <header>            
+            <div id="banner">
+				<table class="bannertable">
+                    <tr>
+                        <th class="col1" />
+                        <th class="col2" />
+                    </tr>
+                    <tr>
+                        <td>
+                            <h2>iReserve</h2>
+                        </td>
+
+                        <td>
+                            <h3>@ViewBag.TimeStamp
+                            <br />
+                            @ViewBag.DateStamp</h3>
+                        </td>
+                    </tr>
+				</table>
+			</div>
         </header>
         <div id="body">
-            @RenderSection("featured", required: false)
+            @*@RenderSection("featured", required: false)*@
             <section class="content-wrapper main-content clear-fix">
                 @RenderBody()
             </section>
         </div>
         <footer>
-            <div class="content-wrapper">
+            @*<div class="content-wrapper">
                 <div class="float-left">
                     <p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>
                 </div>
-            </div>
+            </div>*@
         </footer>
 
         @Scripts.Render("~/bundles/jquery")
