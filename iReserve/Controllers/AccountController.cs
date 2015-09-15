@@ -17,6 +17,13 @@ namespace iReserve.Controllers
     [InitializeSimpleMembership]
     public class AccountController : Controller
     {
+
+        //// ADDED TO TEST CONNECTION
+        //public ActionResult HelloDB()
+        //{
+            
+        //}
+
         //
         // GET: /Account/Login
 
@@ -348,7 +355,7 @@ namespace iReserve.Controllers
             RemoveLoginSuccess,
         }
 
-        internal class ExternalLoginResult : ActionResult
+        /*internal class ExternalLoginResult : ActionResult
         {
             public ExternalLoginResult(string provider, string returnUrl)
             {
@@ -363,7 +370,7 @@ namespace iReserve.Controllers
             {
                 OAuthWebSecurity.RequestAuthentication(Provider, ReturnUrl);
             }
-        }
+        }*/
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
