@@ -5,7 +5,7 @@
 
 <hgroup class="title">
     <h1>@ViewBag.Title.</h1>
-    <h2>Create a new account.</h2>
+    <h2>Sign Up</h2>
 </hgroup>
 
 @using (Html.BeginForm()) {
@@ -14,21 +14,136 @@
 
     <fieldset>
         <legend>Registration Form</legend>
-        <ol>
+        @*<ol>
             <li>
                 @Html.LabelFor(m => m.UserName)
                 @Html.TextBoxFor(m => m.UserName)
             </li>
+            <br />
+            <li>
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name)
+            </li>
+            <br />
+            <li>
+                @Html.LabelFor(m => m.DateOfJoining)
+                @Html.TextBoxFor(m => m.DateOfJoining)
+            </li>
+            <br />
+            <li>
+                @Html.LabelFor(m => m.EmailId)
+                @Html.TextBoxFor(m => m.EmailId)
+            </li>
+            <br />
+            <li>
+                @Html.LabelFor(m => m.PhoneNumber)
+                @Html.TextBoxFor(m => m.PhoneNumber)
+            </li> 
+            <br />
             <li>
                 @Html.LabelFor(m => m.Password)
                 @Html.PasswordFor(m => m.Password)
             </li>
+            <br />
             <li>
                 @Html.LabelFor(m => m.ConfirmPassword)
                 @Html.PasswordFor(m => m.ConfirmPassword)
             </li>
-        </ol>
-        <input type="submit" value="Register" />
+        </ol>*@
+
+        <table class="tablelogin">
+            <tr>
+                <th class="side"></th>
+                <th class="mid"></th>
+                <th class="mid"></th>
+                <th class="side"></th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.UserName)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.UserName)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.Name)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Name)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.Name)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.DateOfJoining)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.DateOfJoining)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.DateOfJoining)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.EmailId)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.EmailId)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.EmailId)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.PhoneNumber)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.PhoneNumber)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.DateOfJoining)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.Password)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Password)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.Password)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.ConfirmPassword)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.ConfirmPassword)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Sign Me Up" class="midbutton" />
     </fieldset>
 }
 
