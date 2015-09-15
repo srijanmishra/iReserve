@@ -6,13 +6,13 @@
 .col1 
 {
     text-align:left;
-    width: 75%
+    width: 75%;
 }
 
 .col2
 {
     text-align:right;
-    width:25%
+    width:25%;
 }
 
 .bannertable
@@ -32,16 +32,26 @@
 .mid 
 {
     text-align:center;
-    width:10%
+    width:10%;
 }
 
 .side
 {
     text-align:right;
-    width:40%
+    width:40%;
 }
 
-.midbutton
+.midclass
 {
-    
+    text-align:center;
+}
+
+.SubmitButton
+{
+    width: auto;
+    border: 1px solid #787878;
+    cursor: pointer;
+    font-weight: 400;
+    padding: 7px;
+    margin-right: 8px;
 }
