@@ -4,19 +4,19 @@
     ViewBag.Title = "Log in";
 }
 
-<hgroup class="title">
+@*<hgroup class="title">
     <h1>@ViewBag.Title.</h1>
-</hgroup>
+</hgroup>*@
 
 <section id="loginForm">
-<h2>Use a local account to log in.</h2>
+@*<h2>Use a local account to log in.</h2>*@
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
     <fieldset>
         <legend>Log in Form</legend>
-        <ol>
+        @*<ol>
             <li>
                 @Html.LabelFor(m => m.UserName)
                 @Html.TextBoxFor(m => m.UserName)
@@ -31,8 +31,40 @@
                 @Html.CheckBoxFor(m => m.RememberMe)
                 @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
             </li>
-        </ol>
-        <input type="submit" value="Log in" />
+        </ol>*@
+        <table class="tablelogin">
+            <tr>
+                <th class="side"></th>
+                <th class="mid"></th>
+                <th class="mid"></th>
+                <th class="side"></th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.UserName)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.UserName)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.Password)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Password)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.Password)
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Log in" class="midbutton"/>
     </fieldset>
     <p>
         @Html.ActionLink("Register", "Register") if you don't have an account.
@@ -47,4 +79,5 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Styles.Render("~/Content/css")
 }

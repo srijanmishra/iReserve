@@ -1,6 +1,6 @@
 ﻿body 
 {
-    background-color:azure;
+    background-color:white;
 }
 
 .col1 
@@ -9,7 +9,7 @@
     width: 75%
 }
 
-.col2 
+.col2
 {
     text-align:right;
     width:25%
@@ -21,4 +21,27 @@
     width: 100%;
     background-color: #1919A3;
     color:antiquewhite;
+}
+
+.tablelogin
+{
+    margin: 0 auto;
+    width: 100%;
+}
+
+.mid 
+{
+    text-align:center;
+    width:10%
+}
+
+.side
+{
+    text-align:right;
+    width:40%
+}
+
+.midbutton
+{
+    
 }
