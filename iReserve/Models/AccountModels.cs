@@ -27,14 +27,14 @@ namespace iReserve.Models
         public string UserName { get; set; }
     }
 
-    public class RegisterExternalLoginModel
-    {
-        [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+    //public class RegisterExternalLoginModel
+    //{
+    //    [Required]
+    //    [Display(Name = "User name")]
+    //    public string UserName { get; set; }
 
-        public string ExternalLoginData { get; set; }
-    }
+    //    public string ExternalLoginData { get; set; }
+    //}
 
     public class LocalPasswordModel
     {
@@ -58,16 +58,18 @@ namespace iReserve.Models
     public class LoginModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "Employee ID")]
+        [RegularExpression(@"([1-9][0-9]*)", ErrorMessage = "Employee ID must contain only digits.")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
+        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{6,}$", ErrorMessage="Password must be at least 6 characters long and must contain at least 1 digit, 1 letter and 1 special character.")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
+        //[Display(Name = "Remember me?")]
+        //public bool RememberMe { get; set; }
     }
 
     public class RegisterModel

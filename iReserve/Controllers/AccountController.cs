@@ -35,7 +35,7 @@ namespace iReserve.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password))
             {
                 return RedirectToLocal(returnUrl);
             }
@@ -200,7 +200,7 @@ namespace iReserve.Controllers
             return View(model);
         }
 
-        //
+        /*//
         // POST: /Account/ExternalLogin
 
         [HttpPost]
@@ -326,7 +326,7 @@ namespace iReserve.Controllers
 
             ViewBag.ShowRemoveButton = externalLogins.Count > 1 || OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             return PartialView("_RemoveExternalLoginsPartial", externalLogins);
-        }
+        }*/
 
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
