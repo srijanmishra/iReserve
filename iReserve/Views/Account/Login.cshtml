@@ -1,4 +1,4 @@
-﻿@model iReserve.Models.LoginModel
+﻿@model iReserve.Models.UserLoginModel
 
 @{
     ViewBag.Title = "Log in";
@@ -45,6 +45,29 @@
                 </td>
                 <td>
                     @Html.ValidationMessageFor(m => m.Password)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.Role)
+                </td>
+                <td>
+                    @Html.DropDownListFor(m => m.Role, new SelectList(new List<Object>{
+                                                                new { value = "X" , text = "-Select Role-" }, 
+                                                                new { value = "U" , text = "User"  },
+                                                                new { value = "F" , text = "Food Court Admin" },
+                                                                new { value = "M" , text = "Multiplex Admin"},
+                                                                new { value = "P" , text = "Party Admin"},
+                                                                new { value = "D" , text = "Delivery Manager"}
+                                                            },
+                                                            "value",
+                                                            "text",
+                                                            0));
+                    
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.Role)
                 </td>
             </tr>
         </table>

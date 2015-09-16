@@ -39,7 +39,7 @@ namespace iReserve.Filters
                     }
 
                     // MAKE CHANGES HERE!!!!
-                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+                    WebSecurity.InitializeDatabaseConnection("DefaultConnection", "EmployeeDB", "EmployeeId", "EmployeeName", autoCreateTables: true);
                 }
                 catch (Exception ex)
                 {
