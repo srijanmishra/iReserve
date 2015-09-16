@@ -5,7 +5,7 @@ using System.Web;
 using iReserve.Models;
 using System.Configuration;
 using System.Data.SqlClient;
-
+using System.Diagnostics;
 
 namespace iReserve.DAL
 {
@@ -22,38 +22,55 @@ namespace iReserve.DAL
             try
             {
                 ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
-                
-                cmd = new SqlCommand("select count(EmployeeID), UserRole from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
+
+                cmd = new SqlCommand("select count(EmployeeID) from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
                 cmd.Parameters.AddWithValue("uname", login.UserName);
                 cmd.Parameters.AddWithValue("pswd", login.Password);
-                
-                SqlDataReader resultSet = cmd.ExecuteReader();
-                
-                if (resultSet == null || !resultSet.Read())
+
+                int count = (Int32)cmd.ExecuteScalar();
+
+                if (!count.Equals(1))
                 {
                     loginApproved = false;
                 }
 
                 else
                 {
-                    string DBRole = resultSet[1].ToString();
-                    if (DBRole.Contains(login.Role))
+                    cmd = new SqlCommand("select UserRole from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
+                    cmd.Parameters.AddWithValue("uname", login.UserName);
+                    cmd.Parameters.AddWithValue("pswd", login.Password);
+
+                    SqlDataReader resultSet = cmd.ExecuteReader();
+
+                    if (resultSet == null || !resultSet.Read())
                     {
-                        HttpContext.Current.Session["userRole"] = login.Role;
-                        loginApproved = true;
+                        loginApproved = false;
                     }
 
                     else
                     {
-                        loginApproved = false;
+                        string DBRole = resultSet[0].ToString();
+                        if (DBRole.Contains(login.Role))
+                        {
+                            HttpContext.Current.Session["userRole"] = login.Role;
+                            loginApproved = true;
+                        }
+
+                        else
+                        {
+                            loginApproved = false;
+                        }
+
+                        resultSet.Close();
                     }
                 }
 
-                resultSet.Close();
                 conn.Close();
             }
+
             catch (Exception)
             {
                 loginApproved = false;

@@ -4,12 +4,22 @@
     ViewBag.TimeStamp = System.DateTime.Now.ToString("hh:mm:ss tt");
     ViewBag.DateStamp = System.DateTime.Now.ToString("dddd") + ", " + System.DateTime.Now.ToString("dd MMMM yyyy");
 }
+
 <html lang="en">
     <head>
         <meta charset="utf-8" />
         <title>@ViewBag.Title</title>
         <meta name="viewport" content="width=device-width" />
-        @Styles.Render("~/Content/css")        
+        @Scripts.Render("~/bundles/jquery")
+        @RenderSection("scripts", required: false)
+        <script type="text/javascript" src="~/Scripts/DateTimeStamp.js"></script>
+        @Styles.Render("~/Content/css")   
+
+        <script>
+            $(document).ready(function () {
+                setInterval('updateClock()', 1000);
+            });
+        </script>
     </head>
 
     <body>
@@ -26,9 +36,9 @@
                         </td>
 
                         <td>
-                            <h3>@ViewBag.TimeStamp
+                            <span id="TimeStamp"></span>
                             <br />
-                            @ViewBag.DateStamp</h3>
+                            <span id="DateStamp"></span>
                         </td>
                     </tr>
 				</table>
@@ -50,8 +60,5 @@
                 </div>
             </div>*@
         </footer>
-
-        @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
     </body>
 </html>

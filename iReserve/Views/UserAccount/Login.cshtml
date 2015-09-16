@@ -1,15 +1,10 @@
 ﻿@model iReserve.Models.UserLoginModel
 
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "Login";
 }
 
-@*<hgroup class="title">
-    <h1>@ViewBag.Title.</h1>
-</hgroup>*@
-
 <section id="loginForm">
-@*<h2>Use a local account to log in.</h2>*@
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -62,7 +57,7 @@
                                                             },
                                                             "value",
                                                             "text",
-                                                            0));
+                                                            0))
                     
                 </td>
                 <td>
@@ -83,9 +78,6 @@
 }
 </section>
 
-@*<input type="button" onclick="HelloDB" value="Test Connection" />*@
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Styles.Render("~/Content/css")
 }
