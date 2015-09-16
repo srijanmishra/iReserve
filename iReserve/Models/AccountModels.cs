@@ -66,8 +66,12 @@ namespace iReserve.Models
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{6,}$", ErrorMessage="Password must be at least 6 characters long and must contain at least 1 digit, 1 letter and 1 special character.")]
+        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@.#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@.#$%^&*()_+]{6,}$", ErrorMessage = "Password must be at least 6 characters long and must contain at least 1 digit, 1 letter and 1 special character.")]
         public string Password { get; set; }
+
+        [Required]
+        [Display(Name = "Log in Role")]
+        public String Role { get; set; }
 
         //[Display(Name = "Remember me?")]
         //public bool RememberMe { get; set; }
