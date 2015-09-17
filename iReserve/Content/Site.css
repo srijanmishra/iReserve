@@ -67,3 +67,8 @@
 {
     width:auto;
 }
+
+.ui-datepicker
+{
+    font-size: 150%;
+}

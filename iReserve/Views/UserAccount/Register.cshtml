@@ -1,0 +1,127 @@
+﻿@model iReserve.Models.UserRegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    @*<link rel="stylesheet" href="/resources/demos/style.css">*@
+    <script type="text/javascript" src="~/Scripts/DateField.js"></script>
+}
+
+<script>
+    $(document).ready(function () {
+        $(".datefield").attr('readonly', 'true');
+    });
+</script>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Registration Form</legend>
+        <table class="tablelogin">
+            <tr>
+                <th class="side"></th>
+                <th class="mid"></th>
+                <th class="mid"></th>
+                <th class="side"></th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.UserName)                    
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.UserName)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.Name)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Name)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.Name)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.DateOfJoining)
+                </td>
+                <td>
+                    @*@Html.EditorFor(m => m.DateOfJoining)*@
+                    <input type="text" id="datefield" readonly="readonly" style="background:white">
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.DateOfJoining)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.EmailId)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.EmailId)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.EmailId)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.PhoneNumber)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.PhoneNumber)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.PhoneNumber)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.Password)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.Password)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.Password)
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    @Html.LabelFor(m => m.ConfirmPassword)
+                </td>
+                <td>
+                    @Html.TextBoxFor(m => m.ConfirmPassword)
+                </td>
+                <td>
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                </td>
+            </tr>
+        </table>
+        <br />
+        <div class="midclass">
+            <input type="submit" value="Sign Me Up" class="SubmitButton"/>
+        </div>
+    </fieldset>
+}
