@@ -32,39 +32,24 @@ namespace iReserve.DAL
                             DEFAULT_MAX_PASSWORD_LENGTH);
         }
 
-        /// <summary>
-        /// Generates a random password of the exact length.
-        /// </summary>
-        /// <param name='length'>
-        /// Exact password length.
-        /// </param>
-        /// <returns>
-        /// Randomly generated password.
-        /// </returns>
+        // Generates a random password of the exact length.
+        // <length> : Exact password length.
+        // Returns randomly generated password.
+        
         public static string Generate(int length)
         {
             return Generate(length, length);
         }
 
-        /// <summary>
-        /// Generates a random password.
-        /// </summary>
-        /// <param name='minLength'>
-        /// Minimum password length.
-        /// </param>
-        /// <param name='maxLength'>
-        /// Maximum password length.
-        /// </param>
-        /// <returns>
-        /// Randomly generated password.
-        /// </returns>
-        /// <remarks>
-        /// The length of the generated password will be determined at
-        /// random and it will fall with the range determined by the
-        /// function parameters.
-        /// </remarks>
-        public static string Generate(int minLength,
-                                      int maxLength)
+        // Generates a random password.
+        // <minLength> : Minimum password length.
+        // <maxLength> : Maximum password length.
+        // Returns randomly generated password.
+        // The length of the generated password will be determined at
+        // random and it will fall with the range determined by the
+        // function parameters.
+        
+        public static string Generate(int minLength, int maxLength)
         {
             // Make sure that input parameters are valid.
             if (minLength <= 0 || maxLength <= 0 || minLength > maxLength)
@@ -74,12 +59,12 @@ namespace iReserve.DAL
             // grouped by types. You can remove character groups from this
             // array, but doing so will weaken the password strength.
             char[][] charGroups = new char[][] 
-        {
-            PASSWORD_CHARS_LCASE.ToCharArray(),
-            PASSWORD_CHARS_UCASE.ToCharArray(),
-            PASSWORD_CHARS_NUMERIC.ToCharArray(),
-            PASSWORD_CHARS_SPECIAL.ToCharArray()
-        };
+            {
+                PASSWORD_CHARS_LCASE.ToCharArray(),
+                PASSWORD_CHARS_UCASE.ToCharArray(),
+                PASSWORD_CHARS_NUMERIC.ToCharArray(),
+                PASSWORD_CHARS_SPECIAL.ToCharArray()
+            };
 
             // Use this array to track the number of unused characters in each
             // character group.
@@ -214,6 +199,15 @@ namespace iReserve.DAL
 
             // Convert password characters into a string and return the result.
             return new string(password);
+        }
+
+        public static string EncryptPassword(string inputString)
+        {
+            byte[] data = System.Text.Encoding.ASCII.GetBytes(inputString);
+            data = new System.Security.Cryptography.SHA256Managed().ComputeHash(data);
+            String hash = System.Text.Encoding.ASCII.GetString(data);
+
+            return hash;
         }
     }
 }
