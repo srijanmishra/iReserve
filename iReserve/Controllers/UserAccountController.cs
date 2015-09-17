@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using iReserve.DAL;
 using iReserve.Models;
 
@@ -64,7 +65,6 @@ namespace iReserve.Controllers
             UserAccountDAL agent = new UserAccountDAL();
             try
             {
-                //regUser.Password = "TESTER";
                 bool res = agent.NewUserRegister(regUser);
                 if (res)
                 {
@@ -74,15 +74,30 @@ namespace iReserve.Controllers
                 else
                 {
                     ModelState.AddModelError("", "The user name or password provided is incorrect.");
-                    //regUser.Password = "";
                     return View(regUser);
                 }
 
             }
             catch
             {
-                //regUser.Password = "";
                 return View();
+            }
+        }
+
+        public JsonResult CheckName(string Name)
+        {
+
+            UserAccountDAL agent = new UserAccountDAL();
+            bool res = agent.NameCheck(Name);
+
+            if (res)
+            {
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+
+            else
+            {
+                return Json(null, JsonRequestBehavior.AllowGet);
             }
         }
     }

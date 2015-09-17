@@ -50,6 +50,7 @@ namespace iReserve.Models
     {
         [Required]
         [Display(Name = "Name")]
+        [System.Web.Mvc.Remote("CheckName", "UserAccount", ErrorMessage = "Account with this user name already exists. Please use your old account or enter a different user name.")]
         public string Name { get; set; }
 
         [Required]
@@ -72,7 +73,7 @@ namespace iReserve.Models
         [Required]
         [Display(Name = "Employee ID")]
         [RegularExpression(@"([1-9][0-9]*)", ErrorMessage = "Employee ID must contain only digits.")]
-        public string UserName { get; set; }
+        public string EmployeeID { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]

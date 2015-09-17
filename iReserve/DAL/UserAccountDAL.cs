@@ -89,7 +89,7 @@ namespace iReserve.DAL
                 conn.Open();
 
                 cmd = new SqlCommand("insert into EmployeeDB (EmployeeID, EmployeeName, DoJ, Email, PhoneNo, Password, UserRole, Deductions) values (@userID, @uname, @DoJ, @Email, @Phno, @pswd, 'U', 0.0)", conn);
-                cmd.Parameters.AddWithValue("userID", regUser.UserName);
+                cmd.Parameters.AddWithValue("userID", regUser.EmployeeID);
                 cmd.Parameters.AddWithValue("uname", regUser.Name);
                 cmd.Parameters.AddWithValue("DoJ", regUser.DateOfJoining);
                 cmd.Parameters.AddWithValue("Email", regUser.EmailId);
@@ -117,6 +117,40 @@ namespace iReserve.DAL
             return registerApproved;
         }
 
-        
+        public bool NameCheck(string uName)
+        {
+            bool nameApproved = false;
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+
+                cmd = new SqlCommand("select count(EmployeeID) from EmployeeDB where EmployeeName=@uname", conn);
+                cmd.Parameters.AddWithValue("uname", uName);
+                
+                int count = (Int32)cmd.ExecuteScalar();
+
+                if (!count.Equals(1))
+                {
+                    nameApproved = true;
+                }
+
+                else
+                {
+                    nameApproved = false;
+                }
+
+                conn.Close();
+            }
+
+            catch (Exception)
+            {
+                nameApproved = false;
+            }
+            return nameApproved;
+        }
+
     }
 }
