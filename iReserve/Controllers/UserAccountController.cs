@@ -47,58 +47,43 @@ namespace iReserve.Controllers
             }
         }
 
-        /*
         //
-        // GET: /UserAccount/Edit/5
+        // GET: /UserAccount/Register
 
-        public ActionResult Edit(int id)
+        public ActionResult Register()
         {
             return View();
         }
 
         //
-        // POST: /UserAccount/Edit/5
+        // POST: /UserAccount/Login
 
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Register(UserRegisterModel regUser)
         {
+            UserAccountDAL agent = new UserAccountDAL();
             try
             {
-                // TODO: Add update logic here
+                //regUser.Password = "TESTER";
+                bool res = agent.NewUserRegister(regUser);
+                if (res)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
 
-                return RedirectToAction("Index");
+                else
+                {
+                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    //regUser.Password = "";
+                    return View(regUser);
+                }
+
             }
             catch
             {
+                //regUser.Password = "";
                 return View();
             }
         }
-
-        //
-        // GET: /UserAccount/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /UserAccount/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-        */
     }
 }

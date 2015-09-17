@@ -14,15 +14,14 @@ namespace iReserve.Models
         public string OldPassword { get; set; }
 
         [Required]
-        [RegularExpression(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,}$",
-            ErrorMessage = "The password must contain at least 1 alphabet, 1 digit, 1 special charachter and 6 charachter long.")]
+        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@.#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@.#$%^&*()_+]{6,}$", ErrorMessage = "Password must be at least 6 characters long and must contain at least 1 digit, 1 letter and 1 special character.")]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Compare("NewPassword", ErrorMessage = "New password does not match Confirm password.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -60,19 +59,19 @@ namespace iReserve.Models
 
         [Required]
         [Display(Name = "Email Address")]
-        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",
-            ErrorMessage = "Email is not valid.")]
+        [RegularExpression(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Email is not valid.")]
         [DataType(DataType.EmailAddress)]
         public string EmailId { get; set; }
 
         [Required]
         [Display(Name = "Phone Number")]
-        [StringLength(24)]
+        [StringLength(10)]
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
         [Required]
-        [Display(Name = "Employee No.")]
+        [Display(Name = "Employee ID")]
+        [RegularExpression(@"([1-9][0-9]*)", ErrorMessage = "Employee ID must contain only digits.")]
         public string UserName { get; set; }
 
         [Required]
