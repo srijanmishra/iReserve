@@ -63,11 +63,13 @@ namespace iReserve.Controllers
         public ActionResult Register(UserRegisterModel regUser)
         {
             UserAccountDAL agent = new UserAccountDAL();
+            
             try
             {
                 bool res = agent.NewUserRegister(regUser);
                 if (res)
                 {
+                    TempData["message"] = "Password";
                     return RedirectToAction("Index", "Home");
                 }
 

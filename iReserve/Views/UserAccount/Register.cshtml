@@ -56,7 +56,7 @@
                     @Html.LabelFor(m => m.DateOfJoining)
                 </td>
                 <td>
-                    <input type="text" id="datefield" readonly="readonly" style="background:white">
+                    @Html.TextBoxFor(m => m.DateOfJoining, new {@type="text", @id="datefield", @readonly="readonly", @style="background:white"})
                 </td>
                 <td>
                     @Html.ValidationMessageFor(m => m.DateOfJoining)

@@ -88,10 +88,12 @@ namespace iReserve.DAL
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
 
+                string insertDate = regUser.DateOfJoining.ToString("MM/dd/yyyy");
+
                 cmd = new SqlCommand("insert into EmployeeDB (EmployeeID, EmployeeName, DoJ, Email, PhoneNo, Password, UserRole, Deductions) values (@userID, @uname, @DoJ, @Email, @Phno, @pswd, 'U', 0.0)", conn);
                 cmd.Parameters.AddWithValue("userID", regUser.EmployeeID);
                 cmd.Parameters.AddWithValue("uname", regUser.Name);
-                cmd.Parameters.AddWithValue("DoJ", regUser.DateOfJoining);
+                cmd.Parameters.AddWithValue("DoJ", insertDate);
                 cmd.Parameters.AddWithValue("Email", regUser.EmailId);
                 cmd.Parameters.AddWithValue("Phno", regUser.PhoneNumber);
                 cmd.Parameters.AddWithValue("pswd", regUser.Password);
