@@ -15,68 +15,68 @@ namespace iReserve.DAL
         SqlConnection conn = null;
         SqlCommand cmd = null;
         
-        public bool LoginCheck(UserLoginModel login)
-        {
-            bool loginApproved = false;
-            HttpContext.Current.Session["userRole"] = "X";
-            try
-            {
-                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                Debug.WriteLine("Connection String = " + ConnectionStr);
-                conn = new SqlConnection(ConnectionStr);
-                conn.Open();
+        //public bool LoginCheck(UserLoginModel login)
+        //{
+        //    bool loginApproved = false;
+        //    HttpContext.Current.Session["userRole"] = "X";
+        //    try
+        //    {
+        //        ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+        //        Debug.WriteLine("Connection String = " + ConnectionStr);
+        //        conn = new SqlConnection(ConnectionStr);
+        //        conn.Open();
 
-                cmd = new SqlCommand("select count(EmployeeID) from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
-                cmd.Parameters.AddWithValue("uname", login.UserName);
-                cmd.Parameters.AddWithValue("pswd", login.Password);
+        //        cmd = new SqlCommand("select count(EmployeeID) from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
+        //        cmd.Parameters.AddWithValue("uname", login.UserName);
+        //        cmd.Parameters.AddWithValue("pswd", login.Password);
 
-                int count = (Int32)cmd.ExecuteScalar();
+        //        int count = (Int32)cmd.ExecuteScalar();
 
-                if (!count.Equals(1))
-                {
-                    loginApproved = false;
-                }
+        //        if (!count.Equals(1))
+        //        {
+        //            loginApproved = false;
+        //        }
 
-                else
-                {
-                    cmd = new SqlCommand("select UserRole from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
-                    cmd.Parameters.AddWithValue("uname", login.UserName);
-                    cmd.Parameters.AddWithValue("pswd", login.Password);
+        //        else
+        //        {
+        //            cmd = new SqlCommand("select UserRole from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
+        //            cmd.Parameters.AddWithValue("uname", login.UserName);
+        //            cmd.Parameters.AddWithValue("pswd", login.Password);
 
-                    SqlDataReader resultSet = cmd.ExecuteReader();
+        //            SqlDataReader resultSet = cmd.ExecuteReader();
 
-                    if (resultSet == null || !resultSet.Read())
-                    {
-                        loginApproved = false;
-                    }
+        //            if (resultSet == null || !resultSet.Read())
+        //            {
+        //                loginApproved = false;
+        //            }
 
-                    else
-                    {
-                        string DBRole = resultSet[0].ToString();
-                        if (DBRole.Contains(login.Role))
-                        {
-                            HttpContext.Current.Session["userRole"] = login.Role;
-                            loginApproved = true;
-                        }
+        //            else
+        //            {
+        //                string DBRole = resultSet[0].ToString();
+        //                if (DBRole.Contains(login.Role))
+        //                {
+        //                    HttpContext.Current.Session["userRole"] = login.Role;
+        //                    loginApproved = true;
+        //                }
 
-                        else
-                        {
-                            loginApproved = false;
-                        }
+        //                else
+        //                {
+        //                    loginApproved = false;
+        //                }
 
-                        resultSet.Close();
-                    }
-                }
+        //                resultSet.Close();
+        //            }
+        //        }
 
-                conn.Close();
-            }
+        //        conn.Close();
+        //    }
 
-            catch (Exception)
-            {
-                loginApproved = false;
-            }
-            return loginApproved;
-        }
+        //    catch (Exception)
+        //    {
+        //        loginApproved = false;
+        //    }
+        //    return loginApproved;
+        //}
 
         public bool NewUserRegister(UserRegisterModel regUser)
         {
@@ -119,7 +119,7 @@ namespace iReserve.DAL
             return registerApproved;
         }
 
-        public bool NameCheck(string uName)
+        public bool NameCheck(string uName, string pswd)
         {
             bool nameApproved = false;
             try
@@ -129,8 +129,18 @@ namespace iReserve.DAL
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
 
-                cmd = new SqlCommand("select count(EmployeeID) from EmployeeDB where EmployeeName=@uname", conn);
-                cmd.Parameters.AddWithValue("uname", uName);
+                if (pswd.Length > 0)
+                {
+                    cmd = new SqlCommand("select count(EmployeeID) from EmployeeDB where EmployeeName=@uname and Password=@pswd", conn);
+                    cmd.Parameters.AddWithValue("uname", uName);
+                    cmd.Parameters.AddWithValue("pswd", pswd);
+                }
+
+                else
+                {
+                    cmd = new SqlCommand("select count(EmployeeID) from EmployeeDB where EmployeeName=@uname", conn);
+                    cmd.Parameters.AddWithValue("uname", uName);
+                }
                 
                 int count = (Int32)cmd.ExecuteScalar();
 
@@ -154,5 +164,53 @@ namespace iReserve.DAL
             return nameApproved;
         }
 
+        public bool RoleCheck(string uName, string pswd, string role)
+        {
+            bool roleApproved = false;
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+
+                
+                cmd = new SqlCommand("select UserRole from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
+                cmd.Parameters.AddWithValue("uname", uName);
+                cmd.Parameters.AddWithValue("pswd", pswd);
+
+                SqlDataReader resultSet = cmd.ExecuteReader();
+
+                if (resultSet == null || !resultSet.Read())
+                {
+                    roleApproved = false;
+                }
+
+                else
+                {
+                    string DBRole = resultSet[0].ToString();
+                    if (DBRole.Contains(role))
+                    {
+                        HttpContext.Current.Session["userRole"] = role;
+                        roleApproved = true;
+                    }
+
+                    else
+                    {
+                        roleApproved = false;
+                    }
+
+                    resultSet.Close();
+                }
+
+                conn.Close();
+            }
+
+            catch (Exception)
+            {
+                roleApproved = false;
+            }
+            return roleApproved;
+        }
     }
 }

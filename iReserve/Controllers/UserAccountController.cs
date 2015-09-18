@@ -28,10 +28,20 @@ namespace iReserve.Controllers
             UserAccountDAL agent = new UserAccountDAL();
             try
             {
-                bool res = agent.LoginCheck(login);
+                bool res = agent.NameCheck(login.UserName, login.Password);
                 if (res)
                 {
-                    return RedirectToAction("Index", "Home");
+                    res = agent.RoleCheck(login.UserName, login.Password, login.Role);
+                    if (res)
+                    {
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    else
+                    {
+                        ModelState.AddModelError("", "You do not have admin priveleges. Role unverified.");
+                        return View(login);
+                    }
                 }
 
                 else
@@ -39,8 +49,8 @@ namespace iReserve.Controllers
                     ModelState.AddModelError("", "The user name or password provided is incorrect.");
                     return View(login);
                 }
-                
             }
+
             catch
             {
                 
@@ -90,7 +100,7 @@ namespace iReserve.Controllers
         {
 
             UserAccountDAL agent = new UserAccountDAL();
-            bool res = agent.NameCheck(Name);
+            bool res = agent.NameCheck(Name, "");
 
             if (res)
             {
