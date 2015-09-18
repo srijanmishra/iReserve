@@ -146,12 +146,57 @@ namespace iReserve.DAL
 
                 if (!count.Equals(1))
                 {
-                    nameApproved = true;
+                    nameApproved = false;
                 }
 
                 else
                 {
+                    nameApproved = true;
+                }
+
+                conn.Close();
+            }
+
+            catch (Exception)
+            {
+                nameApproved = false;
+            }
+            return nameApproved;
+        }
+
+        public bool IDCheck(string uName, string pswd)
+        {
+            bool nameApproved = false;
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+
+                if (pswd.Length > 0)
+                {
+                    cmd = new SqlCommand("select count(EmployeeID) from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
+                    cmd.Parameters.AddWithValue("uname", uName);
+                    cmd.Parameters.AddWithValue("pswd", pswd);
+                }
+
+                else
+                {
+                    cmd = new SqlCommand("select count(EmployeeID) from EmployeeDB where EmployeeID=@uname", conn);
+                    cmd.Parameters.AddWithValue("uname", uName);
+                }
+
+                int count = (Int32)cmd.ExecuteScalar();
+
+                if (!count.Equals(1))
+                {
                     nameApproved = false;
+                }
+
+                else
+                {
+                    nameApproved = true;
                 }
 
                 conn.Close();

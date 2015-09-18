@@ -28,7 +28,7 @@ namespace iReserve.Controllers
             UserAccountDAL agent = new UserAccountDAL();
             try
             {
-                bool res = agent.NameCheck(login.UserName, login.Password);
+                bool res = agent.IDCheck(login.UserName, login.Password);
                 if (res)
                 {
                     res = agent.RoleCheck(login.UserName, login.Password, login.Role);
