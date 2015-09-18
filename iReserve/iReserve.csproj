@@ -185,7 +185,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FoodCourtController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MovieController.cs" />
     <Compile Include="Controllers\UserAccountController.cs" />
     <Compile Include="DAL\FoodDAL.cs" />
     <Compile Include="DAL\MovieDAL.cs" />
@@ -329,6 +331,9 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\UserAccount\Login.cshtml" />
     <Content Include="Views\UserAccount\Register.cshtml" />
+    <Content Include="Views\FoodCourt\Index.cshtml" />
+    <Content Include="Views\Movie\Index.cshtml" />
+    <Content Include="Views\Movie\ViewMovieBookings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

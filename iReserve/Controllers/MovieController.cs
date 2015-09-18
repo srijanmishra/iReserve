@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using iReserve.Models;
-using GridMvc;
+using iReserve.DAL;
 
 namespace iReserve.Controllers
 {
@@ -21,7 +21,7 @@ namespace iReserve.Controllers
         public ActionResult ViewMovieBookings()
         {
             MovieDAL agent = new MovieDAL();
-            List<ViewMovieBookings> bookingList = agent.bookings();
+            List<ViewMovieBookings> bookingList = agent.Bookings(10001);
 
             return View();
         }
