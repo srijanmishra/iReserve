@@ -189,6 +189,7 @@
     <Compile Include="Controllers\UserAccountController.cs" />
     <Compile Include="DAL\FoodDAL.cs" />
     <Compile Include="DAL\MovieDAL.cs" />
+    <Compile Include="DAL\PartyDAL.cs" />
     <Compile Include="DAL\PasswordGenerator.cs" />
     <Compile Include="DAL\UserAccountDAL.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
