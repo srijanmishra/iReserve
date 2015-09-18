@@ -12,39 +12,25 @@
     </script>
 }
 
-@*@section featured {
-    <section class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>
-            </hgroup>
-            <p>
-                To learn more about ASP.NET MVC visit
-                <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-                If you have any questions about ASP.NET MVC visit
-                <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
-            </p>
-        </div>
-    </section>
-}*@
-
-
-
 <div style="text-align:center; color:red; font-family:Arial; font-size:x-large">
     <h1>Welcome To iReserve</h1>
 </div>
 <table style="width:100%">
   <tr>
     <td>
-        <img src='@Url.Content("~/Images/movie-theater.jpg")' alt="Alternate Text" height="320" width="480"/>
+        <a href="@Url.Action("Index","Movie")">
+            <img src='@Url.Content("~/Images/movie-theater.jpg")' alt="Alternate Text" height="320" width="480"/>
+        </a>
     </td>
     <td>
-        <img src='@Url.Content("~/Images/food-booking.jpg")' alt="Alternate Text" height="320" width="480"/>
+        <a href="@Url.Action("Index","FoodCourt")">
+            <img src='@Url.Content("~/Images/food-booking.jpg")' alt="Alternate Text" height="320" width="480"/>
+        </a>        
     </td> 
     <td>
-        <img src='@Url.Content("~/Images/party.jpg")' alt="Alternate Text" height="320" width="480"/>
+        <a href="@Url.Action("Index","TeamParty")">
+            <img src='@Url.Content("~/Images/party.jpg")' alt="Alternate Text" height="320" width="480"/>
+        </a>
     </td>
   </tr>
 </table>
