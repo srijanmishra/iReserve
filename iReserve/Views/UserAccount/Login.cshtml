@@ -4,6 +4,24 @@
     ViewBag.Title = "Login";
 }
 
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css">
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
+}
+
+<div id="navigationbar01" class="navbar">
+    
+</div>
+
+<br />       
+
 <section id="loginForm">
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
     @Html.AntiForgeryToken()
@@ -77,7 +95,3 @@
     
 }
 </section>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

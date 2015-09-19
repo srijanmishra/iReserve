@@ -1,34 +1,70 @@
 ﻿@model IEnumerable<iReserve.Models.ViewMovieBookings>
 @using iReserve.Models;
 
-<table>
-    <tr>
-        <th>Booking ID</th>
-        <th>Employee ID</th>
-        <th>Movie Name</th>
-        <th>Show Date</th>
-        <th>Show</th>
-        <th>Booking Date</th>
-        <th>No of Seats</th>
-        <th>Card Type</th>
-        <th>Card No</th>
-        <th>Amount</th>
-        <th>Status</th>
-    </tr>
-    @foreach(ViewMovieBookings booking in Model)
-     {
-       <tr>
-            <td>@booking.BookingId</td>
-            <td>@booking.EmployeeNumber</td>
-            <td>@booking.MovieName</td>
-            <td>@booking.ShowDate</td>
-            <td>@booking.Show</td>
-            <td>@booking.BookingDate</td>
-            <td>@booking.NumberOfSeats</td>
-            <td>@booking.CardType</td>
-            <td>@booking.CardNumber</td>
-            <td>@booking.Amount</td>
-            <td>@booking.Status</td>
-       </tr>
-     }
- </table>
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
+}
+
+<div id="navigationbar01" class="navbar">
+    @Html.ActionLink("Movie Bookings", "Index", "Movie", new {@class = "navbaritem"})
+    @Html.ActionLink("Food Court Bookings", "Index", "FoodCourt", new {@class = "navbaritem"})
+    @Html.ActionLink("Party Bookings", "Index", "Party", new {@class = "navbaritem"})
+</div>
+
+<br />       
+
+<div class="datagrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Employee ID</th>
+                <th>Movie Name</th>
+                <th>Show Date</th>
+                <th>Show</th>
+                <th>Booking Date</th>
+                <th>No of Seats</th>
+                <th>Card Type</th>
+                <th>Card No</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        @*<tfoot>
+            <tr>
+                <td colspan="11">
+                    <div id="paging">
+                        <ul>
+                            <li><a href="#"><span>Previous</span></a></li>
+                            <li><a href="#" class="active"><span>1</span></a></li>
+                            <li><a href="#"><span>2</span></a></li>
+                            <li><a href="#"><span>3</span></a></li>
+                            <li><a href="#"><span>4</span></a></li>
+                            <li><a href="#"><span>5</span></a></li>
+                            <li><a href="#"><span>Next</span></a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>*@
+        <tbody>
+            @foreach(ViewMovieBookings booking in Model)
+            {
+                <tr>
+                    <td>@booking.BookingId</td>
+                    <td>@booking.EmployeeNumber</td>
+                    <td>@booking.MovieName</td>
+                    <td>@booking.ShowDate</td>
+                    <td>@booking.Show</td>
+                    <td>@booking.BookingDate</td>
+                    <td>@booking.NumberOfSeats</td>
+                    <td>@booking.CardType</td>
+                    <td>@booking.CardNumber</td>
+                    <td>@booking.Amount</td>
+                    <td>@booking.Status</td>
+                </tr>
+            }             
+        </tbody>
+    </table>
+</div>

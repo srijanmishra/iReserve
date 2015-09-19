@@ -1,6 +1,19 @@
 ﻿@model IEnumerable<iReserve.Models.ViewMealBookings>
 @using iReserve.Models;
 
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
+}
+
+<div id="navigationbar01" class="navbar">
+    @Html.ActionLink("Movie Bookings", "Index", "Movie", new {@class = "navbaritem"})
+    @Html.ActionLink("Food Court Bookings", "Index", "FoodCourt", new {@class = "navbaritem"})
+    @Html.ActionLink("Party Bookings", "Index", "Party", new {@class = "navbaritem"})
+</div>
+
+<br />       
+
 <table>
     <tr>
         <th>Booking ID</th>

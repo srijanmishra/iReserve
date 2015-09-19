@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "iReserve";
     ViewBag.TimeStamp = System.DateTime.Now.ToString("hh:mm:ss tt");
-    ViewBag.DateStamp = System.DateTime.Now.ToString("dddd") + ", " + System.DateTime.Now.ToString("dd MMMM yyyy");
+    ViewBag.DateStamp = System.DateTime.Now.ToString("dddd") + ", " + System.DateTime.Now.ToString("dd MMMM yyyy");    
 }
 
 <html lang="en">
@@ -12,9 +12,12 @@
         <meta name="viewport" content="width=device-width" />
         @Scripts.Render("~/bundles/jquery")
         @RenderSection("scripts", required: false)
+        <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+        <script src="~/Scripts/jquery-1.8.2.js"></script>
         <script type="text/javascript" src="~/Scripts/DateTimeStamp.js"></script>
         @Styles.Render("~/Content/css")   
-
+        @RenderSection("ViewingStyles", required: false)
+        
         <script>
             $(document).ready(function () {
                 setInterval('updateClock()', 1000);
@@ -43,11 +46,8 @@
                     </tr>
 				</table>
 			</div>
-            <div id="navigationbar01" class="navbar">
-                @RenderSection("navigation", false)
-            </div>
         </header>
-        <div id="body">
+        <div id="body">            
             @*@RenderSection("featured", required: false)*@
             <section class="content-wrapper main-content clear-fix">
                 @RenderBody()
