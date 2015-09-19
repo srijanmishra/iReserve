@@ -6,17 +6,17 @@
     box-sizing: content-box;
     z-index: auto;
     width: auto;
-    height: 5%;
+    height: 15%;
     position: static;
     cursor: default;
     opacity: 1;
     margin: 0;
-    padding: 5px 0 5px 5px;
+    padding: 5px 15px 5px 5px;
     overflow: hidden;
     border: 1px solid rgba(13,58,89,1);
     -webkit-border-radius: 10px;
     border-radius: 0;
-    font: normal 16px/normal Arial, Helvetica, sans-serif;
+    font: normal 20px/normal Arial, Helvetica, sans-serif;
     color: rgba(255,255,255,1);
     text-align: left;
     -o-text-overflow: ellipsis;
@@ -49,14 +49,18 @@
 .navbaritem
 {
     display:inline;
-    /*-webkit-box-sizing: content-box;
-    -moz-box-sizing: content-box;
-    box-sizing: content-box;
-    z-index: auto;*/
     width: 5%;
     height: inherit;
     position:relative;
     margin: 10px;
     padding: 0 0 0 0;
     overflow: hidden;    
+}
+
+.navbar2
+{
+    float:right;
+    display: block;
+    width: 5%;
+    text-align: right;
 }

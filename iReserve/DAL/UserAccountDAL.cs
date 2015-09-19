@@ -263,5 +263,82 @@ namespace iReserve.DAL
             }
             return roleApproved;
         }
+
+        public bool PasswordChecker(string uName, string pswd)
+        {
+            bool pswdApproved = false;
+
+            try 
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+
+                cmd = new SqlCommand("select count(EmployeeID) from EmployeeDB where EmployeeName=@uname and Password=@pswd", conn);
+                cmd.Parameters.AddWithValue("uname", uName);
+                cmd.Parameters.AddWithValue("pswd", pswd);
+
+                int count = (Int32)cmd.ExecuteScalar();
+
+                if (!count.Equals(1))
+                {
+                    pswdApproved = false;
+                }
+
+                else
+                {
+                    pswdApproved = true;
+                }
+
+                conn.Close();
+            } 
+
+            catch(Exception)
+            {
+                pswdApproved = false;
+            }
+
+            return pswdApproved;
+        }
+
+        public bool PasswordChanger(string uName, string pswdOld, string pswdNew)
+        {
+            bool pswdApproved = false;
+
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+
+                cmd = new SqlCommand("update EmployeeDB set Password=@pswdNew where EmployeeID=@uName and Password=@pswdOld", conn);
+                cmd.Parameters.AddWithValue("uname", uName);
+                cmd.Parameters.AddWithValue("pswdNew", pswdNew);
+                cmd.Parameters.AddWithValue("pswdOld", pswdOld);
+
+                int count = (Int32)cmd.ExecuteScalar();
+
+                if (!count.Equals(1))
+                {
+                    pswdApproved = false;
+                }
+
+                else
+                {
+                    pswdApproved = true;
+                }
+
+                conn.Close();
+            }
+
+            catch (Exception)
+            {
+                pswdApproved = false;
+            }
+
+            return pswdApproved;
+        }
     }
 }

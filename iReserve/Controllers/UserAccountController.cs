@@ -113,5 +113,45 @@ namespace iReserve.Controllers
                 return Json(null, JsonRequestBehavior.AllowGet);
             }
         }
+
+        //
+        // GET: /UserAccount/ChangePassword
+
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        //
+        // POST: /UserAccount/ChangePassword
+
+        [HttpPost]
+        public ActionResult ChangePassword(PasswordChangeModel pswdChange)
+        {
+            UserAccountDAL agent = new UserAccountDAL();
+
+            bool res = agent.PasswordChanger(Session["UserID"].ToString(), pswdChange.OldPassword, pswdChange.NewPassword);
+
+            if (res)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            else
+            {
+                return View(pswdChange);
+            }
+        }
+
+        //
+        // POST: /UserAccount/LogOff
+
+        [HttpPost]
+        public ActionResult LogOff()
+        {
+            Session["UserID"] = null;
+
+            return RedirectToAction("Login", "UserAccount");
+        }
     }
 }

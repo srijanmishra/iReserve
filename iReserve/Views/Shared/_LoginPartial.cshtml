@@ -1,14 +1,20 @@
-﻿@if (Request.IsAuthenticated) {
+﻿@if (Session["UserID"] != null) {
     <text>
-        Hello, @Html.ActionLink(User.Identity.Name, "Manage", "Account", routeValues: null, htmlAttributes: new { @class = "username", title = "Manage" })!
-        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" })) {
-            @Html.AntiForgeryToken()
-            <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
-        }
+        <div id="navigationbar03" class="navbar2">
+            @Html.ActionLink("Change Password", "ChangePassword", "UserAccount")!
+        </div>
+        <div id="navigationbar02" class="navbar2">
+            @using (Html.BeginForm("LogOff", "UserAccount", FormMethod.Post, new { id = "logoutForm" })) {
+                @Html.AntiForgeryToken()
+                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            }
+        </div>
     </text>
 } else {
-    <ul>
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+    <div id="navigationbar05" class="navbar2">
+        @Html.ActionLink("Log in", "Login", "UserAccount")
+    </div>
+    <div id="navigationbar04" class="navbar2">
+        @Html.ActionLink("Register", "Register", "UserAccount")
+    </div>
 }
