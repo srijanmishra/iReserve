@@ -219,7 +219,7 @@ namespace iReserve.DAL
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
 
-                
+
                 cmd = new SqlCommand("select UserRole from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
                 cmd.Parameters.AddWithValue("uname", uName);
                 cmd.Parameters.AddWithValue("pswd", pswd);
@@ -251,8 +251,14 @@ namespace iReserve.DAL
                 conn.Close();
             }
 
-            catch (Exception)
+            catch (SqlException err)
             {
+                Debug.Write(err.Message);
+            }
+
+            catch (Exception err)
+            {
+                Debug.Write(err.Message);
                 roleApproved = false;
             }
             return roleApproved;

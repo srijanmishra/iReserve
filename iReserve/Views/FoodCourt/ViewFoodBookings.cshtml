@@ -1,0 +1,28 @@
+﻿@model IEnumerable<iReserve.Models.ViewMealBookings>
+@using iReserve.Models;
+
+<table>
+    <tr>
+        <th>Booking ID</th>
+        <th>Date of Booking</th>
+        <th>Food Court Name</th>
+        <th>Caterer Name</th>
+        <th>Dish Name</th>
+        <th>Price per plate</th>
+        <th>No of Plates</th>
+        <th>Total Amount</th>
+    </tr>
+    @foreach(ViewMealBookings booking in Model)
+     {
+       <tr>
+            <td>@booking.BookingId</td>
+            <td>@booking.DateOfBooking</td>
+            <td>@booking.FoodCourtName</td>
+            <td>@booking.CatererName</td>
+            <td>@booking.DishName</td>
+            <td>@booking.PricePerPlate</td>
+            <td>@booking.NumberOfPlates</td>
+            <td>@booking.TotalAmount</td>
+       </tr>
+     }
+ </table>

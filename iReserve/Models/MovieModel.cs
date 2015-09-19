@@ -17,7 +17,7 @@ namespace iReserve.Models
         public int NumberOfSeats { get; set; }
         public string CardType { get; set; }
         public string CardNumber { get; set; }
-        public int Amount { get; set; }
+        public double Amount { get; set; }
         public bool Status { get; set; }
     }
 }

@@ -34,6 +34,7 @@ namespace iReserve.Controllers
                     res = agent.RoleCheck(login.UserName, login.Password, login.Role);
                     if (res)
                     {
+                        Session["UserID"] = login.UserName;
                         return RedirectToAction("Index", "Home");
                     }
 
@@ -79,7 +80,7 @@ namespace iReserve.Controllers
                 bool res = agent.NewUserRegister(regUser);
                 if (res)
                 {
-                    TempData["message"] = "Password";
+                    Session["UserID"] = regUser.EmployeeID;
                     return RedirectToAction("Index", "Home");
                 }
 

@@ -31,41 +31,52 @@ namespace iReserve.DAL
             }
 
             List<ViewMovieBookings> bookings = new List<ViewMovieBookings>();
-            cmd = new SqlCommand("SELECT * FROM MovieBookingDB WHERE EmployeeID=@EmployeeId;", conn);
-            cmd.Parameters.AddWithValue("EmployeeId", EmployeeId);
 
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                ViewMovieBookings booking = new ViewMovieBookings();
-                booking.BookingId = (int)reader[0];
-                booking.EmployeeNumber = (int)reader[1];
-                booking.NumberOfSeats = (int)reader[3];
-                booking.Status = (bool)reader[4];
-                booking.CardType = (string)reader[5];
-                booking.CardNumber = (string)reader[6];
-                booking.Amount = (int)reader[7];
+                cmd = new SqlCommand("SELECT Test.BookingID AS BookingId, Test.EmployeeID AS EmployeeNumber, M.Title AS MovieName, Test.ShowDate AS ShowDate, Test.Timing AS Show, Test.BookingDate AS BookingDate, Test.NoOfSeats AS NumberOfSeats, Test.CardType AS CardType, Test.CardNo AS CardNo, Test.Amount AS Amount, Test.Confirmation AS Confirmation FROM (SELECT A.BookingID AS BookingID, A.EmployeeID AS EmployeeID, A.NoOfSeats AS NoOfSeats, A.Confirmation AS Confirmation, A.CardType AS CardType, A.CardNo AS CardNo, A.BookingDate AS BookingDate, A.Amount AS Amount, B.ShowDate AS ShowDate, B.Timing AS Timing, B.MovieID FROM MovieBookingDB AS A JOIN ShowDB AS B ON A.ShowID = B.ShowID WHERE A.EmployeeID=@UserID) AS Test JOIN MovieDB AS M ON Test.MovieID = M.MovieID;", conn);
+                cmd.Parameters.AddWithValue("UserID", EmployeeId);
 
-                int showId = (int) reader[2];
+                SqlDataReader reader = cmd.ExecuteReader();
 
-                cmd = new SqlCommand("SELECT MovieID, ShowDate, Timing FROM ShowDB WHERE ShowID=@showId", conn);
-                cmd.Parameters.AddWithValue("showId", showId);
+                while (reader.Read())
+                {
+                    ViewMovieBookings booking = new ViewMovieBookings();
 
-                SqlDataReader showReader = cmd.ExecuteReader();
+                    booking.BookingId = Convert.ToInt32(reader.GetString(0));
+                    booking.EmployeeNumber = reader.GetInt32(1);
+                    booking.MovieName = reader.GetString(2);
+                    booking.ShowDate = reader.GetDateTime(3).ToString();
+                    booking.Show = reader.GetString(4);
+                    booking.BookingDate = reader.GetDateTime(5).ToString();
+                    booking.NumberOfSeats = reader.GetInt32(6);
+                    booking.CardType = reader.GetString(7);
+                    booking.CardNumber = reader.GetString(8);
+                    booking.Amount = reader.GetDouble(9);
+                    booking.Status = reader.GetBoolean(10);
 
-                int movieId = (int)showReader[0];
-                booking.ShowDate = (string)showReader[1];
-                booking.Show = (string)showReader[2];
+                    bookings.Add(booking);
+                } 
 
-                cmd = new SqlCommand("SELECT Title FROM MovieDB WHERE MovieID=@movieId", conn);
-                cmd.Parameters.AddWithValue("movieId", movieId);
+                reader.Close();
+            }
 
-                SqlDataReader movieReader = cmd.ExecuteReader();
+            catch (SqlException err)
+            {
+                Debug.WriteLine("SQL Server connection failed " + err.Message);
+                return null;
+            }
 
-                booking.MovieName = (string)movieReader[0];
+            catch (InvalidOperationException err)
+            {
+                Debug.WriteLine("SQL Server connection failed " + err.Message);
+                return null;
+            }
 
-                bookings.Add(booking);
+            catch (Exception err)
+            {
+                Debug.WriteLine("ERROR: " + err.Message);
+                return null;
             }
 
             return bookings;
