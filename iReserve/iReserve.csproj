@@ -202,6 +202,7 @@
     <Compile Include="Models\AccountModels.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModels\AllBookings.cs" />
     <Compile Include="Models\FoodModel.cs" />
     <Compile Include="Models\MovieModel.cs" />
     <Compile Include="Models\PartyModel.cs" />
@@ -342,6 +343,7 @@
     <Content Include="Views\UserAccount\ChangePassword.cshtml" />
     <Content Include="Views\Party\Index.cshtml" />
     <Content Include="Views\Party\ViewPartyBookings.cshtml" />
+    <Content Include="Views\Home\ViewAll.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

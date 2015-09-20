@@ -1,0 +1,190 @@
+﻿@model iReserve.ViewModels.AllBookings
+
+@using iReserve.Models;
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
+}
+
+<div id="navigationbar01" class="navbar">
+    @Html.ActionLink("Movie Bookings", "Index", "Movie", null, new { @class = "navbaritem" })
+    @Html.ActionLink("Food Court Bookings", "Index", "FoodCourt", null, new { @class = "navbaritem" })
+    @Html.ActionLink("Party Bookings", "Index", "Party", null, new { @class = "navbaritem" })
+    @Html.ActionLink("View All Bookings", "ViewAll", "Home", null, new { @class="navbaritem"})
+
+    @Html.Partial("_LoginPartial", new { @class = "partialLogin" })
+</div>
+
+<br />       
+
+<div class="viewalltitle">
+    Movie Bookings
+</div>
+
+<br />
+
+<div class="datagrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Employee ID</th>
+                <th>Movie Name</th>
+                <th>Show Date</th>
+                <th>Show</th>
+                <th>Booking Date</th>
+                <th>No of Seats</th>
+                <th>Card Type</th>
+                <th>Card No</th>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        @*<tfoot>
+            <tr>
+                <td colspan="11">
+                    <div id="paging">
+                        <ul>
+                            <li><a href="#"><span>Previous</span></a></li>
+                            <li><a href="#" class="active"><span>1</span></a></li>
+                            <li><a href="#"><span>2</span></a></li>
+                            <li><a href="#"><span>3</span></a></li>
+                            <li><a href="#"><span>4</span></a></li>
+                            <li><a href="#"><span>5</span></a></li>
+                            <li><a href="#"><span>Next</span></a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>*@
+        <tbody>
+            @foreach (var booking in Model.MovieBookings)
+            {
+                <tr>
+                    <td>@booking.BookingId</td>
+                    <td>@booking.EmployeeNumber</td>
+                    <td>@booking.MovieName</td>
+                    <td>@booking.ShowDate</td>
+                    <td>@booking.Show</td>
+                    <td>@booking.BookingDate</td>
+                    <td>@booking.NumberOfSeats</td>
+                    <td>@booking.CardType</td>
+                    <td>@booking.CardNumber</td>
+                    <td>@booking.Amount</td>
+                    <td>@booking.Status</td>
+                </tr>
+            }             
+        </tbody>
+    </table>
+</div>
+
+<br />
+
+<div class="viewalltitle">
+    Food Court Bookings
+</div>
+
+<br />
+
+<div class="datagrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Date of Booking</th>
+                <th>Food Court Name</th>
+                <th>Caterer Name</th>
+                <th>Dish Name</th>
+                <th>Price per plate</th>
+                <th>No of Plates</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        @*<tfoot>
+            <tr>
+                <td colspan="11">
+                    <div id="paging">
+                        <ul>
+                            <li><a href="#"><span>Previous</span></a></li>
+                            <li><a href="#" class="active"><span>1</span></a></li>
+                            <li><a href="#"><span>2</span></a></li>
+                            <li><a href="#"><span>3</span></a></li>
+                            <li><a href="#"><span>4</span></a></li>
+                            <li><a href="#"><span>5</span></a></li>
+                            <li><a href="#"><span>Next</span></a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>*@
+        <tbody>
+            @foreach(var booking in Model.FoodBookings)
+            {
+                <tr>
+                    <td>@booking.BookingId</td>
+                    <td>@booking.DateOfBooking</td>
+                    <td>@booking.FoodCourtName</td>
+                    <td>@booking.CatererName</td>
+                    <td>@booking.DishName</td>
+                    <td>@booking.PricePerPlate</td>
+                    <td>@booking.NumberOfPlates</td>
+                    <td>@booking.TotalAmount</td>
+                </tr>
+            }             
+        </tbody>
+    </table>
+</div>
+
+<br />
+
+<div class="viewalltitle">
+    Party Bookings
+</div>
+
+<br />
+
+<div class="datagrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Venue Name</th>
+                <th>Booking Date</th>
+                <th>Event Date</th>
+                <th>Amount</th>
+                <th>Approval Status</th>
+            </tr>
+        </thead>
+        @*<tfoot>
+            <tr>
+                <td colspan="11">
+                    <div id="paging">
+                        <ul>
+                            <li><a href="#"><span>Previous</span></a></li>
+                            <li><a href="#" class="active"><span>1</span></a></li>
+                            <li><a href="#"><span>2</span></a></li>
+                            <li><a href="#"><span>3</span></a></li>
+                            <li><a href="#"><span>4</span></a></li>
+                            <li><a href="#"><span>5</span></a></li>
+                            <li><a href="#"><span>Next</span></a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>*@
+        <tbody>
+            @foreach (var booking in Model.PartyBookings)
+            {
+                <tr>
+                    <td>@booking.BookingId</td>
+                    <td>@booking.VenueName</td>
+                    <td>@booking.BookingDate</td>
+                    <td>@booking.EventDate</td>
+                    <td>@booking.Amount</td>
+                    <td>@booking.ApprovalStatus</td>
+                </tr>
+            }             
+        </tbody>
+    </table>
+</div>
