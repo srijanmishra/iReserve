@@ -1,14 +1,14 @@
 ﻿@if (Session["UserID"] != null) {
     <text>
-        <div id="navigationbar03" class="navbar2">
-            @Html.ActionLink("Change Password", "ChangePassword", "UserAccount")!
-        </div>
         <div id="navigationbar02" class="navbar2">
             @using (Html.BeginForm("LogOff", "UserAccount", FormMethod.Post, new { id = "logoutForm" })) {
                 @Html.AntiForgeryToken()
                 <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
             }
         </div>
+        <div id="navigationbar03" class="navbar3">
+            @Html.ActionLink("Change Password", "ChangePassword", "UserAccount")
+        </div>        
     </text>
 } else {
     <div id="navigationbar05" class="navbar2">

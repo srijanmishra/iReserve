@@ -27,6 +27,7 @@
                             $("#message").text("Username is available");
                             $("#message").css("color", "green");
                             $("#UserName").css("background-color", "white");
+                            $("#UserName").css("color", "black");
                         }
                         else {
                             //do something
@@ -37,6 +38,17 @@
                         }
                     }
                 });
+            });
+        });
+    </script>
+        
+    <script>
+        $(document).ready(function () {
+            $("#UserName").focus(function () {
+                if ($("#UserName").css("color") == "red") {
+                    $("#UserName").css("color", "black");
+                    $("#UserName").css("background-color", "white");
+                }
             });
         });
     </script>

@@ -64,3 +64,10 @@
     width: 5%;
     text-align: right;
 }
+
+.navbar3
+{
+    float:right;
+    display: block;
+    text-align: right;
+}

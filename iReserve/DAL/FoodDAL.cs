@@ -26,7 +26,7 @@ namespace iReserve.DAL
             }
             catch (Exception e)
             {
-                Debug.WriteLine("SQL Server connection failed " + e.Message);
+                Debug.WriteLine("SQL Server connection failed:" + e.Message);
                 return null;
             }
 
