@@ -31,29 +31,37 @@ namespace iReserve.DAL
             }
 
             List<ViewPartyBookings> bookings = new List<ViewPartyBookings>();
-            cmd = new SqlCommand("SELECT BookingID, BookingDate, EventDate, Cost, ApprovalStatus, VenueID FROM PartyBookingDB WHERE EmployeeID=@EmployeeId;", conn);
-            cmd.Parameters.AddWithValue("EmployeeId", EmployeeId);
-
-            SqlDataReader reader = cmd.ExecuteReader();
-
-            while (reader.Read())
+            try
             {
-                ViewPartyBookings booking = new ViewPartyBookings();
-                booking.BookingId = (int)reader[0];
-                booking.BookingDate = (string)reader[1];
-                booking.EventDate = (string)reader[2];
-                booking.Amount = (int)reader[3];
-                booking.ApprovalStatus = (string)reader[4];
-                int venueId = (int)reader[5];
+                cmd = new SqlCommand("SELECT A.BookingID AS BookingID, B.VenueName AS VenueName, A.BookingDate AS BookingDate, A.EventDate AS EventDate, A.Cost AS Amount, A.ApprovalStatus AS ApprovalStatus FROM PartyBookingDB AS A JOIN VenueDB AS B ON A.VenueID = B.VenueID WHERE A.EmployeeID = @EmployeeId", conn);
+                cmd.Parameters.AddWithValue("EmployeeId", EmployeeId);
 
-                cmd = new SqlCommand("SELECT VenueName FROM VenueDB WHERE VenueID=@venueId", conn);
-                cmd.Parameters.AddWithValue("venueId", venueId);
+                SqlDataReader reader = cmd.ExecuteReader();
 
-                SqlDataReader venueReader = cmd.ExecuteReader();
-                booking.VenueName = (string)venueReader[0];
-                
-                bookings.Add(booking);
+                while (reader.Read())
+                {
+                    ViewPartyBookings booking = new ViewPartyBookings();
+                    
+                    booking.BookingId = Convert.ToInt32(reader.GetString(0));
+                    booking.VenueName = reader.GetString(1);
+                    booking.BookingDate = reader.GetDateTime(2).ToString();
+                    booking.EventDate = reader.GetDateTime(3).ToString();
+                    booking.Amount = Convert.ToDouble(reader.GetDecimal(4));
+                    booking.ApprovalStatus = reader.GetString(5);
+                    
+                    bookings.Add(booking);
+                }
+
+                reader.Close();
             }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                return null;
+            }
+
+            conn.Close();
 
             return bookings;
         }

@@ -12,7 +12,7 @@ namespace iReserve.Models
         public string VenueName { get; set; }
         public string BookingDate { get; set; }
         public string EventDate { get; set; }
-        public int Amount { get; set; }
+        public double Amount { get; set; }
         public string ApprovalStatus { get; set; }
     }
 }

@@ -188,6 +188,7 @@
     <Compile Include="Controllers\FoodCourtController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovieController.cs" />
+    <Compile Include="Controllers\PartyController.cs" />
     <Compile Include="Controllers\UserAccountController.cs" />
     <Compile Include="DAL\FoodDAL.cs" />
     <Compile Include="DAL\MovieDAL.cs" />
@@ -339,6 +340,8 @@
     <Content Include="Views\Movie\ViewMovieBookings.cshtml" />
     <Content Include="Views\FoodCourt\ViewFoodBookings.cshtml" />
     <Content Include="Views\UserAccount\ChangePassword.cshtml" />
+    <Content Include="Views\Party\Index.cshtml" />
+    <Content Include="Views\Party\ViewPartyBookings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
