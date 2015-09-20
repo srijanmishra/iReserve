@@ -31,7 +31,11 @@ namespace iReserve.DAL
             }
 
             List<ViewMealBookings> bookings = new List<ViewMealBookings>();
-            cmd = new SqlCommand("SELECT BookingID, NoOfPlates, BookingDate, Cost, MenuID FROM FoodBookingDB WHERE EmployeeID=@EmployeeId;", conn);
+            
+            try
+            {
+                cmd = new SqlCommand("SELECT T3.BookingID AS BookingID, T4.FoodCourtName AS FoodCourtName, T4.CatererName AS CatererName, T3.DishName AS DishName, T3.Price AS Price, T3.NoOfPlates AS NoOfPlates, T3.Cost AS Cost, T3.BookingDate AS BookingDate FROM (SELECT T1.BookingID AS BookingID, T1.MenuID AS MenuID, T1.NoOfPlates AS NoOfPlates, T1.BookingDate AS BookingDate, T1.Cost AS Cost, T1.FoodCourtID AS FoodCourtID, T1.CatererID AS CatererID, T1.DishID AS DishID, T2.DishName AS DishName, T2.Price AS Price FROM (SELECT C.BookingID AS BookingID, C.MenuID AS MenuID, C.NoOfPlates AS NoOfPlates, C.BookingDate AS BookingDate, C.Cost AS Cost, D.FoodCourtID AS FoodCourtID, D.CatererID AS CatererID, D.DishID AS DishID FROM FoodBookingDB AS C JOIN MenuDB AS D ON C.MenuID = D.MenuID WHERE C.EmployeeID = @EmployeeID) AS T1 JOIN (SELECT E.DishID AS DishID, E.DishName AS DishName, E.Price AS Price FROM DishDB AS E ) AS T2 ON T1.DishID = T2.DishID) AS T3 JOIN (SELECT A.CatererID AS CatererID, A.CatererName AS CatererName, B.FoodCourtID AS FoodCourtID, B.FoodCourtName AS FoodCourtName FROM CatererDB AS A, FoodCourtDB AS B WHERE (',' + RTRIM(A.FoodCourtID) + ',') LIKE ('%,' + (B.FoodCourtID) + ',%')) AS T4 ON T3.CatererID = T4.CatererID", conn);
+            
             cmd.Parameters.AddWithValue("EmployeeId", EmployeeId);
 
             SqlDataReader reader = cmd.ExecuteReader();
@@ -39,43 +43,38 @@ namespace iReserve.DAL
             while (reader.Read())
             {
                 ViewMealBookings booking = new ViewMealBookings();
-                booking.BookingId = (int)reader[0];
-                booking.NumberOfPlates = (int)reader[1];
-                booking.DateOfBooking = (string)reader[2];
-                booking.TotalAmount = (double)reader[3];
-                int menuId = (int)reader[4];
 
-                cmd = new SqlCommand("SELECT FoodCourtID, CatererID, DishID FROM MenuDB WHERE MenuID=@menuId", conn);
-                cmd.Parameters.AddWithValue("menuId", menuId);
-
-                SqlDataReader menuReader = cmd.ExecuteReader();
-
-                int foodCourtId = (int)menuReader[0];
-                int catererId = (int)menuReader[1];
-                int dishId = (int)menuReader[2];
-
-                cmd = new SqlCommand("SELECT FoodCourtName FROM FoodCourtDB WHERE FoodCourtID=@foodCourtId", conn);
-                cmd.Parameters.AddWithValue("foodCourtId", foodCourtId);
-
-                SqlDataReader foodCourtReader = cmd.ExecuteReader();
-
-                booking.FoodCourtName = (string)foodCourtReader[0];
-
-                cmd = new SqlCommand("SELECT CatererName FROM CatererDB WHERE CatererID=@catererId", conn);
-                cmd.Parameters.AddWithValue("catererId", catererId);
-
-                SqlDataReader catererReader = cmd.ExecuteReader();
-
-                booking.CatererName = (string)catererReader[0];
-
-                cmd = new SqlCommand("SELECT DishName FROM DishDB WHERE DishID=@dishId", conn);
-                cmd.Parameters.AddWithValue("catererId", catererId);
-
-                SqlDataReader dishReader = cmd.ExecuteReader();
-
-                booking.DishName = (string)dishReader[0];
+                booking.BookingId = Convert.ToInt32(reader.GetString(0));
+                booking.FoodCourtName = reader.GetString(1);
+                booking.CatererName = reader.GetString(2);
+                booking.DishName = reader.GetString(3);
+                booking.PricePerPlate = Convert.ToDouble(reader.GetDecimal(4));
+                booking.NumberOfPlates = reader.GetInt32(5);
+                booking.TotalAmount = Convert.ToDouble(reader.GetDecimal(6));
+                booking.DateOfBooking = reader.GetDateTime(7).ToString();
 
                 bookings.Add(booking);
+            } 
+
+            reader.Close();
+            }
+
+            catch (SqlException err)
+            {
+                Debug.WriteLine("SQL Server connection failed " + err.Message);
+                return null;
+            }
+
+            catch (InvalidOperationException err)
+            {
+                Debug.WriteLine("SQL Server connection failed " + err.Message);
+                return null;
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine("ERROR: " + err.Message);
+                return null;
             }
 
             return bookings;

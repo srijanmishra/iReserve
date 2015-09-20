@@ -24,7 +24,7 @@ namespace iReserve.Controllers
             var userid = Convert.ToInt32(Session["UserID"].ToString());
             List<ViewMealBookings> bookingList = agent.MealBookings(10001);
 
-            return View();
+            return View(bookingList);
         }
     }
 }

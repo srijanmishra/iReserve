@@ -35,6 +35,7 @@ namespace iReserve.DAL
             try
             {
                 cmd = new SqlCommand("SELECT Test.BookingID AS BookingId, Test.EmployeeID AS EmployeeNumber, M.Title AS MovieName, Test.ShowDate AS ShowDate, Test.Timing AS Show, Test.BookingDate AS BookingDate, Test.NoOfSeats AS NumberOfSeats, Test.CardType AS CardType, Test.CardNo AS CardNo, Test.Amount AS Amount, Test.Confirmation AS Confirmation FROM (SELECT A.BookingID AS BookingID, A.EmployeeID AS EmployeeID, A.NoOfSeats AS NoOfSeats, A.Confirmation AS Confirmation, A.CardType AS CardType, A.CardNo AS CardNo, A.BookingDate AS BookingDate, A.Amount AS Amount, B.ShowDate AS ShowDate, B.Timing AS Timing, B.MovieID FROM MovieBookingDB AS A JOIN ShowDB AS B ON A.ShowID = B.ShowID WHERE A.EmployeeID=@UserID) AS Test JOIN MovieDB AS M ON Test.MovieID = M.MovieID;", conn);
+
                 cmd.Parameters.AddWithValue("UserID", EmployeeId);
 
                 SqlDataReader reader = cmd.ExecuteReader();
