@@ -6,10 +6,40 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css">
+    <script src="~/Scripts/jquery-ui-1.11.4.js"></script>
     <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript" src="~/Scripts/DateField.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $("#CheckButton").click(function () {
+                var userName = $('#UserName').val();
+                console.log(userName);
+                $.ajax({
+                    url: 'CheckName',
+                    data: { userName: userName },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data == undefined) {
+                            //display your err message here
+                            $("#message").text("Username is available");
+                            $("#message").css("color", "green");
+                            $("#UserName").css("background-color", "white");
+                        }
+                        else {
+                            //do something
+                            $("#message").html("User with this name already exists.");
+                            $("#message").css("color", "red");
+                            $("#UserName").css("background-color", "#FF5C5C");
+                            $("#UserName").css("color", "white");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 }
 
 @section ViewingStyles {
@@ -51,10 +81,12 @@
                     @Html.LabelFor(m => m.Name)
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.Name)
+                    @Html.TextBoxFor(m => m.Name, new {@id = "UserName"})
                 </td>
                 <td>
-                    @Html.ValidationMessageFor(m => m.Name)
+                    <input type="button" value="Check if Available" id="CheckButton" />
+                    <span id="message"></span>
+                    @Html.ValidationMessageFor(m => m.Name)                    
                 </td>
             </tr>
             <tr>

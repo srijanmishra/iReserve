@@ -11,11 +11,11 @@
         <title>@ViewBag.Title</title>
         <meta name="viewport" content="width=device-width" />
         @Scripts.Render("~/bundles/jquery")
-        @RenderSection("scripts", required: false)
-        <script src="~/Scripts/jquery-1.8.2.min.js"></script>
         <script src="~/Scripts/jquery-1.8.2.js"></script>
+        <script src="~/Scripts/jquery-1.8.2.min.js"></script>
         <script type="text/javascript" src="~/Scripts/DateTimeStamp.js"></script>
         @Styles.Render("~/Content/css")   
+        @RenderSection("Scripts", required: false)
         @RenderSection("ViewingStyles", required: false)
         
         <script>
@@ -23,6 +23,7 @@
                 setInterval('updateClock()', 1000);
             });
         </script>
+
     </head>
 
     <body>

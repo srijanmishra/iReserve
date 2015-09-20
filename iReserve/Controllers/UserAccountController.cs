@@ -81,6 +81,7 @@ namespace iReserve.Controllers
                 if (res)
                 {
                     Session["UserID"] = regUser.EmployeeID;
+                    TempData["message"] = "Password generated";
                     return RedirectToAction("Index", "Home");
                 }
 
@@ -97,11 +98,11 @@ namespace iReserve.Controllers
             }
         }
 
-        public JsonResult CheckName(string Name)
+        public JsonResult CheckName(string userName)
         {
 
             UserAccountDAL agent = new UserAccountDAL();
-            bool res = agent.NameCheck(Name, "");
+            bool res = agent.NameCheck(userName, "");
 
             if (res)
             {

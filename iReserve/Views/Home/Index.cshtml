@@ -1,10 +1,17 @@
 ﻿@{
     ViewBag.Title = "iReserve Home";
-    //ViewBag.message = TempData["message"];
+    ViewBag.message = TempData["message"];
 }
 
 @section Scripts {
-    
+    <script>
+        $(document).ready(function () {
+            var msg = '@Html.Raw(HttpUtility.JavaScriptStringEncode((string)TempData["message"]))';
+            if (msg != null) {
+                alert(msg);
+            }
+        });
+    </script>
 }
 
 @section ViewingStyles {
@@ -12,11 +19,11 @@
 }
 
 <div id="navigationbar01" class="navbar">
-    @Html.ActionLink("Movie Bookings", "Index", "Movie", new {@class = "navbaritem"})
-    @Html.ActionLink("Food Court Bookings", "Index", "FoodCourt", new {@class = "navbaritem"})
-    @Html.ActionLink("Party Bookings", "Index", "Party", new {@class = "navbaritem"})
+    @Html.ActionLink("Movie Bookings", "Index", "Movie", new { @class = "navbaritem" })
+    @Html.ActionLink("Food Court Bookings", "Index", "FoodCourt", new { @class = "navbaritem" })
+    @Html.ActionLink("Party Bookings", "Index", "Party", new { @class = "navbaritem" })
 
-    @Html.Partial("_LoginPartial", new {@class = "partialLogin"})
+    @Html.Partial("_LoginPartial", new { @class = "partialLogin" })
 </div>
 
 <br />       
@@ -27,17 +34,17 @@
 <table style="width:100%">
   <tr>
     <td>
-        <a href="@Url.Action("Index","Movie")">
+        <a href="@Url.Action("Index", "Movie")">
             <img src='@Url.Content("~/Images/movie-theater.jpg")' alt="Alternate Text" height="320" width="480"/>
         </a>
     </td>
     <td>
-        <a href="@Url.Action("Index","FoodCourt")">
+        <a href="@Url.Action("Index", "FoodCourt")">
             <img src='@Url.Content("~/Images/food-booking.jpg")' alt="Alternate Text" height="320" width="480"/>
         </a>        
     </td> 
     <td>
-        <a href="@Url.Action("Index","TeamParty")">
+        <a href="@Url.Action("Index", "TeamParty")">
             <img src='@Url.Content("~/Images/party.jpg")' alt="Alternate Text" height="320" width="480"/>
         </a>
     </td>
