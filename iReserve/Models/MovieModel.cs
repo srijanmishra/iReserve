@@ -28,4 +28,12 @@ namespace iReserve.Models
         public string Language { get; set; }
         public string ShowDate { get; set; }
     }
+
+    public class AddMovie
+    {
+        public string MovieName { get; set; }
+        public DateTime ShowDate { get; set; }
+        public string Show { get; set; }
+        public string Language { get; set; }
+    }
 }
