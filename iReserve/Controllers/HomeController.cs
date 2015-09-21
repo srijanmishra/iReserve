@@ -15,16 +15,6 @@ namespace iReserve.Controllers
             //ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
             return View();
-            /*
-            if (User.Identity.IsAuthenticated)
-            {
-                return View();
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            */
         }
 
         public ActionResult About()
@@ -56,5 +46,14 @@ namespace iReserve.Controllers
 
             return View(bookingCollection);
         }
+
+        public ActionResult DeliveryIndex()
+        {
+            //ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
+
+
+            return View();
+        }
+
     }
 }
