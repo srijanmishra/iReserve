@@ -51,7 +51,7 @@ namespace iReserve.Models
         [Required]
         [Display(Name = "Name")]
         [RegularExpression(@"[A-Za-z\s]+", ErrorMessage="Name should contain only letters.")]
-        //[System.Web.Mvc.Remote("CheckName", "UserAccount", ErrorMessage = "Account with this user name already exists. Please use your old account or enter a different user name.")]
+        [MaxLength(30, ErrorMessage = "Name can have only 30 characters.")]
         public string Name { get; set; }
 
         [Required]
@@ -67,7 +67,8 @@ namespace iReserve.Models
 
         [Required]
         [Display(Name = "Phone Number")]
-        [StringLength(10)]
+        [StringLength(10, ErrorMessage = "Phone number can have only 10 digits")]
+        [MaxLength(10, ErrorMessage = "Phone number can have only 10 digits")]
         [RegularExpression(@"[1-9][0-9]*", ErrorMessage="Phone number should contain only numbers.")]
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
@@ -75,6 +76,8 @@ namespace iReserve.Models
         [Required]
         [Display(Name = "Employee ID")]
         [RegularExpression(@"([1-9][0-9]*)", ErrorMessage = "Employee ID must contain only digits.")]
+        [StringLength(5, ErrorMessage = "Employee ID can have only 5 digits")]
+        [MaxLength(5, ErrorMessage = "Employee ID can have only 5 digits")]
         public string EmployeeID { get; set; }
 
         [Required]
