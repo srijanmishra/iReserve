@@ -1,0 +1,57 @@
+﻿@model IEnumerable<iReserve.Models.ViewCurrentMovies>
+@using iReserve.Models;
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
+}
+
+<div id="navigationbar01" class="navbar">
+    @Html.ActionLink("Home", "Index", "Home", null, new { @class="navbaritem"})
+    @Html.ActionLink("Movie Bookings", "Index", "Movie", null, new { @class = "navbaritem" })
+    @Html.ActionLink("Food Court Bookings", "Index", "FoodCourt", null, new { @class = "navbaritem" })
+    @Html.ActionLink("Party Bookings", "Index", "Party", null, new { @class = "navbaritem" })
+    @Html.ActionLink("View All Bookings", "ViewAll", "Home", null, new { @class="navbaritem"})
+
+    @Html.Partial("_LoginPartial", new { @class = "partialLogin" })
+</div>
+
+<br />       
+
+<div class="datagrid">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ViewCurrentMovies movie in Model)
+            {
+                <tr>
+                    <td>
+                        <table>
+                            <thead>
+                                <tr><td>Movie</td></tr>                                
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Movie Name</td>
+                                    <td>@movie.MovieName</td>
+                                </tr>
+                                <tr>
+                                    <td>Language</td>
+                                    <td>@movie.Language</td>
+                                </tr>
+                                <tr>
+                                    <td>Show Date</td>
+                                    <td>@movie.ShowDate</td>
+                                </tr>        
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            }             
+        </tbody>
+    </table>
+</div>

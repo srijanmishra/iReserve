@@ -347,6 +347,7 @@
     <Content Include="Views\Party\ViewPartyBookings.cshtml" />
     <Content Include="Views\Home\ViewAll.cshtml" />
     <Content Include="Views\Home\DeliveryIndex.cshtml" />
+    <Content Include="Views\Movie\ViewCurrentMovies.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
