@@ -51,8 +51,9 @@ namespace iReserve.Controllers
         {
             //ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
-
-            return View();
+            DeliveryDAL agent = new DeliveryDAL();
+            DeliveryModel bookings = agent.Bookings();
+            return View(bookings);
         }
 
     }

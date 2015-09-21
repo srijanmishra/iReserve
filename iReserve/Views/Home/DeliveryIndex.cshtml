@@ -1,0 +1,66 @@
+﻿@model iReserve.ViewModels.DeliveryModel
+
+@using iReserve.Models;
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
+}
+
+<div id="navigationbar01" class="navbar">
+    @Html.ActionLink("Home", "Index", "Home", null, new { @class="navbaritem"})
+   
+    @Html.Partial("_LoginPartial", new { @class = "partialLogin" })
+</div>
+
+<br />       
+
+<div class="datagrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Booking ID</th>
+                <th>Venue Name</th>
+                <th>Booking Date</th>
+                <th>Event Date</th>
+                <th>Amount</th>
+                <th>Approval Status</th>
+            </tr>
+        </thead>
+        @*<tfoot>
+            <tr>
+                <td colspan="11">
+                    <div id="paging">
+                        <ul>
+                            <li><a href="#"><span>Previous</span></a></li>
+                            <li><a href="#" class="active"><span>1</span></a></li>
+                            <li><a href="#"><span>2</span></a></li>
+                            <li><a href="#"><span>3</span></a></li>
+                            <li><a href="#"><span>4</span></a></li>
+                            <li><a href="#"><span>5</span></a></li>
+                            <li><a href="#"><span>Next</span></a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>*@
+        @{ var i = 0;}
+        <tbody>
+            @foreach (var booking in Model.bookingCollection)
+            {
+                <tr>
+                    <td>@booking.BookingId</td>
+                    <td>@Model.EmployeeIDCollection[i]</td>
+                    <td>@booking.VenueName</td>
+                    <td>@booking.BookingDate</td>
+                    <td>@booking.EventDate</td>
+                    <td>@booking.Amount</td>
+                    <td>@booking.ApprovalStatus</td>
+                    <td>Place for buttons</td>
+                </tr>
+                
+                i = i + 1;
+            }             
+        </tbody>
+    </table>
+</div>

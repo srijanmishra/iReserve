@@ -9,6 +9,6 @@ namespace iReserve.ViewModels
     public class DeliveryModel
     {
         public List<ViewPartyBookings> bookingCollection { get; set; }
-        public List<string> EmployeeIDCollection { get; set; }
+        public List<int> EmployeeIDCollection { get; set; }
     }
 }

@@ -16,6 +16,7 @@ namespace iReserve.DAL
         string ConnectionStr = null;
         SqlConnection conn = null;
         SqlCommand cmd = null;
+        int i = 1;
 
         public DeliveryModel Bookings()
         {
@@ -37,23 +38,14 @@ namespace iReserve.DAL
 
             try
             {
-                cmd = new SqlCommand("SELECT A.BookingID AS BookingID, B.VenueName AS VenueName, A.BookingDate AS BookingDate, A.EventDate AS EventDate, A.Cost AS Amount, A.ApprovalStatus AS ApprovalStatus FROM PartyBookingDB AS A JOIN VenueDB AS B ON A.VenueID = B.VenueID WHERE A.EmployeeID = @EmployeeId", conn);
-                cmd.Parameters.AddWithValue("EmployeeId", EmployeeId);
-
+                cmd = new SqlCommand("SELECT EmployeeID FROM PartyBookingDB WHERE ApprovalStatus = 'P'", conn);
+                
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    ViewPartyBookings booking = new ViewPartyBookings();
-
-                    booking.BookingId = Convert.ToInt32(reader.GetString(0));
-                    booking.VenueName = reader.GetString(1);
-                    booking.BookingDate = reader.GetDateTime(2).ToString();
-                    booking.EventDate = reader.GetDateTime(3).ToString();
-                    booking.Amount = Convert.ToDouble(reader.GetDecimal(4));
-                    booking.ApprovalStatus = reader.GetString(5);
-
-                    bookings.Add(booking);
+                    bookings.EmployeeIDCollection.Add(reader.GetInt32(0));
+                    i = i + 1;
                 }
 
                 reader.Close();
@@ -67,10 +59,24 @@ namespace iReserve.DAL
 
             conn.Close();
 
+            try
+            {
+                for (int j = 0; j < i; j++)
+                {
+                    List<ViewPartyBookings> temp = agent.Bookings(bookings.EmployeeIDCollection[i]);
+                    foreach (var item in temp)
+                    {
+                        bookings.bookingCollection.Add(item);
+                    }
+                }
+            }
 
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                return null;
+            }
 
-            bookings.bookingCollection = agent.Bookings();
-            
             return bookings;
         }
     }
