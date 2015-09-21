@@ -35,7 +35,39 @@ namespace iReserve.Controllers
                     if (res)
                     {
                         Session["UserID"] = login.UserName;
-                        return RedirectToAction("Index", "Home");
+                        if (login.Role.Equals("D"))
+                        {
+                            return RedirectToAction("DeliveryIndex", "Home");
+                        }
+
+                        /*
+                        else if (login.Role.Equals("F"))
+                        {
+                            return RedirectToAction("FoodCourtIndex", "Home");
+                        }
+
+                        else if (login.Role.Equals("M"))
+                        {
+                            return RedirectToAction("MovieIndex", "Home");
+                        }
+
+                        else if (login.Role.Equals("P"))
+                        {
+                            return RedirectToAction("PartyIndex", "Home");
+                        }
+                        */
+
+                        else if (login.Role.Equals("U"))
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        
+                        else
+                        {
+                            ModelState.AddModelError("", "You do not have admin priveleges. Role unverified.");
+                            return View(login);
+                        }
+
                     }
 
                     else

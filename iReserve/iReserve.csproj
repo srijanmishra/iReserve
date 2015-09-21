@@ -190,6 +190,7 @@
     <Compile Include="Controllers\MovieController.cs" />
     <Compile Include="Controllers\PartyController.cs" />
     <Compile Include="Controllers\UserAccountController.cs" />
+    <Compile Include="DAL\DeliveryDAL.cs" />
     <Compile Include="DAL\FoodDAL.cs" />
     <Compile Include="DAL\MovieDAL.cs" />
     <Compile Include="DAL\PartyDAL.cs" />
@@ -208,6 +209,7 @@
     <Compile Include="Models\PartyModel.cs" />
     <Compile Include="Models\UserAccountModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\DeliveryModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\aspnet-iReserve-20150914175749.mdf" />
@@ -344,6 +346,7 @@
     <Content Include="Views\Party\Index.cshtml" />
     <Content Include="Views\Party\ViewPartyBookings.cshtml" />
     <Content Include="Views\Home\ViewAll.cshtml" />
+    <Content Include="Views\Home\DeliveryIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
