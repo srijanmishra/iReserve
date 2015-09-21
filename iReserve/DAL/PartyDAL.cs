@@ -15,7 +15,7 @@ namespace iReserve.DAL
         SqlConnection conn = null;
         SqlCommand cmd = null;
 
-        public List<ViewPartyBookings> Bookings(int EmployeeId)
+        public List<ViewPartyBookings> Bookings(int EmployeeId, string Status)
         {
             try
             {
@@ -33,8 +33,18 @@ namespace iReserve.DAL
             List<ViewPartyBookings> bookings = new List<ViewPartyBookings>();
             try
             {
-                cmd = new SqlCommand("SELECT A.BookingID AS BookingID, B.VenueName AS VenueName, A.BookingDate AS BookingDate, A.EventDate AS EventDate, A.Cost AS Amount, A.ApprovalStatus AS ApprovalStatus FROM PartyBookingDB AS A JOIN VenueDB AS B ON A.VenueID = B.VenueID WHERE A.EmployeeID = @EmployeeId", conn);
-                cmd.Parameters.AddWithValue("EmployeeId", EmployeeId);
+                if (Status.Equals(null))
+                {
+                    cmd = new SqlCommand("SELECT A.BookingID AS BookingID, B.VenueName AS VenueName, A.BookingDate AS BookingDate, A.EventDate AS EventDate, A.Cost AS Amount, A.ApprovalStatus AS ApprovalStatus FROM PartyBookingDB AS A JOIN VenueDB AS B ON A.VenueID = B.VenueID WHERE A.EmployeeID = @EmployeeId", conn);
+                    cmd.Parameters.AddWithValue("EmployeeId", EmployeeId);
+                }
+
+                else
+                {
+                    cmd = new SqlCommand("SELECT A.BookingID AS BookingID, B.VenueName AS VenueName, A.BookingDate AS BookingDate, A.EventDate AS EventDate, A.Cost AS Amount, A.ApprovalStatus AS ApprovalStatus FROM PartyBookingDB AS A JOIN VenueDB AS B ON A.VenueID = B.VenueID WHERE A.EmployeeID = @EmployeeId AND A.ApprovalStatus = @Status", conn);
+                    cmd.Parameters.AddWithValue("EmployeeId", EmployeeId);
+                    cmd.Parameters.AddWithValue("Status", Status);
+                }
 
                 SqlDataReader reader = cmd.ExecuteReader();
 

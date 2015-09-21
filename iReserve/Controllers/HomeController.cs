@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -42,11 +43,12 @@ namespace iReserve.Controllers
 
             bookingCollection.MovieBookings = agent1.Bookings(10001);
             bookingCollection.FoodBookings = agent2.MealBookings(10001);
-            bookingCollection.PartyBookings = agent3.Bookings(10001);
+            bookingCollection.PartyBookings = agent3.Bookings(10001, null);
 
             return View(bookingCollection);
         }
 
+        [OutputCache(Duration = 0)]
         public ActionResult DeliveryIndex()
         {
             //ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
@@ -56,5 +58,21 @@ namespace iReserve.Controllers
             return View(bookings);
         }
 
+        [OutputCache(Duration = 0)]
+        public void UpdateStatus(int bookingID, string status)
+        {
+            DeliveryDAL agent = new DeliveryDAL();
+            bool res = agent.UpdateBookingStatus(bookingID, status);
+
+            if (res)
+            {
+                Response.Redirect("/Home/DeliveryIndex");
+            }
+
+            else
+            {
+                Debug.WriteLine("ERROR");
+            }
+        }
     }
 }

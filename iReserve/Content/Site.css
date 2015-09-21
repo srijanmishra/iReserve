@@ -56,6 +56,16 @@
     margin-right: 8px;
 }
 
+.confirmbtn
+{
+    width: auto;
+    border: 1px solid #787878;
+    cursor: pointer;
+    font-weight: 400;
+    padding: 7px;
+    margin-right: 8px;
+}
+
 .emptyLabel
 {
     width:auto;

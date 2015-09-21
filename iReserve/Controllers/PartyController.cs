@@ -22,7 +22,7 @@ namespace iReserve.Controllers
         {
             PartyDAL agent = new PartyDAL();
             var userid = Convert.ToInt32(Session["UserID"].ToString());
-            List<ViewPartyBookings> bookingList = agent.Bookings(10001);
+            List<ViewPartyBookings> bookingList = agent.Bookings(10001, null);
 
             return View(bookingList);
         }

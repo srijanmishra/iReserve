@@ -8,10 +8,49 @@
 }
 
 <div id="navigationbar01" class="navbar">
-    @Html.ActionLink("Home", "Index", "Home", null, new { @class="navbaritem"})
-   
     @Html.Partial("_LoginPartial", new { @class = "partialLogin" })
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('.confirmbtn').click(function () {
+            var trRef = $(this).parent().parent();
+
+            var bookingID = $(trRef).find('td:eq(0)').html();
+
+            if ($('#RadioApproved').attr('checked')) {
+                alert(bookingID + 'Clicked Yes');
+                $.ajax({
+                    type: 'POST',
+                    url: 'UpdateStatus',
+                    data: { bookingID: bookingID, status: 'A' },
+                    dataType: "html",
+                    success: function (data, status, jqXHR) {
+                        window.location.reload(true);
+                    }
+                });
+            }
+
+            else if ($('#RadioRejected').attr('checked')) {
+                alert(bookingID + 'Clicked No');
+                $.ajax({
+                    type: 'POST',
+                    url: 'UpdateStatus',
+                    data: { bookingID: bookingID, status: 'R' },
+                    dataType: "html",
+                    success: function (data, status, jqXHR) {
+                        window.location.reload(true);
+                    }
+                });
+            }
+
+            else {
+                alert('ERROR: ' + bookingID + ' No option clicked. Please click Approve or Reject.');
+            }
+        });
+    });
+</script>
+
 
 <br />       
 
@@ -20,11 +59,13 @@
         <thead>
             <tr>
                 <th>Booking ID</th>
+                <th>Employee ID</th>
                 <th>Venue Name</th>
                 <th>Booking Date</th>
                 <th>Event Date</th>
                 <th>Amount</th>
                 <th>Approval Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         @*<tfoot>
@@ -56,7 +97,11 @@
                     <td>@booking.EventDate</td>
                     <td>@booking.Amount</td>
                     <td>@booking.ApprovalStatus</td>
-                    <td>Place for buttons</td>
+                    <td>
+                        @Html.RadioButtonFor(m => m.bookingCollection[i].ApprovalStatus, "A", new { @id = "RadioApproved" }) <span>Approve</span>
+                        @Html.RadioButtonFor(m => m.bookingCollection[i].ApprovalStatus, "R", new { @id = "RadioRejected" }) <span>Reject</span>
+                        <input type="button" value="Confirm" id="confirmbtn" class="confirmbtn" />
+                    </td>
                 </tr>
                 
                 i = i + 1;
