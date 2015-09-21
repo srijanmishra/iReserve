@@ -33,7 +33,7 @@ namespace iReserve.DAL
             List<ViewPartyBookings> bookings = new List<ViewPartyBookings>();
             try
             {
-                if (Status.Equals(null))
+                if (Status.Length < 1)
                 {
                     cmd = new SqlCommand("SELECT A.BookingID AS BookingID, B.VenueName AS VenueName, A.BookingDate AS BookingDate, A.EventDate AS EventDate, A.Cost AS Amount, A.ApprovalStatus AS ApprovalStatus FROM PartyBookingDB AS A JOIN VenueDB AS B ON A.VenueID = B.VenueID WHERE A.EmployeeID = @EmployeeId", conn);
                     cmd.Parameters.AddWithValue("EmployeeId", EmployeeId);

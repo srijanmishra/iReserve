@@ -34,6 +34,7 @@ namespace iReserve.Controllers
                     res = agent.RoleCheck(login.UserName, login.Password, login.Role);
                     if (res)
                     {
+                        FormsAuthentication.SetAuthCookie(login.UserName, false);
                         Session["UserID"] = login.UserName;
                         if (login.Role.Equals("D"))
                         {
@@ -150,6 +151,7 @@ namespace iReserve.Controllers
         //
         // GET: /UserAccount/ChangePassword
 
+        [Authorize]
         public ActionResult ChangePassword()
         {
             return View();
@@ -184,6 +186,7 @@ namespace iReserve.Controllers
         {
             Session["UserID"] = null;
 
+            FormsAuthentication.SignOut();
             return RedirectToAction("Login", "UserAccount");
         }
     }

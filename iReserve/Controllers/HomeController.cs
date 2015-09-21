@@ -11,6 +11,7 @@ namespace iReserve.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
         public ActionResult Index()
         {
             //ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
@@ -32,6 +33,7 @@ namespace iReserve.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult ViewAll()
         {
             var userid = Convert.ToInt32(Session["UserID"].ToString());
@@ -43,12 +45,13 @@ namespace iReserve.Controllers
 
             bookingCollection.MovieBookings = agent1.Bookings(10001);
             bookingCollection.FoodBookings = agent2.MealBookings(10001);
-            bookingCollection.PartyBookings = agent3.Bookings(10001, null);
+            bookingCollection.PartyBookings = agent3.Bookings(10001, "");
 
             return View(bookingCollection);
         }
 
         [OutputCache(Duration = 0)]
+        [Authorize]
         public ActionResult DeliveryIndex()
         {
             //ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
@@ -59,6 +62,7 @@ namespace iReserve.Controllers
         }
 
         [OutputCache(Duration = 0)]
+        [Authorize]
         public void UpdateStatus(int bookingID, string status)
         {
             DeliveryDAL agent = new DeliveryDAL();

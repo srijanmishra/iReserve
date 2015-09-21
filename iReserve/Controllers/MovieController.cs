@@ -14,11 +14,13 @@ namespace iReserve.Controllers
         //
         // GET: /Movie/
 
+        [Authorize]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authorize]
         public ActionResult ViewMovieBookings()
         {
             MovieDAL agent = new MovieDAL();
@@ -28,6 +30,7 @@ namespace iReserve.Controllers
             return View(bookingList);
         }
 
+        [Authorize]
         public ActionResult ViewCurrentMovies()
         {
             MovieDAL agent = new MovieDAL();
