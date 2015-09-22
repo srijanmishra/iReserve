@@ -51,14 +51,14 @@ namespace iReserve.DAL
                 while (reader.Read())
                 {
                     ViewPartyBookings booking = new ViewPartyBookings();
-                    
-                    booking.BookingId = Convert.ToInt32(reader.GetString(0));
+
+                    booking.BookingId = reader.GetInt32(0);
                     booking.VenueName = reader.GetString(1);
                     booking.BookingDate = reader.GetDateTime(2).ToString();
                     booking.EventDate = reader.GetDateTime(3).ToString();
                     booking.Amount = Convert.ToDouble(reader.GetDecimal(4));
                     booking.ApprovalStatus = reader.GetString(5);
-                    
+
                     bookings.Add(booking);
                 }
 

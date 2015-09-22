@@ -45,6 +45,50 @@
     transform-origin: 50% 50% 0;
 }
 
+.navbarlevel2
+{
+    display: block;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    z-index: auto;
+    width: auto;
+    height: 15%;
+    position: static;
+    cursor: default;
+    opacity: 1;
+    margin: 0;
+    padding: 5px 15px 5px 5px;
+    overflow: hidden;
+    border: 1px solid rgba(13,58,89,1);
+    -webkit-border-radius: 10px;
+    border-radius: 0;
+    font: normal 20px/normal Arial, Helvetica, sans-serif;
+    color: black;
+    text-align: left;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    background: #44C7F2;
+    background-repeat: repeat-x;
+    background-position: 50% 50%;
+    -webkit-background-origin: padding-box;
+    background-origin: padding-box;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    -webkit-background-size: auto auto;
+    background-size: auto auto;
+    -webkit-box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3);
+    box-shadow: 1px 1px 1px 0 rgba(0,0,0,0.3);
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+    -webkit-transition: none;
+    -moz-transition: none;
+    -o-transition: none;
+    transition: none;
+    -webkit-transform: none;
+    transform: none;
+    -webkit-transform-origin: 50% 50% 0;
+    transform-origin: 50% 50% 0;
+}
 
 .navbaritem
 {
@@ -56,6 +100,18 @@
     padding: 0 0 0 0;
     overflow: hidden; 
     color:antiquewhite;   
+}
+
+.navbaritem2
+{
+    display:inline;
+    width: 5%;
+    height: inherit;
+    position:relative;
+    margin: 10px;
+    padding: 0 0 0 0;
+    overflow: hidden; 
+    color:black;   
 }
 
 .navbar2

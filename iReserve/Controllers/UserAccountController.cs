@@ -36,17 +36,18 @@ namespace iReserve.Controllers
                     {
                         FormsAuthentication.SetAuthCookie(login.UserName, false);
                         Session["UserID"] = login.UserName;
+
                         if (login.Role.Equals("D"))
                         {
                             return RedirectToAction("DeliveryIndex", "Home");
                         }
 
-                        /*
                         else if (login.Role.Equals("F"))
                         {
-                            return RedirectToAction("FoodCourtIndex", "Home");
+                            return RedirectToAction("AddMenu", "FoodCourtAdmin");
                         }
 
+                        /*
                         else if (login.Role.Equals("M"))
                         {
                             return RedirectToAction("MovieIndex", "Home");
@@ -62,7 +63,7 @@ namespace iReserve.Controllers
                         {
                             return RedirectToAction("Index", "Home");
                         }
-                        
+
                         else
                         {
                             ModelState.AddModelError("", "You do not have admin priveleges. Role unverified.");
@@ -87,7 +88,7 @@ namespace iReserve.Controllers
 
             catch
             {
-                
+
                 return View();
             }
         }
@@ -107,7 +108,7 @@ namespace iReserve.Controllers
         public ActionResult Register(UserRegisterModel regUser)
         {
             UserAccountDAL agent = new UserAccountDAL();
-            
+
             try
             {
                 bool res = agent.NewUserRegister(regUser);

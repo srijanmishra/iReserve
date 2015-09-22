@@ -1,0 +1,118 @@
+﻿@model iReserve.Models.AddMenuDetails
+
+@using iReserve.Models
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/AddStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css"/>
+}
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css"/>
+    <script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DateField.js"></script>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#AddMenuBtn').click(function () {
+            var FC_Name = $('#FoodCourtName option:selected').text();
+            var C_Name  = $('#CatererName option:selected').text();
+            var S_Date  = $('#datefield2').val();
+            var nPlates = $('#nplates').val();
+            var D_Name  = $('#DishName option:selected').text();
+
+            $.ajax({
+                type: 'POST',
+                url: 'InsertMenuDetails',
+                data: { FCN: FC_Name, CN: C_Name, SD: S_Date, NP: nPlates, DN: D_Name },
+                dataType: "text",
+                success: function (data) {
+                    var result = $.trim(data);
+                    alert(data);
+                    if (result === "DONE") {
+                        alert("Menu added to database.");
+                        window.location.reload(true);
+                    }
+
+                    else {
+                        alert("Menu not added. Retry");
+                    }
+                }
+
+            });
+        });
+    });
+</script>
+
+<div id="navigationbar01" class="navbar">
+    @Html.Partial("_LoginPartial", new {@class = "partialLogin"})
+</div>
+
+<div id="navigationbar02" class="navbarlevel2">
+    @Html.ActionLink("Add Menu", "AddMenu", "FoodCourtAdmin", null, new { @class="navbaritem2"})
+    @*@Html.ActionLink("Update Menu", "UpdateMenu", "FoodCourtAdmin", null, new {@class = "navbaritem"})
+    @Html.ActionLink("Add Dish", "AddDish", "FoodCourtAdmin", null, new {@class = "navbaritem"})
+    @Html.ActionLink("Remove Dish", "RemoveDish", "FoodCourtAdmin", null, new {@class = "navbaritem"})
+    @Html.ActionLink("Add Caterer", "AddCaterer", "FoodCourtAdmin", null, new {@class = "navbaritem"})
+    @Html.ActionLink("Remove Caterer", "RemoveCaterer", "FoodCourtAdmin", null, new {@class = "navbaritem"}) *@   
+</div>
+
+<br />
+
+<table class="tg">
+      <tr>
+        <th class="tg-29rf"></th>
+        <th class="tg-w7zc" colspan="2">Add Menu</th>
+        <th class="tg-29rf"></th>
+      </tr>
+
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.FoodCourtName)</td>        
+        <td class="tg-29rf">
+            @Html.DropDownList("FoodCourtName", new SelectList(@ViewBag.list1), "--Select--", new { @id = "FoodCourtName", @style = "width:200px;"})
+        </td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.FoodCourtName)</td>
+      </tr>
+    
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.CatererName)</td>
+        <td class="tg-29rf">
+            @Html.DropDownList("CatererName", new SelectList(@ViewBag.list2), "--Select--", new { @id = "CatererName", @style = "width:200px;"})
+        </td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.CatererName)</td>
+      </tr>
+    
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.ServingDate)</td>
+        <td class="tg-29rf">@Html.TextBoxFor(model => model.ServingDate, new {@type="text", @id="datefield2", @readonly="readonly", @style="background:white", @class="futureDates"})</td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.ServingDate)</td>
+      </tr>
+    
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.NumberOfPlates)</td>
+        <td class="tg-29rf">@Html.TextBoxFor(model => model.NumberOfPlates, new { @id="nplates"})</td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.NumberOfPlates)</td>
+      </tr>
+    
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.DishName)</td>
+        <td class="tg-29rf">
+            @Html.DropDownList("DishName", new SelectList(@ViewBag.list3), "--Select--", new { @id = "DishName", @style = "width:200px;"})
+        </td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.DishName)</td>
+      </tr>
+</table>
+<br />
+<div class="midclass">
+    <input type="button" value="Add Menu" class="SubmitButton" id="AddMenuBtn" />
+</div>

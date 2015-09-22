@@ -185,6 +185,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\FoodCourtAdminController.cs" />
     <Compile Include="Controllers\FoodCourtController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovieAdminController.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Controllers\PartyController.cs" />
     <Compile Include="Controllers\UserAccountController.cs" />
     <Compile Include="DAL\DeliveryDAL.cs" />
+    <Compile Include="DAL\FoodCourtAdminDAL.cs" />
     <Compile Include="DAL\FoodDAL.cs" />
     <Compile Include="DAL\MovieAdminDAL.cs" />
     <Compile Include="DAL\MovieDAL.cs" />
@@ -220,6 +222,7 @@
     <Content Include="App_Data\aspnet-iReserve-20150914175749_log.ldf">
       <DependentUpon>aspnet-iReserve-20150914175749.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\AddStyles.css" />
     <Content Include="Content\Navigation.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\Viewings.css" />
@@ -357,6 +360,7 @@
     <Content Include="Views\MovieAdmin\Index.cshtml" />
     <Content Include="Views\MovieAdmin\AddMovie.cshtml" />
     <Content Include="Views\PartyAdmin\AddVenue.cshtml" />
+    <Content Include="Views\FoodCourtAdmin\AddMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

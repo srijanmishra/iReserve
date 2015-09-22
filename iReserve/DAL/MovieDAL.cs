@@ -44,7 +44,7 @@ namespace iReserve.DAL
                 {
                     ViewMovieBookings booking = new ViewMovieBookings();
 
-                    booking.BookingId = Convert.ToInt32(reader.GetString(0));
+                    booking.BookingId = reader.GetInt32(0);
                     booking.EmployeeNumber = reader.GetInt32(1);
                     booking.MovieName = reader.GetString(2);
                     booking.ShowDate = reader.GetDateTime(3).ToString();
@@ -57,7 +57,7 @@ namespace iReserve.DAL
                     booking.Status = reader.GetBoolean(10);
 
                     bookings.Add(booking);
-                } 
+                }
 
                 reader.Close();
             }
@@ -83,7 +83,7 @@ namespace iReserve.DAL
             return bookings;
         }
 
-        public List<ViewCurrentMovies> CurrentMovies() 
+        public List<ViewCurrentMovies> CurrentMovies()
         {
             try
             {
