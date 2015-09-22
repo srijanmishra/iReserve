@@ -35,5 +35,6 @@ namespace iReserve.Models
         public DateTime ShowDate { get; set; }
         public string Show { get; set; }
         public string Language { get; set; }
+        public double Cost { get; set; }
     }
 }

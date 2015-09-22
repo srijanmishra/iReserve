@@ -36,21 +36,19 @@ namespace iReserve.DAL
             {
                 cmd = new SqlCommand("INSERT INTO MovieDB([Title], [Language]) OUTPUT inserted.MovieID VALUES (@title, @language)", conn);
                 cmd.Parameters.AddWithValue("title", movie.MovieName);
-                cmd.Parameters.AddWithValue("langauge", movie.Language);
+                cmd.Parameters.AddWithValue("language", movie.Language);
                 
                 int movieId = Convert.ToInt32(cmd.ExecuteScalar());
-                SqlCommand cmdShow = new SqlCommand("INSERT into ShowDB([MovieID], [ShowDate], [Timing], [BookedTickets]) VALUES (@movieid, @showdate, @show, 0)", conn);
-                cmd.Parameters.AddWithValue("movieid", movieId);
-                cmd.Parameters.AddWithValue("showDate", movie.ShowDate);
-                cmd.Parameters.AddWithValue("show", movie.Show);
+                SqlCommand cmdShow = new SqlCommand("INSERT into ShowDB([MovieID], [ShowDate], [Timing], [BookedTickets], [Price]) VALUES (@movieid, @showdate, @show, @bookedTickets, @price)", conn);
+                cmdShow.Parameters.AddWithValue("movieid", movieId);
+                cmdShow.Parameters.AddWithValue("showDate", movie.ShowDate);
+                cmdShow.Parameters.AddWithValue("show", movie.Show);
+                cmdShow.Parameters.AddWithValue("bookedTickets", 0);
+                cmdShow.Parameters.AddWithValue("price", movie.Cost);
                 
                 if (cmdShow.ExecuteNonQuery().Equals(1))
                 {
                     addMovieStatus = true;
-                }
-                else
-                {
-                    addMovieStatus = false;
                 }
 
                 conn.Close();

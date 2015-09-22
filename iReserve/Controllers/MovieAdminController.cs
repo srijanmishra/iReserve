@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using iReserve.DAL;
+using iReserve.Models;
 
 namespace iReserve.Controllers
 {
@@ -17,7 +19,7 @@ namespace iReserve.Controllers
         }
 
         //
-        // GET: /MovieAdmin/Add
+        // GET: /MovieAdmin/AddMovie
 
         public ActionResult AddMovie()
         {
@@ -25,16 +27,28 @@ namespace iReserve.Controllers
         }
 
         //
-        // POST: /MovieAdmin/Add
+        // POST: /MovieAdmin/AddMovie
 
         [HttpPost]
-        public ActionResult Add(FormCollection collection)
+        public ActionResult AddMovie(AddMovie movie)
         {
+            MovieAdminDAL agent = new MovieAdminDAL();
+
             try
             {
-                // TODO: Add insert logic here
+                bool result = agent.AddMovie(movie);
 
-                return RedirectToAction("Index");
+                if (result)
+                {
+                    TempData["message"] = "Movie Created";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                else
+                {
+                    ModelState.AddModelError("", "The movie cannot be added");
+                    return View(movie);
+                }                
             }
             catch
             {
