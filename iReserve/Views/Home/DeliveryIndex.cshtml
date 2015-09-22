@@ -19,7 +19,6 @@
             var bookingID = $(trRef).find('td:eq(0)').html();
 
             if ($('#RadioApproved').attr('checked')) {
-                alert(bookingID + 'Clicked Yes');
                 $.ajax({
                     type: 'POST',
                     url: 'UpdateStatus',
@@ -32,7 +31,6 @@
             }
 
             else if ($('#RadioRejected').attr('checked')) {
-                alert(bookingID + 'Clicked No');
                 $.ajax({
                     type: 'POST',
                     url: 'UpdateStatus',

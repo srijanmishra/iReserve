@@ -18,7 +18,7 @@ namespace iReserve.Models
         public string DateOfBooking { get; set; }
     }
 
-    public class AddMenuDetails
+    public class MenuDetails
     {
         [DataType(DataType.Text)]
         [Display(Name = "Food Court Name")]

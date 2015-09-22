@@ -6,6 +6,8 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Diagnostics;
 using iReserve.Models;
+using iReserve.ViewModels;
+using System.Web.Mvc;
 
 namespace iReserve.DAL
 {
@@ -200,6 +202,133 @@ namespace iReserve.DAL
             conn.Close();
 
             return InsertSuccess;
+        }
+
+        public MenuViewModel GetMenus()
+        {
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed:" + e.Message);
+                return null;
+            }
+
+            MenuViewModel menuList = new MenuViewModel();
+
+            try
+            {
+                menuList.isSelected = new List<bool>();
+                menuList.MenuIdList = new List<int>();
+                menuList.MenuItemList = new List<MenuDetails>();
+
+                cmd = new SqlCommand("SELECT T1.MenuID AS MenuID, T2.FoodCourtName AS FoodCourtName, T3.CatererName AS CatererName, T4.DishName AS DishName, T1.ServingDate AS ServingDate, T1.NoOfPlates AS NoOfPlates FROM MenuDB AS T1, (SELECT A.MenuID AS MenuID, B.FoodCourtName AS FoodCourtName FROM MenuDB AS A JOIN FoodCourtDB AS B ON A.FoodCourtID = B.FoodCourtID) AS T2, (SELECT A.MenuID AS MenuID, B.CatererName AS CatererName FROM MenuDB AS A JOIN CatererDB AS B ON A.CatererID = B.CatererID) AS T3, (SELECT A.MenuID AS MenuID, B.DishName AS DishName FROM MenuDB AS A JOIN DishDB AS B ON A.DishID = B.DishID) AS T4 WHERE T1.MenuID = T2.MenuID AND T1.MenuID = T3.MenuID AND T1.MenuID = T4.MenuID", conn);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    MenuDetails ListItem = new MenuDetails();
+                    int id = reader.GetInt32(0);
+
+                    menuList.MenuIdList.Add(id);
+
+                    ListItem.FoodCourtName = reader.GetString(1);
+                    ListItem.CatererName = reader.GetString(2);
+                    ListItem.DishName = reader.GetString(3);
+                    ListItem.ServingDate = reader.GetDateTime(4);
+                    ListItem.NumberOfPlates = reader.GetInt32(5);
+
+                    menuList.MenuItemList.Add(ListItem);
+
+                    menuList.isSelected.Add(false);
+                } 
+
+                reader.Close();
+            }
+
+            catch (SqlException err)
+            {
+                Debug.WriteLine(err.Message);
+                return null;
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                return null;
+            }
+
+            conn.Close();
+
+            return menuList;
+        }
+
+        public bool RemoveMenuItemFromTable(int menuID)
+        {
+            bool IsRemoved = false;
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed:" + e.Message);
+                IsRemoved = false;
+            }
+
+            try
+            {
+                cmd = new SqlCommand("UPDATE FoodBookingDB SET Confirmation = 'False' WHERE MenuID = @menuId", conn);
+                cmd.Parameters.AddWithValue("menuId", menuID);
+
+                int count1 = cmd.ExecuteNonQuery();
+
+                if (count1 >= 0)
+                {
+                    cmd = new SqlCommand("DELETE FROM MenuDB WHERE MenuID = @menuId", conn); 
+                    cmd.Parameters.AddWithValue("menuId", menuID);
+
+                    int count2 = cmd.ExecuteNonQuery();
+
+                    if (count2.Equals(1))
+                    {
+                        IsRemoved = true;
+                    }
+
+                    else
+                    {
+                        cmd = new SqlCommand("UPDATE FoodBookingDB SET Confirmation = True WHERE MenuID = @menuId", conn);
+                        cmd.Parameters.AddWithValue("menuId", menuID);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                else
+                {
+                    IsRemoved = false;
+                }
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine("SQL operation failed:" + err.Message);
+                IsRemoved = false;
+            }
+
+            conn.Close();
+
+            return IsRemoved;
         }
     }
 }

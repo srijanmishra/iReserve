@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json;
+using System.Diagnostics;
 using iReserve.Models;
 using iReserve.DAL;
-using System.Diagnostics;
+using iReserve.ViewModels;
 
 namespace iReserve.Controllers
 {
@@ -29,7 +29,7 @@ namespace iReserve.Controllers
 
         //
         // POST: /FoodCourtAdmin/InsertMenuDetails
-        
+        [Authorize]
         public string InsertMenuDetails(object sender, EventArgs evtArgs)
         {
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
@@ -47,6 +47,39 @@ namespace iReserve.Controllers
             else
             {
                 return ("ERROR");
+            }
+        }
+
+        //
+        // GET: /FoodCourtAdmin/RemoveMenu
+
+        [Authorize]
+        public ActionResult RemoveMenu()
+        {
+            FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
+            MenuViewModel list = agent.GetMenus();
+            return View(list);
+        }
+
+        //
+        // POST: /FoodCourtAdmin/RemoveMenuItem_Confirmed
+
+        [OutputCache(Duration = 0)]
+        [Authorize]
+        public void RemoveMenuItem_Confirmed(int menuID)
+        {
+            FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
+
+            bool res = agent.RemoveMenuItemFromTable(menuID);
+
+            if (res)
+            {
+                Response.Redirect("/FoodCourtAdmin/RemoveMenu");
+            }
+
+            else
+            {
+                Debug.WriteLine("ERROR");
             }
         }
     }

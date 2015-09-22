@@ -1,4 +1,4 @@
-﻿@model iReserve.Models.AddMenuDetails
+﻿@model iReserve.Models.MenuDetails
 
 @using iReserve.Models
 
@@ -55,6 +55,7 @@
 
 <div id="navigationbar02" class="navbarlevel2">
     @Html.ActionLink("Add Menu", "AddMenu", "FoodCourtAdmin", null, new { @class="navbaritem2"})
+    @Html.ActionLink("Remove Menu", "RemoveMenu", "FoodCourtAdmin", null, new { @class="navbaritem2"})
     @*@Html.ActionLink("Update Menu", "UpdateMenu", "FoodCourtAdmin", null, new {@class = "navbaritem"})
     @Html.ActionLink("Add Dish", "AddDish", "FoodCourtAdmin", null, new {@class = "navbaritem"})
     @Html.ActionLink("Remove Dish", "RemoveDish", "FoodCourtAdmin", null, new {@class = "navbaritem"})
