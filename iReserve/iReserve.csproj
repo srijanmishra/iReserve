@@ -187,11 +187,13 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\FoodCourtController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MovieAdminController.cs" />
     <Compile Include="Controllers\MovieController.cs" />
     <Compile Include="Controllers\PartyController.cs" />
     <Compile Include="Controllers\UserAccountController.cs" />
     <Compile Include="DAL\DeliveryDAL.cs" />
     <Compile Include="DAL\FoodDAL.cs" />
+    <Compile Include="DAL\MovieAdminDAL.cs" />
     <Compile Include="DAL\MovieDAL.cs" />
     <Compile Include="DAL\PartyDAL.cs" />
     <Compile Include="DAL\PasswordGenerator.cs" />
@@ -297,7 +299,9 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -348,6 +352,8 @@
     <Content Include="Views\Home\ViewAll.cshtml" />
     <Content Include="Views\Home\DeliveryIndex.cshtml" />
     <Content Include="Views\Movie\ViewCurrentMovies.cshtml" />
+    <Content Include="Views\MovieAdmin\Index.cshtml" />
+    <Content Include="Views\MovieAdmin\AddMovie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
