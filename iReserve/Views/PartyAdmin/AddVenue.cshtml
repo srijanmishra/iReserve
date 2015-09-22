@@ -1,0 +1,52 @@
+﻿@model iReserve.Models.AddVenue
+
+@{
+    ViewBag.Title = "AddVenue";
+}
+
+<h2>AddVenue</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>AddVenue</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VenueName)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.VenueName)
+            @Html.ValidationMessageFor(model => model.VenueName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VenueAddress)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.VenueAddress)
+            @Html.ValidationMessageFor(model => model.VenueAddress)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.VenueCapacity)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.VenueCapacity)
+            @Html.ValidationMessageFor(model => model.VenueCapacity)
+        </div>
+
+        <p>
+            <input type="submit" value="Add Venue" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

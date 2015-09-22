@@ -15,4 +15,11 @@ namespace iReserve.Models
         public double Amount { get; set; }
         public string ApprovalStatus { get; set; }
     }
+
+    public class AddVenue
+    {
+        public string VenueName { get; set; }
+        public string VenueAddress { get; set; }
+        public int VenueCapacity { get; set; }
+    }
 }
