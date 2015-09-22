@@ -64,5 +64,50 @@ namespace iReserve.DAL
 
             return addVenueStatus;
         }
+
+        public bool RemoveVenue(int venueId)
+        {
+            bool updateStatus = false;
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed " + e.Message);
+                updateStatus = false;
+            }
+
+            try
+            {
+                cmd = new SqlCommand("DELETE from VenueDB WHERE VenueID=@venueid", conn);
+                cmd.Parameters.AddWithValue("venueid", venueId);
+
+                int count = (Int32)cmd.ExecuteNonQuery();
+
+                if (!count.Equals(1))
+                {
+                    updateStatus = false;
+                }
+
+                else
+                {
+                    updateStatus = true;
+                }
+
+                conn.Close();
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                updateStatus = false;
+            }
+
+            return updateStatus;
+        }
     }
 }

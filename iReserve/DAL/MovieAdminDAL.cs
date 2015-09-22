@@ -71,5 +71,50 @@ namespace iReserve.DAL
 
             return addMovieStatus;
         }
+
+        public bool RemoveShow(int showId)
+        {
+            bool updateStatus = false;
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed " + e.Message);
+                updateStatus = false;
+            }
+
+            try
+            {
+                cmd = new SqlCommand("DELETE from ShowDB WHERE ShowID=@showid", conn);
+                cmd.Parameters.AddWithValue("showid", showId);
+                
+                int count = (Int32)cmd.ExecuteNonQuery();
+
+                if (!count.Equals(1))
+                {
+                    updateStatus = false;
+                }
+
+                else
+                {
+                    updateStatus = true;
+                }
+
+                conn.Close();
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                updateStatus = false;
+            }
+
+            return updateStatus;
+        }
     }
 }
