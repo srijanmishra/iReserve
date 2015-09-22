@@ -19,7 +19,7 @@ namespace iReserve.Controllers
         //
         // GET: /MovieAdmin/Add
 
-        public ActionResult Add()
+        public ActionResult AddMovie()
         {
             return View();
         }
