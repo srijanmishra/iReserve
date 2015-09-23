@@ -1,14 +1,16 @@
 ﻿@{
     ViewBag.Title = "iReserve Home";
-    ViewBag.message = TempData["message"];
+    
 }
 
 @section Scripts {
     <script>
         $(document).ready(function () {
-            var msg = '@Html.Raw(HttpUtility.JavaScriptStringEncode((string)TempData["message"]))';
+            var msg = TempData["message"]
+            alert(TempData["message"]);
             if (msg != null) {
                 alert(msg);
+                UserAccount.TempData.Remove("message")
             }
         });
     </script>

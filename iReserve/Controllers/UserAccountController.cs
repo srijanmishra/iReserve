@@ -13,7 +13,6 @@ namespace iReserve.Controllers
     {
         //
         // GET: /UserAccount/Login
-
         public ActionResult Login()
         {
             return View();
@@ -95,7 +94,6 @@ namespace iReserve.Controllers
 
         //
         // GET: /UserAccount/Register
-
         public ActionResult Register()
         {
             return View();
@@ -115,6 +113,7 @@ namespace iReserve.Controllers
                 if (res)
                 {
                     Session["UserID"] = regUser.EmployeeID;
+                    Session["UserRole"] = "U";
                     TempData["message"] = "Password generated";
                     return RedirectToAction("Index", "Home");
                 }
@@ -152,7 +151,6 @@ namespace iReserve.Controllers
         //
         // GET: /UserAccount/ChangePassword
 
-        [Authorize]
         public ActionResult ChangePassword()
         {
             return View();

@@ -13,13 +13,11 @@ namespace iReserve.Controllers
         //
         // GET: /FoodCourt/
 
-        [Authorize]
         public ActionResult Index()
         {
             return View();
         }
 
-        [Authorize]
         public ActionResult ViewFoodBookings()
         {
             FoodDAL agent = new FoodDAL();

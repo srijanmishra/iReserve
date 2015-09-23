@@ -10,13 +10,11 @@ using iReserve.ViewModels;
 
 namespace iReserve.Controllers
 {
-    [Authorize]
     public class FoodCourtAdminController : Controller
     {
         //
         // GET: /FoodCourtAdmin/AddMenu
 
-        [Authorize]
         public ActionResult AddMenu()
         {
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
@@ -29,7 +27,6 @@ namespace iReserve.Controllers
 
         //
         // POST: /FoodCourtAdmin/InsertMenuDetails
-        [Authorize]
         public string InsertMenuDetails(object sender, EventArgs evtArgs)
         {
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
@@ -53,7 +50,6 @@ namespace iReserve.Controllers
         //
         // GET: /FoodCourtAdmin/RemoveMenu
 
-        [Authorize]
         public ActionResult RemoveMenu()
         {
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
@@ -65,7 +61,6 @@ namespace iReserve.Controllers
         // POST: /FoodCourtAdmin/RemoveMenuItem_Confirmed
 
         [OutputCache(Duration = 0)]
-        [Authorize]
         public void RemoveMenuItem_Confirmed(int menuID)
         {
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
@@ -83,7 +78,6 @@ namespace iReserve.Controllers
             }
         }
 
-        [Authorize]
         public ActionResult UpdateMenu()
         {
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
@@ -92,7 +86,6 @@ namespace iReserve.Controllers
             return View(list);
         }
 
-        [Authorize]
         public ActionResult GetMenuDetailsForUpdate(string menuID, string FCName, string CName, string DName, string SDate, string NoP)
         {
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
@@ -123,7 +116,6 @@ namespace iReserve.Controllers
             return PartialView("_AddMenuPartial", obj);
         }
 
-        [Authorize]
         public string UpdateMenuDetails(string menuID, string FCName, string CName, string DName, string SDate, string NoP)
         {
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();

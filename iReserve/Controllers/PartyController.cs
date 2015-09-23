@@ -13,13 +13,11 @@ namespace iReserve.Controllers
         //
         // GET: /Party/
 
-        [Authorize]
         public ActionResult Index()
         {
             return View();
         }
 
-        [Authorize]
         public ActionResult ViewPartyBookings()
         {
             PartyDAL agent = new PartyDAL();

@@ -105,7 +105,6 @@ namespace iReserve.Controllers
             }
         }
 
-        [Authorize]
         public ActionResult RemoveMovie()
         {
             MovieAdminDAL agent = new MovieAdminDAL();
@@ -117,7 +116,6 @@ namespace iReserve.Controllers
         // POST: /FoodCourtAdmin/RemoveMenuItem_Confirmed
 
         [OutputCache(Duration = 0)]
-        [Authorize]
         public void RemoveMovieItemConfirmed(int movieId)
         {
             MovieAdminDAL agent = new MovieAdminDAL();

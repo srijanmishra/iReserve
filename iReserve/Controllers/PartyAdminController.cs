@@ -114,7 +114,6 @@ namespace iReserve.Controllers
             }
         }
 
-        [Authorize]
         public ActionResult RemoveVenue()
         {
             PartyAdminDAL agent = new PartyAdminDAL();
@@ -126,7 +125,6 @@ namespace iReserve.Controllers
         // POST: /FoodCourtAdmin/RemoveMenuItem_Confirmed
 
         [OutputCache(Duration = 0)]
-        [Authorize]
         public void RemoveVenueConfirmed(int venueId)
         {
             PartyAdminDAL agent = new PartyAdminDAL();
