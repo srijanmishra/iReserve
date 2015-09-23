@@ -217,6 +217,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\DeliveryModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\UpdateMenuDetails.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\aspnet-iReserve-20150914175749.mdf" />
@@ -363,6 +364,8 @@
     <Content Include="Views\PartyAdmin\AddVenue.cshtml" />
     <Content Include="Views\FoodCourtAdmin\AddMenu.cshtml" />
     <Content Include="Views\FoodCourtAdmin\RemoveMenu.cshtml" />
+    <Content Include="Views\FoodCourtAdmin\UpdateMenu.cshtml" />
+    <Content Include="Views\FoodCourtAdmin\_AddMenuPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

@@ -311,6 +311,7 @@ namespace iReserve.DAL
                         cmd.Parameters.AddWithValue("menuId", menuID);
 
                         cmd.ExecuteNonQuery();
+                        IsRemoved = false;
                     }
                 }
 
@@ -329,6 +330,89 @@ namespace iReserve.DAL
             conn.Close();
 
             return IsRemoved;
+        }
+
+        public bool UpdateMenuItem(UpdateMenuDetails obj)
+        {
+            bool UpdateSuccess = false;
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed:" + e.Message);
+                UpdateSuccess = false;
+            }
+
+            try
+            {
+
+                cmd = new SqlCommand("UPDATE FoodBookingDB SET Confirmation = 'False' WHERE MenuID = @menuId", conn);
+                cmd.Parameters.AddWithValue("menuId", obj.MenuID);
+
+                int count1 = cmd.ExecuteNonQuery();
+
+                if (count1 >= 0)
+                {
+                    cmd = new SqlCommand("SELECT FoodCourtID FROM FoodCourtDB WHERE FoodCourtName = @FCN;", conn);
+                    cmd.Parameters.AddWithValue("FCN", obj.MenuItem.FoodCourtName);
+
+                    int FCID = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    cmd = new SqlCommand("SELECT CatererID FROM CatererDB WHERE CatererName = @CN;", conn);
+                    cmd.Parameters.AddWithValue("CN", obj.MenuItem.CatererName);
+
+                    int CID = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    cmd = new SqlCommand("SELECT DishID FROM DishDB WHERE DishName = @DN;", conn);
+                    cmd.Parameters.AddWithValue("DN", obj.MenuItem.DishName);
+
+                    int DID = Convert.ToInt32(cmd.ExecuteScalar());
+
+                    cmd = new SqlCommand("UPDATE MenuDB SET FoodCourtID = @FCID, CatererID = @CID, ServingDate = @SD, NoOfPlates = @NP, DishID = @DID WHERE MenuID = @MID", conn);
+                    cmd.Parameters.AddWithValue("FCID", FCID);
+                    cmd.Parameters.AddWithValue("CID", CID);
+                    cmd.Parameters.AddWithValue("SD", obj.MenuItem.ServingDate);
+                    cmd.Parameters.AddWithValue("NP", obj.MenuItem.NumberOfPlates);
+                    cmd.Parameters.AddWithValue("DID", DID);
+                    cmd.Parameters.AddWithValue("MID", obj.MenuID);
+
+                    int count2 = cmd.ExecuteNonQuery();
+
+                    if (count2.Equals(1))
+                    {
+                        UpdateSuccess = true;
+                    }
+
+                    else
+                    {
+                        cmd = new SqlCommand("UPDATE FoodBookingDB SET Confirmation = True WHERE MenuID = @menuId", conn);
+                        cmd.Parameters.AddWithValue("menuId", obj.MenuID);
+
+                        cmd.ExecuteNonQuery();
+                        UpdateSuccess = false;
+                    }
+                }
+
+                else
+                {
+                    UpdateSuccess = false;
+                }
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine("SQL operation failed:" + err.Message);
+                UpdateSuccess = false;
+            }
+
+            conn.Close();
+
+            return UpdateSuccess;
         }
     }
 }

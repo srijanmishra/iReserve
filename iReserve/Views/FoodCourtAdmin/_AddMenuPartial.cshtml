@@ -1,0 +1,87 @@
+﻿@model iReserve.ViewModels.UpdateMenuDetails
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#UpdateMenuBtn').click(function () {
+            var MID     = $('#MenuID').val();
+            var FCName  = $('#FoodCourtName option:selected').text();
+            var CName   = $('#CatererName option:selected').text();
+            var SDate   = $('#datefield2').val();
+            var NoP     = $('#nplates').val();
+            var DName   = $('#DishName option:selected').text();
+
+            $.ajax({
+                type: 'POST',
+                url: 'UpdateMenuDetails',
+                data: { menuID: MID, FCName: FCName, CName: CName, DName: DName, SDate: SDate, NoP: NoP },
+                dataType: "text",
+                success: function (data) {
+                    var result = $.trim(data);
+                    if (result === "DONE") {
+                        alert("Menu updated.");
+                        window.location.reload(true);
+                    }
+
+                    else {
+                        alert("Menu not updated. Retry");
+                    }
+                }
+
+            });
+        });
+    });
+</script>
+
+
+<table class="tg">
+      <tr>
+        <th class="tg-29rf"></th>
+        <th class="tg-w7zc" colspan="2">Update Menu</th>
+        <th class="tg-29rf"></th>
+      </tr>
+
+      <tr>
+        <td class="tg-29rf">@Html.HiddenFor(model => model.MenuID, new { @id = "MenuID"})</td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.MenuItem.FoodCourtName)</td>        
+        <td class="tg-29rf">
+            @Html.DropDownList("FoodCourtName", new SelectList(@ViewBag.list1), Model.MenuItem.FoodCourtName, new { @id = "FoodCourtName", @style = "width:200px;"})
+        </td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.MenuItem.FoodCourtName)</td>
+      </tr>
+    
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.MenuItem.CatererName)</td>
+        <td class="tg-29rf">
+            @Html.DropDownList("CatererName", new SelectList(@ViewBag.list2), Model.MenuItem.CatererName, new { @id = "CatererName", @style = "width:200px;"})
+        </td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.MenuItem.CatererName)</td>
+      </tr>
+    
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.MenuItem.ServingDate)</td>
+        <td class="tg-29rf">@Html.TextBoxFor(model => model.MenuItem.ServingDate, new {@type="text", @id="datefield2", @readonly="readonly", @style="background:white", @class="futureDates"})</td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.MenuItem.ServingDate)</td>
+      </tr>
+    
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.MenuItem.NumberOfPlates)</td>
+        <td class="tg-29rf">@Html.TextBoxFor(model => model.MenuItem.NumberOfPlates, new { @id="nplates"})</td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.MenuItem.NumberOfPlates)</td>
+      </tr>
+    
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.MenuItem.DishName)</td>
+        <td class="tg-29rf">
+            @Html.DropDownList("DishName", new SelectList(@ViewBag.list3), Model.MenuItem.DishName, new { @id = "DishName", @style = "width:200px;"})
+        </td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.MenuItem.DishName)</td>
+      </tr>
+</table>
+<br />
+<div class="midclass">
+    <input type="button" value="Update Menu" class="SubmitButton" id="UpdateMenuBtn" />
+</div>

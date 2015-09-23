@@ -1,15 +1,13 @@
 ﻿@model iReserve.ViewModels.MenuViewModel
 
+
 @using iReserve.Models;
 
 @section ViewingStyles {
     <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/AddStyles.css"/>
     <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
 }
-
-<div id="navigationbar01" class="navbar">
-    @Html.Partial("_LoginPartial", new { @class = "partialLogin" })
-</div>
 
 <script>
     $(document).ready(function(){
@@ -17,26 +15,31 @@
             var trRef = $(this).parent().parent();
 
             var menuID = $(trRef).find('td:eq(0)').html();
+            var FCName = $(trRef).find('td:eq(1)').html();
+            var CName = $(trRef).find('td:eq(2)').html();
+            var DName = $(trRef).find('td:eq(3)').html();
+            var SDate = $(trRef).find('td:eq(4)').html();
+            var NoP = $(trRef).find('td:eq(5)').html();
 
-            if ($(this).parent().find('#RadioRemove').attr('checked')) {
-                $.ajax({
+            $.ajax({
                     type: 'POST',
-                    url: 'RemoveMenuItem_Confirmed',
-                    data: { menuID: menuID },
+                    url: 'GetMenuDetailsForUpdate',
+                    data: { menuID: menuID, FCName: FCName, CName: CName, DName: DName, SDate: SDate, NoP: NoP },
                     dataType: "html",
                     success: function (data, status, jqXHR) {
-                        window.location.reload(true);
+                        $('#UpdateArea').html(data);
                     }
-                });
-            }
-
-            else {
-                alert('ERROR: ' + menuID + ' Option not selected. Please select option and confirm.');
-            }
+            });
         });
     });
+
+
 </script>
 
+
+<div id="navigationbar01" class="navbar">
+    @Html.Partial("_LoginPartial", new { @class = "partialLogin" })
+</div>
 
 <br />       
 
@@ -96,8 +99,7 @@
                         <td>@item.ServingDate</td>
                         <td>@item.NumberOfPlates</td>
                         <td>
-                            @Html.RadioButtonFor(m => m.isSelected[i], "Remove", new { @id = "RadioRemove" }) <span>Remove</span>
-                            <input type="button" value="Confirm" id="confirmbtn" class="confirmbtn" />
+                            <input type="button" value="Update" id="confirmbtn" class="confirmbtn" />
                         </td>
                     </tr>
                 
@@ -118,3 +120,5 @@
         </tbody>
     </table>
 </div>
+
+<div id="UpdateArea"></div>

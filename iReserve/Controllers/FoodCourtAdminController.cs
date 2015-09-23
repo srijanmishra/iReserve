@@ -82,5 +82,72 @@ namespace iReserve.Controllers
                 Debug.WriteLine("ERROR");
             }
         }
+
+        [Authorize]
+        public ActionResult UpdateMenu()
+        {
+            FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
+            MenuViewModel list = agent.GetMenus();
+            
+            return View(list);
+        }
+
+        [Authorize]
+        public ActionResult GetMenuDetailsForUpdate(string menuID, string FCName, string CName, string DName, string SDate, string NoP)
+        {
+            FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
+            UpdateMenuDetails obj = new UpdateMenuDetails();
+            obj.MenuItem = new MenuDetails();
+
+            obj.MenuID = Convert.ToInt32(menuID);
+            obj.MenuItem.FoodCourtName = FCName;
+            obj.MenuItem.CatererName = CName;
+            obj.MenuItem.DishName = DName;
+            obj.MenuItem.ServingDate = Convert.ToDateTime(SDate);
+            obj.MenuItem.NumberOfPlates =Convert.ToInt32(NoP);
+
+            List<string> tempList = new List<string>();
+
+            tempList = agent.FoodCourts();
+            tempList.Remove(FCName);
+            ViewBag.list1 = tempList;
+
+            tempList = agent.Caterers();
+            tempList.Remove(CName);
+            ViewBag.list2 = tempList;
+
+            tempList = agent.Dishes();
+            tempList.Remove(CName);
+            ViewBag.list3 = tempList;
+
+            return PartialView("_AddMenuPartial", obj);
+        }
+
+        [Authorize]
+        public string UpdateMenuDetails(string menuID, string FCName, string CName, string DName, string SDate, string NoP)
+        {
+            FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
+            UpdateMenuDetails obj = new UpdateMenuDetails();
+            obj.MenuItem = new MenuDetails();
+
+            obj.MenuID = Convert.ToInt32(menuID);
+            obj.MenuItem.FoodCourtName = FCName;
+            obj.MenuItem.CatererName = CName;
+            obj.MenuItem.DishName = DName;
+            obj.MenuItem.ServingDate = Convert.ToDateTime(SDate);
+            obj.MenuItem.NumberOfPlates = Convert.ToInt32(NoP);
+
+            bool res = agent.UpdateMenuItem(obj);
+
+            if (res)
+            {
+                return ("DONE");
+            }
+
+            else
+            {
+                return ("ERROR");
+            }
+        }
     }
 }
