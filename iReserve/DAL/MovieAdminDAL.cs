@@ -120,7 +120,7 @@ namespace iReserve.DAL
         
         public Dictionary<int, AddMovie> MovieShows()
         {
-            Dictionary<int, AddMovie> movieList = new Dictionary<int,AddMovie>();
+            var movieList = new Dictionary<int,AddMovie>();
             
             try
             {

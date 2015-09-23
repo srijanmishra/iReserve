@@ -96,7 +96,7 @@ namespace iReserve.Controllers
 
             if (res)
             {
-                Response.Redirect("/FoodCourtAdmin/RemoveMenu");
+                Response.Redirect("/MovieAdmin/RemoveMovieShow");
             }
 
             else

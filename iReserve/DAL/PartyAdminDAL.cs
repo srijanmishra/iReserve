@@ -109,5 +109,53 @@ namespace iReserve.DAL
 
             return updateStatus;
         }
+
+        public Dictionary<int, AddVenue> VenueList()
+        {
+           var venueList = new Dictionary<int,AddVenue>();
+            
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed " + e.Message);
+                return null;
+            }
+
+            try
+            {
+                cmd = new SqlCommand("SELECT VenueID, VenueName, VenueAddress, VenueCapacity FROM VenueDB", conn);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                
+                while (reader.Read())
+                {
+                    AddVenue venue = new AddVenue();
+                    int venueId = reader.GetInt32(0);
+                    venue.VenueName = reader.GetString(1);
+                    venue.VenueAddress = reader.GetString(2);
+                    venue.VenueCapacity = reader.GetInt32(3);
+                    venueList[venueId] = venue;	                
+                }
+
+                reader.Close();
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                return null;
+            }
+
+            conn.Close();
+
+            return venueList;
+        }
+    
     }
 }
