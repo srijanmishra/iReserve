@@ -21,8 +21,9 @@ namespace iReserve.Controllers
         public ActionResult ViewPartyBookings()
         {
             PartyDAL agent = new PartyDAL();
-            var userid = Convert.ToInt32(Session["UserID"].ToString());
-            List<ViewPartyBookings> bookingList = agent.Bookings(10001, "");
+            var temp = Session["UserID"];
+            var userId = Convert.ToInt32(temp.ToString());
+            List<ViewPartyBookings> bookingList = agent.Bookings(userId, "");
 
             return View(bookingList);
         }

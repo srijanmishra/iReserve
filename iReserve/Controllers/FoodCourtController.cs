@@ -21,8 +21,9 @@ namespace iReserve.Controllers
         public ActionResult ViewFoodBookings()
         {
             FoodDAL agent = new FoodDAL();
-            var userid = Convert.ToInt32(Session["UserID"].ToString());
-            List<ViewMealBookings> bookingList = agent.MealBookings(10001);
+            var temp = Session["UserID"];
+            var userId = Convert.ToInt32(temp.ToString());
+            List<ViewMealBookings> bookingList = agent.MealBookings(userId);
 
             return View(bookingList);
         }

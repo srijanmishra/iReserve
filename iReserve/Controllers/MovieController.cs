@@ -22,8 +22,9 @@ namespace iReserve.Controllers
         public ActionResult ViewMovieBookings()
         {
             MovieDAL agent = new MovieDAL();
-            var userid = Convert.ToInt32(Session["UserID"].ToString());
-            List<ViewMovieBookings> bookingList = agent.Bookings(userid);
+            var temp = Session["UserID"];
+            var userId = Convert.ToInt32(temp.ToString());
+            List<ViewMovieBookings> bookingList = agent.Bookings(userId);
 
             return View(bookingList);
         }

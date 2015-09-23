@@ -34,16 +34,17 @@ namespace iReserve.Controllers
 
         public ActionResult ViewAll()
         {
-            var userid = Convert.ToInt32(Session["UserID"].ToString());
+            var temp = Session["UserID"];
+            var userId = Convert.ToInt32(temp.ToString());
             MovieDAL agent1 = new MovieDAL();
             FoodDAL agent2 = new FoodDAL();
             PartyDAL agent3 = new PartyDAL();
             
             AllBookings bookingCollection = new AllBookings();
 
-            bookingCollection.MovieBookings = agent1.Bookings(10001);
-            bookingCollection.FoodBookings = agent2.MealBookings(10001);
-            bookingCollection.PartyBookings = agent3.Bookings(10001, "");
+            bookingCollection.MovieBookings = agent1.Bookings(userId);
+            bookingCollection.FoodBookings = agent2.MealBookings(userId);
+            bookingCollection.PartyBookings = agent3.Bookings(userId, "");
 
             return View(bookingCollection);
         }
