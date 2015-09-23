@@ -26,25 +26,31 @@
             var nPlates = $('#nplates').val();
             var D_Name  = $('#DishName option:selected').text();
 
-            $.ajax({
-                type: 'POST',
-                url: 'InsertMenuDetails',
-                data: { FCN: FC_Name, CN: C_Name, SD: S_Date, NP: nPlates, DN: D_Name },
-                dataType: "text",
-                success: function (data) {
-                    var result = $.trim(data);
-                    alert(data);
-                    if (result === "DONE") {
-                        alert("Menu added to database.");
-                        window.location.reload(true);
+            if (FC_Name == '--Select--' || C_Name == '--Select--' || D_Name == '--Select--') {
+                alert("ERROR: Please make proper selection");
+            }
+
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: 'InsertMenuDetails',
+                    data: { FCN: FC_Name, CN: C_Name, SD: S_Date, NP: nPlates, DN: D_Name },
+                    dataType: "text",
+                    success: function (data) {
+                        var result = $.trim(data);
+                        alert(data);
+                        if (result === "DONE") {
+                            alert("Menu added to database.");
+                            window.location.reload(true);
+                        }
+
+                        else {
+                            alert("Menu not added. Retry");
+                        }
                     }
 
-                    else {
-                        alert("Menu not added. Retry");
-                    }
-                }
-
-            });
+                });
+            }
         });
     });
 </script>

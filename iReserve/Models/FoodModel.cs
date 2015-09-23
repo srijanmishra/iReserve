@@ -20,31 +20,29 @@ namespace iReserve.Models
 
     public class MenuDetails
     {
-        [DataType(DataType.Text)]
-        [Display(Name = "Food Court Name")]
         [Required]
+        [Display(Name = "Food Court Name")]
         [MaxLength(20, ErrorMessage = "Food Court Name can have only 20 letters")]
         public string FoodCourtName { get; set; }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Caterer Name")]
         [Required]
+        [Display(Name = "Caterer Name")]
         [MaxLength(10, ErrorMessage = "Food Court Name can have only 20 letters")]
         public string CatererName { get; set; }
 
-        [DataType(DataType.Date)]
-        [Display(Name = "Serving Date")]
         [Required]
+        [Display(Name = "Serving Date")]
+        [DataType(DataType.Date)]
         public DateTime ServingDate { get; set; }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Number of Plates")]
         [Required]
+        [Display(Name = "Number of Plates")]
+        [RegularExpression(@"([1-9][0-9]*)", ErrorMessage = "Number of plates must contain only digits.")]
+        [Range(1,100, ErrorMessage="Range is between 1 and 100")]
         public int NumberOfPlates { get; set; }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "Dish Name")]
         [Required]
+        [Display(Name = "Dish Name")]
         [MaxLength(20, ErrorMessage = "Dish Name can have only 20 letters")]
         public string DishName { get; set; }
     }

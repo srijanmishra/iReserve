@@ -1,14 +1,18 @@
 ﻿@model iReserve.ViewModels.UpdateMenuDetails
 
+<script type="text/javascript" src="~/Scripts/DateField.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#UpdateMenuBtn').click(function () {
-            var MID     = $('#MenuID').val();
-            var FCName  = $('#FoodCourtName option:selected').text();
-            var CName   = $('#CatererName option:selected').text();
-            var SDate   = $('#datefield2').val();
-            var NoP     = $('#nplates').val();
-            var DName   = $('#DishName option:selected').text();
+            var MID = $('#MenuID').val();
+            var FCName = $('#FoodCourtName option:selected').text();
+            var CName = $('#CatererName option:selected').text();
+            var SDate = $('#datefield2').val();
+            var NoP = $('#nplates').val();
+            var DName = $('#DishName option:selected').text();
 
             $.ajax({
                 type: 'POST',
@@ -31,7 +35,6 @@
         });
     });
 </script>
-
 
 <table class="tg">
       <tr>

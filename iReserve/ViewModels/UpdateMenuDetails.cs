@@ -9,6 +9,8 @@ namespace iReserve.ViewModels
     public class UpdateMenuDetails
     {
         public int MenuID { get; set; }
+        
+
         public MenuDetails MenuItem { get; set; }
     }
 }
