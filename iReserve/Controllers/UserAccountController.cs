@@ -51,12 +51,12 @@ namespace iReserve.Controllers
                         
                         else if (login.Role.Equals("M"))
                         {
-                            return RedirectToAction("AddMovie", "Home");
+                            return RedirectToAction("AddMovie", "MovieAdmin");
                         }
                        
                         else if (login.Role.Equals("P"))
                         {
-                            return RedirectToAction("AddVenue", "Home");
+                            return RedirectToAction("AddVenue", "PartyAdmin");
                         }
 
                         else if (login.Role.Equals("U"))
