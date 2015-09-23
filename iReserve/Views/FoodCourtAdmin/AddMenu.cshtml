@@ -71,54 +71,59 @@
 
 <br />
 
-<table class="tg">
-      <tr>
-        <th class="tg-29rf"></th>
-        <th class="tg-w7zc" colspan="2">Add Menu</th>
-        <th class="tg-29rf"></th>
-      </tr>
-
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.FoodCourtName)</td>        
-        <td class="tg-29rf">
-            @Html.DropDownList("FoodCourtName", new SelectList(@ViewBag.list1), "--Select--", new { @id = "FoodCourtName", @style = "width:200px;"})
-        </td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.FoodCourtName)</td>
-      </tr>
+@using (Html.BeginForm()){
+    <fieldset>
+        <legend>Add Menu</legend>
+        <table class="tableForms">
+              <tr>
+                  <th class="side"></th>
+                  <th class="mid"></th>
+                  <th class="mid"></th>
+                  <th class="side"></th>
+              </tr>
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.FoodCourtName)</td>        
+                <td>
+                    @Html.DropDownList("FoodCourtName", new SelectList(@ViewBag.list1), "--Select--", new { @id = "FoodCourtName", @style = "width:200px;"})
+                </td>
+                <td>@Html.ValidationMessageFor(model => model.FoodCourtName)</td>
+              </tr>
     
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.CatererName)</td>
-        <td class="tg-29rf">
-            @Html.DropDownList("CatererName", new SelectList(@ViewBag.list2), "--Select--", new { @id = "CatererName", @style = "width:200px;"})
-        </td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.CatererName)</td>
-      </tr>
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.CatererName)</td>
+                <td>
+                    @Html.DropDownList("CatererName", new SelectList(@ViewBag.list2), "--Select--", new { @id = "CatererName", @style = "width:200px;"})
+                </td>
+                <td>@Html.ValidationMessageFor(model => model.CatererName)</td>
+              </tr>
     
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.ServingDate)</td>
-        <td class="tg-29rf">@Html.TextBoxFor(model => model.ServingDate, new {@type="text", @id="datefield2", @readonly="readonly", @style="background:white", @class="futureDates"})</td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.ServingDate)</td>
-      </tr>
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.ServingDate)</td>
+                <td>@Html.TextBoxFor(model => model.ServingDate, new {@type="text", @id="datefield2", @readonly="readonly", @style="background:white", @class="futureDates"})</td>
+                <td>@Html.ValidationMessageFor(model => model.ServingDate)</td>
+              </tr>
     
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.NumberOfPlates)</td>
-        <td class="tg-29rf">@Html.TextBoxFor(model => model.NumberOfPlates, new { @id="nplates"})</td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.NumberOfPlates)</td>
-      </tr>
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.NumberOfPlates)</td>
+                <td>@Html.TextBoxFor(model => model.NumberOfPlates, new { @id="nplates"})</td>
+                <td>@Html.ValidationMessageFor(model => model.NumberOfPlates)</td>
+              </tr>
     
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.DishName)</td>
-        <td class="tg-29rf">
-            @Html.DropDownList("DishName", new SelectList(@ViewBag.list3), "--Select--", new { @id = "DishName", @style = "width:200px;"})
-        </td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.DishName)</td>
-      </tr>
-</table>
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.DishName)</td>
+                <td>
+                    @Html.DropDownList("DishName", new SelectList(@ViewBag.list3), "--Select--", new { @id = "DishName", @style = "width:200px;"})
+                </td>
+                <td>@Html.ValidationMessageFor(model => model.DishName)</td>
+              </tr>
+        </table>
+    </fieldset>
+}
 <br />
 <div class="midclass">
     <input type="button" value="Add Menu" class="SubmitButton" id="AddMenuBtn" />

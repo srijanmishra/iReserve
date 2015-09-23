@@ -33,7 +33,7 @@ namespace iReserve.Controllers
         [HttpPost]
         public string AddVenue(string VN, string VA, string VC)
         {
-            AddVenue objVenue = new AddVenue();
+            AddVenue objVenue = new Models.AddVenue();
 
             objVenue.VenueName = VN;
             objVenue.VenueAddress = VA;

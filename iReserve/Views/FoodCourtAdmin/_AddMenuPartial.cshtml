@@ -36,54 +36,60 @@
     });
 </script>
 
-<table class="tg">
-      <tr>
-        <th class="tg-29rf"></th>
-        <th class="tg-w7zc" colspan="2">Update Menu</th>
-        <th class="tg-29rf"></th>
-      </tr>
+@using (Html.BeginForm()){
+    <fieldset>
+        <legend>Add Menu</legend>
+        <table class="tableForms">
+              <tr>
+                  <th class="side"></th>
+                  <th class="mid"></th>
+                  <th class="mid"></th>
+                  <th class="side"></th>
+              </tr>
+              <tr>
+                <td>@Html.HiddenFor(model => model.MenuID, new { @id = "MenuID"})</td>
+                <td>@Html.LabelFor(model => model.MenuItem.FoodCourtName)</td>        
+                <td>
+                    @Html.DropDownList("FoodCourtName", new SelectList(@ViewBag.list1), "--Select--", new { @id = "FoodCourtName", @style = "width:200px;"})
+                </td>
+                <td>@Html.ValidationMessageFor(model => model.MenuItem.FoodCourtName)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.MenuItem.CatererName)</td>
+                <td>
+                    @Html.DropDownList("CatererName", new SelectList(@ViewBag.list2), "--Select--", new { @id = "CatererName", @style = "width:200px;"})
+                </td>
+                <td>@Html.ValidationMessageFor(model => model.MenuItem.CatererName)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.MenuItem.ServingDate)</td>
+                <td>@Html.TextBoxFor(model => model.MenuItem.ServingDate, new {@type="text", @id="datefield2", @readonly="readonly", @style="background:white", @class="futureDates"})</td>
+                <td>@Html.ValidationMessageFor(model => model.MenuItem.ServingDate)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.MenuItem.NumberOfPlates)</td>
+                <td>@Html.TextBoxFor(model => model.MenuItem.NumberOfPlates, new { @id="nplates"})</td>
+                <td>@Html.ValidationMessageFor(model => model.MenuItem.NumberOfPlates)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.MenuItem.DishName)</td>
+                <td>
+                    @Html.DropDownList("DishName", new SelectList(@ViewBag.list3), "--Select--", new { @id = "DishName", @style = "width:200px;"})
+                </td>
+                <td>@Html.ValidationMessageFor(model => model.MenuItem.DishName)</td>
+              </tr>
+        </table>
+    </fieldset>
+}
 
-      <tr>
-        <td class="tg-29rf">@Html.HiddenFor(model => model.MenuID, new { @id = "MenuID"})</td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.MenuItem.FoodCourtName)</td>        
-        <td class="tg-29rf">
-            @Html.DropDownList("FoodCourtName", new SelectList(@ViewBag.list1), Model.MenuItem.FoodCourtName, new { @id = "FoodCourtName", @style = "width:200px;"})
-        </td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.MenuItem.FoodCourtName)</td>
-      </tr>
-    
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.MenuItem.CatererName)</td>
-        <td class="tg-29rf">
-            @Html.DropDownList("CatererName", new SelectList(@ViewBag.list2), Model.MenuItem.CatererName, new { @id = "CatererName", @style = "width:200px;"})
-        </td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.MenuItem.CatererName)</td>
-      </tr>
-    
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.MenuItem.ServingDate)</td>
-        <td class="tg-29rf">@Html.TextBoxFor(model => model.MenuItem.ServingDate, new {@type="text", @id="datefield2", @readonly="readonly", @style="background:white", @class="futureDates"})</td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.MenuItem.ServingDate)</td>
-      </tr>
-    
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.MenuItem.NumberOfPlates)</td>
-        <td class="tg-29rf">@Html.TextBoxFor(model => model.MenuItem.NumberOfPlates, new { @id="nplates"})</td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.MenuItem.NumberOfPlates)</td>
-      </tr>
-    
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.MenuItem.DishName)</td>
-        <td class="tg-29rf">
-            @Html.DropDownList("DishName", new SelectList(@ViewBag.list3), Model.MenuItem.DishName, new { @id = "DishName", @style = "width:200px;"})
-        </td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.MenuItem.DishName)</td>
-      </tr>
-</table>
 <br />
 <div class="midclass">
     <input type="button" value="Update Menu" class="SubmitButton" id="UpdateMenuBtn" />

@@ -31,29 +31,59 @@ namespace iReserve.Controllers
         // POST: /MovieAdmin/AddMovie
 
         [HttpPost]
-        public ActionResult AddMovie(AddMovie movie)
+        public string AddMovie(string MovieName, string ShowDate, string MatineeTime, string EveningTime, string NightTime, string MovieLang, string MovieCost)
         {
             MovieAdminDAL agent = new MovieAdminDAL();
 
+            AddMovie obj = new Models.AddMovie();
+            bool result = false;
+
+            obj.MovieName = MovieName;
+            obj.ShowDate = Convert.ToDateTime(ShowDate);
+            obj.Language = MovieLang;
+            obj.Cost = Convert.ToDecimal(MovieCost);
+
+            bool timing1 = Convert.ToBoolean(MatineeTime);
+            bool timing2 = Convert.ToBoolean(EveningTime);
+            bool timing3 = Convert.ToBoolean(NightTime);
+            
             try
             {
-                bool result = agent.AddMovie(movie);
-
-                if (result)
+                if (timing1)
                 {
-                    TempData["message"] = "Movie Created";
-                    return RedirectToAction("Index", "Home");
+                    obj.Show = "Matinee";
+                    result = agent.AddMovie(obj);
+                    if (!result)
+                    {
+                        return "ERROR";
+                    }
                 }
 
-                else
+                if (timing2)
                 {
-                    ModelState.AddModelError("", "The movie cannot be added");
-                    return View(movie);
-                }                
+                    obj.Show = "Evening";
+                    result = agent.AddMovie(obj);
+                    if (!result)
+                    {
+                        return "ERROR";
+                    }
+                }
+
+                if (timing3)
+                {
+                    obj.Show = "Night";
+                    result = agent.AddMovie(obj);
+                    if (!result)
+                    {
+                        return "ERROR";
+                    }
+                }
+
+                return "DONE";                
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                return "ERROR"; ;
             }
         }
 

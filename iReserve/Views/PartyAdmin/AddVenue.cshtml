@@ -63,34 +63,40 @@
 
 <br />
 
-<table class="tg">
-      <tr>
-        <th class="tg-29rf"></th>
-        <th class="tg-w7zc" colspan="2">Add Venue</th>
-        <th class="tg-29rf"></th>
-      </tr>
+@using (Html.BeginForm()){
+    <fieldset>
+        <legend>Add Venue</legend>
+        <table class="tableForms">
+              <tr>
+                  <th class="side"></th>
+                  <th class="mid"></th>
+                  <th class="mid"></th>
+                  <th class="side"></th>
+              </tr>
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.VenueName)</td>        
+                <td>@Html.EditorFor(model => model.VenueName, new { @id = "VName"})</td>
+                <td>@Html.ValidationMessageFor(model => model.VenueName)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.VenueAddress)</td>
+                <td>@Html.EditorFor(model => model.VenueAddress, new { @id = "VAddr"})</td>
+                <td>@Html.ValidationMessageFor(model => model.VenueAddress)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.VenueCapacity)</td>
+                <td>@Html.EditorFor(model => model.VenueCapacity, new { @id = "VCap"})</td>
+                <td>@Html.ValidationMessageFor(model => model.VenueCapacity)</td>
+              </tr>    
+        </table>
+    </fieldset>
+}
 
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.VenueName)</td>        
-        <td class="tg-29rf">@Html.EditorFor(model => model.VenueName, new { @id = "VName"})</td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.VenueName)</td>
-      </tr>
-    
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.VenueAddress)</td>
-        <td class="tg-29rf">@Html.EditorFor(model => model.VenueAddress, new { @id = "VAddr"})</td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.VenueAddress)</td>
-      </tr>
-    
-      <tr>
-        <td class="tg-29rf"></td>
-        <td class="tg-29rf">@Html.LabelFor(model => model.VenueCapacity)</td>
-        <td class="tg-29rf">@Html.EditorFor(model => model.VenueCapacity, new { @id = "VCap"})</td>
-        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.VenueCapacity)</td>
-      </tr>
-</table>
 <br />
 <div class="midclass">
     <input type="button" value="Add Venue" class="SubmitButton" id="AddVenueBtn" />

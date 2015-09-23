@@ -1,63 +1,150 @@
 ﻿@model iReserve.Models.AddMovie
 
-@{
-    ViewBag.Title = "AddMovie";
+@using iReserve.Models
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/AddStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css"/>
 }
 
-<h2>AddMovie</h2>
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css"/>
+    <script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DateField.js"></script>
+}
 
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    
+@Html.ValidationSummary(false);
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#AddMovieBtn').click(function () {
+            var MovieName = $('#MName').text();
+            var ShowDate = $('#datefield2').val();
+            var MovieLang = $('#MLanguage option:selected').text();
+            var MovieCost = $('#MCost').text();
+            var MatineeTime = 'false';
+            var EveningTime = 'false';
+            var NightTime = 'false';
+            
+            if ($('#Matinee:checked').length == 1) {
+                MatineeTime = 'true';
+            }
+
+            if ($('#Evening:checked').length == 1) {
+                EveningTime = 'true';
+            }
+
+            if ($('#Night:checked').length == 1) {
+                NightTime = 'true';
+            }
+
+            if (MatineeTime == 'false' && EveningTime == 'false' && NightTime == 'false') {
+                alert("ERROR: Please select a timing");
+            }
+
+            else {
+                alert(MovieName + " " + ShowDate + " " + MatineeTime + " " + EveningTime + " " + NightTime + " " + MovieLang + " " + MovieCost);
+                $.ajax({
+                    type: 'POST',
+                    url: 'AddMovie',
+                    data: { MovieName: MovieName, ShowDate: ShowDate, MatineeTime: MatineeTime, EveningTime: EveningTime, NightTime: NightTime, MovieLang: MovieLang, MovieCost: MovieCost},
+                    dataType: "text",
+                    success: function (data) {
+                        var result = $.trim(data);
+                        alert(data);
+                        if (result === "DONE") {
+                            alert("Movie Created.");
+                            window.location.reload(true);
+                        }
+
+                        else {
+                            alert("Movie not added. Retry");
+                        }
+                    }
+
+                });
+            }
+        });
+    });
+</script>
+
+<div id="navigationbar01" class="navbar">
+    @Html.Partial("_LoginPartial", new {@class = "partialLogin"})
+</div>
+
+<div id="navigationbar02" class="navbarlevel2">
+    @Html.ActionLink("Add Movie", "AddMovie", "MovieAdmin", null, new { @class="navbaritem2"})
+</div>
+
+<br />
+
+@using (Html.BeginForm()){
     <fieldset>
-        <legend>AddMovie</legend>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.MovieName)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.MovieName)
-            @Html.ValidationMessageFor(model => model.MovieName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.ShowDate)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.ShowDate)
-            @Html.ValidationMessageFor(model => model.ShowDate)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Show)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Show)
-            @Html.ValidationMessageFor(model => model.Show)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.Language)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Language)
-            @Html.ValidationMessageFor(model => model.Language)
-        </div>
-
-         <div class="editor-label">
-            @Html.LabelFor(model => model.Cost)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.Cost)
-            @Html.ValidationMessageFor(model => model.Cost)
-        </div>
-
-        <p>
-            <input type="submit" value="Create" />
-        </p>
+        <legend>Add Movie</legend>
+        <table class="tableForms">
+              <tr>
+                  <th class="side"></th>
+                  <th class="mid"></th>
+                  <th class="mid"></th>
+                  <th class="side"></th>
+              </tr>
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.MovieName)</td>        
+                <td>@Html.EditorFor(model => model.MovieName, new { @id = "MName"})</td>
+                <td>@Html.ValidationMessageFor(model => model.MovieName)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.ShowDate)</td>
+                <td>@Html.TextBoxFor(model => model.ShowDate, new {@type="text", @id="datefield2", @readonly="readonly", @style="background:white", @class="futureDates"})</td>
+                <td>@Html.ValidationMessageFor(model => model.ShowDate)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.Show)</td>
+                <td>
+                    <input type="checkbox" id="Matinee" value="Matinee" /> Matinee
+                    <input type="checkbox" id="Evening" value="Evening" /> Evening
+                    <input type="checkbox" id="Night" value="Night" /> Night
+                </td>
+                <td>@Html.ValidationMessageFor(model => model.Show)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.Language)</td>
+                <td>
+                    @Html.DropDownListFor(model => model.Language, new SelectList(new List<Object>{
+                                                                    new { value = "English" , text = "English"  },
+                                                                    new { value = "Hindi" , text = "Hindi" },
+                                                                    new { value = "Telugu" , text = "Telugu"}
+                                                                },
+                                                                "value",
+                                                                "text",
+                                                                0), new { @id="MLanguage"})
+                </td>
+                <td>@Html.ValidationMessageFor(model => model.Language)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>@Html.LabelFor(model => model.Cost)</td>
+                <td>@Html.EditorFor(model => model.Cost, new { @id = "MCost"})</td>
+                <td>@Html.ValidationMessageFor(model => model.Cost)</td>
+              </tr>
+        </table>
     </fieldset>
 }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<br />
+
+<div class="midclass">
+    <input type="button" value="Add Movie" class="SubmitButton" id="AddMovieBtn" />
+</div>
