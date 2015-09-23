@@ -1,52 +1,98 @@
 ﻿@model iReserve.Models.AddVenue
 
-@{
-    ViewBag.Title = "AddVenue";
+@using iReserve.Models
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/AddStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css"/>
 }
 
-<h2>AddVenue</h2>
-
-@using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>AddVenue</legend>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.VenueName)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.VenueName)
-            @Html.ValidationMessageFor(model => model.VenueName)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.VenueAddress)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.VenueAddress)
-            @Html.ValidationMessageFor(model => model.VenueAddress)
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => model.VenueCapacity)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.VenueCapacity)
-            @Html.ValidationMessageFor(model => model.VenueCapacity)
-        </div>
-
-        <p>
-            <input type="submit" value="Add Venue" />
-        </p>
-    </fieldset>
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css"/>
+    <script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DateField.js"></script>
 }
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#AddVenueBtn').click(function () {
+            var VN = $('#VName').val();
+            var VA = $('#VAddr').val();
+            var VC = $('#VCap').val();
+
+            $.ajax({
+                type: 'POST',
+                url: 'AddVenue',
+                data: { VN: VN, VA: VA, VC: VC },
+                dataType: "text",
+                success: function (data) {
+                    var result = $.trim(data);
+                    alert(data);
+                    if (result === "DONE") {
+                        alert("Venue Created.");
+                        window.location.reload(true);
+                    }
+
+                    else {
+                        alert("Venue not added. Retry");
+                    }
+                }
+
+            });
+        });
+    });
+</script>
+
+<div id="navigationbar01" class="navbar">
+    @Html.Partial("_LoginPartial", new {@class = "partialLogin"})
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<div id="navigationbar02" class="navbarlevel2">
+    @Html.ActionLink("Add Menu", "AddMenu", "FoodCourtAdmin", null, new { @class="navbaritem2"})
+    @Html.ActionLink("Remove Menu", "RemoveMenu", "FoodCourtAdmin", null, new { @class="navbaritem2"})
+    @Html.ActionLink("Update Menu", "UpdateMenu", "FoodCourtAdmin", null, new {@class = "navbaritem2"})
+    @*@Html.ActionLink("Add Dish", "AddDish", "FoodCourtAdmin", null, new {@class = "navbaritem2"})
+    @Html.ActionLink("Remove Dish", "RemoveDish", "FoodCourtAdmin", null, new {@class = "navbaritem2"})
+    @Html.ActionLink("Add Caterer", "AddCaterer", "FoodCourtAdmin", null, new {@class = "navbaritem2"})
+    @Html.ActionLink("Remove Caterer", "RemoveCaterer", "FoodCourtAdmin", null, new {@class = "navbaritem2"}) *@   
+</div>
+
+<br />
+
+<table class="tg">
+      <tr>
+        <th class="tg-29rf"></th>
+        <th class="tg-w7zc" colspan="2">Add Venue</th>
+        <th class="tg-29rf"></th>
+      </tr>
+
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.VenueName)</td>        
+        <td class="tg-29rf">@Html.EditorFor(model => model.VenueName, new { @id = "VName"})</td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.VenueName)</td>
+      </tr>
+    
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.VenueAddress)</td>
+        <td class="tg-29rf">@Html.EditorFor(model => model.VenueAddress, new { @id = "VAddr"})</td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.VenueAddress)</td>
+      </tr>
+    
+      <tr>
+        <td class="tg-29rf"></td>
+        <td class="tg-29rf">@Html.LabelFor(model => model.VenueCapacity)</td>
+        <td class="tg-29rf">@Html.EditorFor(model => model.VenueCapacity, new { @id = "VCap"})</td>
+        <td class="tg-29rf">@Html.ValidationMessageFor(model => model.VenueCapacity)</td>
+      </tr>
+</table>
+<br />
+<div class="midclass">
+    <input type="button" value="Add Venue" class="SubmitButton" id="AddVenueBtn" />
+</div>
+

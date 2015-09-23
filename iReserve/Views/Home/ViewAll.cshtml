@@ -59,22 +59,36 @@
             </tr>
         </tfoot>*@
         <tbody>
-            @foreach (var booking in Model.MovieBookings)
+            @if (Model.MovieBookings.Count != 0)
+            {
+                foreach (var booking in Model.MovieBookings)
+                {
+                    <tr>
+                        <td>@booking.BookingId</td>
+                        <td>@booking.EmployeeNumber</td>
+                        <td>@booking.MovieName</td>
+                        <td>@booking.ShowDate</td>
+                        <td>@booking.Show</td>
+                        <td>@booking.BookingDate</td>
+                        <td>@booking.NumberOfSeats</td>
+                        <td>@booking.CardType</td>
+                        <td>@booking.CardNumber</td>
+                        <td>@booking.Amount</td>
+                        <td>@booking.Status</td>
+                    </tr>
+                }
+            }
+            
+            else
             {
                 <tr>
-                    <td>@booking.BookingId</td>
-                    <td>@booking.EmployeeNumber</td>
-                    <td>@booking.MovieName</td>
-                    <td>@booking.ShowDate</td>
-                    <td>@booking.Show</td>
-                    <td>@booking.BookingDate</td>
-                    <td>@booking.NumberOfSeats</td>
-                    <td>@booking.CardType</td>
-                    <td>@booking.CardNumber</td>
-                    <td>@booking.Amount</td>
-                    <td>@booking.Status</td>
-                </tr>
-            }             
+                    <td colspan="4"></td>
+                    <td colspan="3" style="text-align:center">
+                            No data entries to show
+                    </td>
+                    <td colspan="4"></td>
+                </tr>   
+            }            
         </tbody>
     </table>
 </div>
@@ -119,19 +133,33 @@
             </tr>
         </tfoot>*@
         <tbody>
-            @foreach(var booking in Model.FoodBookings)
+            @if (Model.FoodBookings.Count != 0)
+            {
+                foreach(var booking in Model.FoodBookings)
+                {
+                    <tr>
+                        <td>@booking.BookingId</td>
+                        <td>@booking.DateOfBooking</td>
+                        <td>@booking.FoodCourtName</td>
+                        <td>@booking.CatererName</td>
+                        <td>@booking.DishName</td>
+                        <td>@booking.PricePerPlate</td>
+                        <td>@booking.NumberOfPlates</td>
+                        <td>@booking.TotalAmount</td>
+                    </tr>
+                }
+            }
+
+            else
             {
                 <tr>
-                    <td>@booking.BookingId</td>
-                    <td>@booking.DateOfBooking</td>
-                    <td>@booking.FoodCourtName</td>
-                    <td>@booking.CatererName</td>
-                    <td>@booking.DishName</td>
-                    <td>@booking.PricePerPlate</td>
-                    <td>@booking.NumberOfPlates</td>
-                    <td>@booking.TotalAmount</td>
-                </tr>
-            }             
+                    <td colspan="3"></td>
+                    <td colspan="2" style="text-align:center">
+                            No data entries to show
+                    </td>
+                    <td colspan="3"></td>
+                </tr>   
+            }
         </tbody>
     </table>
 </div>
@@ -174,15 +202,29 @@
             </tr>
         </tfoot>*@
         <tbody>
-            @foreach (var booking in Model.PartyBookings)
+            @if (Model.PartyBookings.Count != 0)
+            {
+                foreach (var booking in Model.PartyBookings)
+                {
+                    <tr>
+                        <td>@booking.BookingId</td>
+                        <td>@booking.VenueName</td>
+                        <td>@booking.BookingDate</td>
+                        <td>@booking.EventDate</td>
+                        <td>@booking.Amount</td>
+                        <td>@booking.ApprovalStatus</td>
+                    </tr>
+                }
+            }
+            
+            else
             {
                 <tr>
-                    <td>@booking.BookingId</td>
-                    <td>@booking.VenueName</td>
-                    <td>@booking.BookingDate</td>
-                    <td>@booking.EventDate</td>
-                    <td>@booking.Amount</td>
-                    <td>@booking.ApprovalStatus</td>
+                    <td colspan="2"></td>
+                    <td colspan="2" style="text-align:center">
+                            No data entries to show
+                    </td>
+                    <td colspan="2"></td>
                 </tr>
             }             
         </tbody>

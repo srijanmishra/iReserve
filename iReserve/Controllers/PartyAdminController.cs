@@ -30,29 +30,34 @@ namespace iReserve.Controllers
         // POST: /PartyAdmin/Create
 
         [HttpPost]
-        public ActionResult AddVenue(AddVenue venue)
+        public string AddVenue(string VN, string VA, string VC)
         {
+            AddVenue objVenue = new AddVenue();
+
+            objVenue.VenueName = VN;
+            objVenue.VenueAddress = VA;
+            objVenue.VenueCapacity = Convert.ToInt32(VC);
+
             PartyAdminDAL agent = new PartyAdminDAL();
 
             try
             {
-                bool result = agent.AddVenue(venue);
+                bool result = agent.AddVenue(objVenue);
 
                 if (result)
                 {
-                    TempData["message"] = "Venue Created";
-                    return RedirectToAction("Index", "Home");
+                    return "DONE";
                 }
 
                 else
                 {
-                    ModelState.AddModelError("", "The venue cannot be added");
-                    return View(venue);
+                    return "ERROR";
                 }
             }
-            catch
+
+            catch (Exception)
             {
-                return View();
+                return "ERROR";
             }
         }
 

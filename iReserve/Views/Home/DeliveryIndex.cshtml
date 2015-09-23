@@ -85,24 +85,38 @@
         </tfoot>*@
         @{ var i = 0;}
         <tbody>
-            @foreach (var booking in Model.bookingCollection)
+            @if (Model.bookingCollection.Count != 0 && Model.EmployeeIDCollection.Count != 0)
+            {   
+                foreach (var booking in Model.bookingCollection)
+                {
+                    <tr>
+                        <td>@booking.BookingId</td>
+                        <td>@Model.EmployeeIDCollection[i]</td>
+                        <td>@booking.VenueName</td>
+                        <td>@booking.BookingDate</td>
+                        <td>@booking.EventDate</td>
+                        <td>@booking.Amount</td>
+                        <td>@booking.ApprovalStatus</td>
+                        <td>
+                            @Html.RadioButtonFor(m => m.bookingCollection[i].ApprovalStatus, "A", new { @id = "RadioApproved" }) <span>Approve</span>
+                            @Html.RadioButtonFor(m => m.bookingCollection[i].ApprovalStatus, "R", new { @id = "RadioRejected" }) <span>Reject</span>
+                            <input type="button" value="Confirm" id="confirmbtn" class="confirmbtn" />
+                        </td>
+                    </tr>
+                
+                    i = i + 1;
+                }
+            }
+            
+            else
             {
                 <tr>
-                    <td>@booking.BookingId</td>
-                    <td>@Model.EmployeeIDCollection[i]</td>
-                    <td>@booking.VenueName</td>
-                    <td>@booking.BookingDate</td>
-                    <td>@booking.EventDate</td>
-                    <td>@booking.Amount</td>
-                    <td>@booking.ApprovalStatus</td>
-                    <td>
-                        @Html.RadioButtonFor(m => m.bookingCollection[i].ApprovalStatus, "A", new { @id = "RadioApproved" }) <span>Approve</span>
-                        @Html.RadioButtonFor(m => m.bookingCollection[i].ApprovalStatus, "R", new { @id = "RadioRejected" }) <span>Reject</span>
-                        <input type="button" value="Confirm" id="confirmbtn" class="confirmbtn" />
+                    <td colspan="3"></td>
+                    <td colspan="2" style="text-align:center">
+                            No data entries to show
                     </td>
-                </tr>
-                
-                i = i + 1;
+                    <td colspan="3"></td>
+                </tr>   
             }             
         </tbody>
     </table>

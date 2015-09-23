@@ -17,6 +17,13 @@
 
 <br />       
 
+<div id="navigationbar02" class="navbarlevel2">
+    @*@Html.ActionLink("Search Meal", "SearchMeal", "FoodCourt", null, new { @class="navbaritem2"})*@
+    @Html.ActionLink("View Meal Bookings", "ViewFoodBookings", "FoodCourt", null, new { @class="navbaritem2"}) 
+</div>
+
+<br />
+
 <div class="datagrid">
     <table>
         <thead>
@@ -49,18 +56,31 @@
             </tr>
         </tfoot>*@
         <tbody>
-            @foreach(ViewMealBookings booking in Model)
+            @if (Model.Count<ViewMealBookings>() != 0)
+            {
+                foreach(ViewMealBookings booking in Model)
+                {
+                    <tr>
+                        <td>@booking.BookingId</td>
+                        <td>@booking.DateOfBooking</td>
+                        <td>@booking.FoodCourtName</td>
+                        <td>@booking.CatererName</td>
+                        <td>@booking.DishName</td>
+                        <td>@booking.PricePerPlate</td>
+                        <td>@booking.NumberOfPlates</td>
+                        <td>@booking.TotalAmount</td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@booking.BookingId</td>
-                    <td>@booking.DateOfBooking</td>
-                    <td>@booking.FoodCourtName</td>
-                    <td>@booking.CatererName</td>
-                    <td>@booking.DishName</td>
-                    <td>@booking.PricePerPlate</td>
-                    <td>@booking.NumberOfPlates</td>
-                    <td>@booking.TotalAmount</td>
-                </tr>
+                    <td colspan="3"></td>
+                    <td colspan="2" style="text-align:center">
+                            No data entries to show
+                    </td>
+                    <td colspan="3"></td>
+                </tr>   
             }             
         </tbody>
     </table>

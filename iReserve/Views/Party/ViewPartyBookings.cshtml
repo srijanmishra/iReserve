@@ -19,6 +19,12 @@
 
 <br />       
 
+<div id="navigationbar02" class="navbarlevel2">
+    @*@Html.ActionLink("Book Party", "BookParty", "Party", null, new { @class="navbaritem2"})*@   
+</div>
+
+<br />
+
 <div class="datagrid">
     <table>
         <thead>
@@ -49,16 +55,30 @@
             </tr>
         </tfoot>*@
         <tbody>
-            @foreach (ViewPartyBookings booking in Model)
+            @if (Model.Count<ViewMovieBookings>() != 0)
+            {
+                foreach (ViewPartyBookings booking in Model)
+                {
+                    <tr>
+                        <td>@booking.BookingId</td>
+                        <td>@booking.VenueName</td>
+                        <td>@booking.BookingDate</td>
+                        <td>@booking.EventDate</td>
+                        <td>@booking.Amount</td>
+                        <td>@booking.ApprovalStatus</td>
+                    </tr>
+                }
+            }
+            
+            else
             {
                 <tr>
-                    <td>@booking.BookingId</td>
-                    <td>@booking.VenueName</td>
-                    <td>@booking.BookingDate</td>
-                    <td>@booking.EventDate</td>
-                    <td>@booking.Amount</td>
-                    <td>@booking.ApprovalStatus</td>
-                </tr>
+                    <td colspan="2"></td>
+                    <td colspan="2" style="text-align:center">
+                            No data entries to show
+                    </td>
+                    <td colspan="2"></td>
+                </tr>   
             }             
         </tbody>
     </table>
