@@ -85,7 +85,7 @@
         </tfoot>*@
         @{ var i = 0;}
         <tbody>
-            @if (Model.bookingCollection.Count != 0 && Model.EmployeeIDCollection.Count != 0)
+            @if (Model.bookingCollection != null && Model.EmployeeIDCollection != null)
             {   
                 foreach (var booking in Model.bookingCollection)
                 {

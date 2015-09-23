@@ -20,7 +20,8 @@
 <br />       
 
 <div id="navigationbar02" class="navbarlevel2">
-    @*@Html.ActionLink("Book Party", "BookParty", "Party", null, new { @class="navbaritem2"})*@   
+    @*@Html.ActionLink("Book Party", "BookParty", "Party", null, new { @class="navbaritem2"})*@  
+    @Html.ActionLink("View Party Bookings", "ViewPartyBookings", "Party", null, new { @class="navbaritem2"})       
 </div>
 
 <br />
@@ -55,7 +56,7 @@
             </tr>
         </tfoot>*@
         <tbody>
-            @if (Model.Count<ViewMovieBookings>() != 0)
+            @if (Model.Count<ViewPartyBookings>() != 0)
             {
                 foreach (ViewPartyBookings booking in Model)
                 {

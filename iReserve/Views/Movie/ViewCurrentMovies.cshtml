@@ -34,31 +34,43 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (ViewCurrentMovies movie in Model)
+            @if (Model.Count<ViewCurrentMovies>() != 0)
+            {
+                foreach (ViewCurrentMovies movie in Model)
+                {
+                    <tr>
+                        <td>
+                            <table>
+                                <thead>
+                                    <tr><td>Movie</td></tr>                                
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Movie Name</td>
+                                        <td>@movie.MovieName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Language</td>
+                                        <td>@movie.Language</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Show Date</td>
+                                        <td>@movie.ShowDate</td>
+                                    </tr>        
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                }
+            }
+            
+            else
             {
                 <tr>
-                    <td>
-                        <table>
-                            <thead>
-                                <tr><td>Movie</td></tr>                                
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Movie Name</td>
-                                    <td>@movie.MovieName</td>
-                                </tr>
-                                <tr>
-                                    <td>Language</td>
-                                    <td>@movie.Language</td>
-                                </tr>
-                                <tr>
-                                    <td>Show Date</td>
-                                    <td>@movie.ShowDate</td>
-                                </tr>        
-                            </tbody>
-                        </table>
+                    <td style="text-align:center">
+                            No data entries to show
                     </td>
-                </tr>
+                </tr>   
             }             
         </tbody>
     </table>

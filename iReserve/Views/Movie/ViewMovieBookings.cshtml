@@ -61,22 +61,36 @@
             </tr>
         </tfoot>*@
         <tbody>
-            @foreach (ViewMovieBookings booking in Model)
+            @if (Model.Count<ViewMovieBookings>() != 0)
+            {
+                foreach (ViewMovieBookings booking in Model)
+                {
+                    <tr>
+                        <td>@booking.BookingId</td>
+                        <td>@booking.EmployeeNumber</td>
+                        <td>@booking.MovieName</td>
+                        <td>@booking.ShowDate</td>
+                        <td>@booking.Show</td>
+                        <td>@booking.BookingDate</td>
+                        <td>@booking.NumberOfSeats</td>
+                        <td>@booking.CardType</td>
+                        <td>@booking.CardNumber</td>
+                        <td>@booking.Amount</td>
+                        <td>@booking.Status</td>
+                    </tr>
+                }     
+            }
+            
+            else
             {
                 <tr>
-                    <td>@booking.BookingId</td>
-                    <td>@booking.EmployeeNumber</td>
-                    <td>@booking.MovieName</td>
-                    <td>@booking.ShowDate</td>
-                    <td>@booking.Show</td>
-                    <td>@booking.BookingDate</td>
-                    <td>@booking.NumberOfSeats</td>
-                    <td>@booking.CardType</td>
-                    <td>@booking.CardNumber</td>
-                    <td>@booking.Amount</td>
-                    <td>@booking.Status</td>
-                </tr>
-            }             
+                    <td colspan="4"></td>
+                    <td colspan="3" style="text-align:center">
+                            No data entries to show
+                    </td>
+                    <td colspan="4"></td>
+                </tr>   
+            }        
         </tbody>
     </table>
 </div>
