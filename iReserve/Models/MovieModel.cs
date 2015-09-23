@@ -36,5 +36,6 @@ namespace iReserve.Models
         public string Show { get; set; }
         public string Language { get; set; }
         public double Cost { get; set; }
+        public int BookedTickets { get; set; }
     }
 }

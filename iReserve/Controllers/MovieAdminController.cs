@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -79,6 +80,36 @@ namespace iReserve.Controllers
             catch
             {
                 return View();
+            }
+        }
+
+        [Authorize]
+        public ActionResult RemoveMovie()
+        {
+            MovieAdminDAL agent = new MovieAdminDAL();
+            Dictionary<int, AddMovie> list = agent.MovieShows();
+            return View(list);
+        }
+
+        //
+        // POST: /FoodCourtAdmin/RemoveMenuItem_Confirmed
+
+        [OutputCache(Duration = 0)]
+        [Authorize]
+        public void RemoveMovieItemConfirmed(int movieId)
+        {
+            MovieAdminDAL agent = new MovieAdminDAL();
+
+            bool res = agent.RemoveShow(movieId);
+
+            if (res)
+            {
+                Response.Redirect("/FoodCourtAdmin/RemoveMenu");
+            }
+
+            else
+            {
+                Debug.WriteLine("ERROR");
             }
         }
     }
