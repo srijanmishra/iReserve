@@ -155,9 +155,9 @@ namespace iReserve.DAL
                 {
                     var venue = new VenueDetails();
                     venue.VenueID = reader.GetInt32(0);
-                    venue.VenueDetails.VenueName = reader.GetString(1);
-                    venue.VenueDetails.VenueAddress = reader.GetString(2);
-                    venue.VenueDetails.VenueCapacity = reader.GetInt32(3);
+                    venue.VenueItem.VenueName = reader.GetString(1);
+                    venue.VenueItem.VenueAddress = reader.GetString(2);
+                    venue.VenueItem.VenueCapacity = reader.GetInt32(3);
 
                     venues.Add(venue);
                 }

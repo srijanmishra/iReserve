@@ -37,7 +37,7 @@ namespace iReserve.Models
 
     public class VenueDetails
     {
-        public AddVenue VenueDetails { get; set; }
+        public AddVenue VenueItem { get; set; }
         public int VenueID { get; set; }
     }
 }
