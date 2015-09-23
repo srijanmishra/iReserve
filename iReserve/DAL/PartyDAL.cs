@@ -75,5 +75,105 @@ namespace iReserve.DAL
 
             return bookings;
         }
+
+        public bool MakeBooking(PartyBooking booking)
+        {
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed " + e.Message);
+                return false;
+            }
+            bool bookingStatus = false;
+
+            try
+            {
+                cmd = new SqlCommand("INSERT INTO PartyBookingDB([EmployeeID], [VenueID], [BookingDate], [EventDate], [Cost]) VALUES (@employeeid, @venueid, @bookingdate, @eventdate, @cost)", conn);
+                cmd.Parameters.AddWithValue("employeeid", booking.EmployeeID);
+                cmd.Parameters.AddWithValue("venueid", booking.VenueID);
+                cmd.Parameters.AddWithValue("bookingdate", DateTime.Now);
+                cmd.Parameters.AddWithValue("eventdate", booking.EventDate);
+                cmd.Parameters.AddWithValue("cost", booking.Cost);
+                
+                if (cmd.ExecuteNonQuery().Equals(1))
+                {
+                    bookingStatus = true;
+                }
+
+                conn.Close();
+            }
+
+            catch (SqlException err)
+            {
+                Debug.WriteLine("SQL Server connection failed " + err.Message);
+            }
+
+            catch (InvalidOperationException err)
+            {
+                Debug.WriteLine("SQL Server connection failed " + err.Message);
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine("ERROR: " + err.Message);
+            }
+
+            return bookingStatus;
+        }
+
+        public List<VenueDetails> ViewVenues()
+        {
+            PartyDAL agent = new PartyDAL();
+            var venues = new List<VenueDetails>();
+
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed " + e.Message);
+                return null;
+            }
+
+            try
+            {
+                cmd = new SqlCommand("SELECT VenueID, VenueName, VenueAddress, VenueCapacity FROM VenueDB", conn);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                
+                while (reader.Read())
+                {
+                    var venue = new VenueDetails();
+                    venue.VenueID = reader.GetInt32(0);
+                    venue.VenueDetails.VenueName = reader.GetString(1);
+                    venue.VenueDetails.VenueAddress = reader.GetString(2);
+                    venue.VenueDetails.VenueCapacity = reader.GetInt32(3);
+
+                    venues.Add(venue);
+                }
+
+                reader.Close();
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                return null;
+            }
+
+            conn.Close();           
+
+            return venues;
+        }
     }
 }
