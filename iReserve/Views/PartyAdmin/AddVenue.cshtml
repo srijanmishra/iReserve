@@ -51,14 +51,10 @@
     @Html.Partial("_LoginPartial", new {@class = "partialLogin"})
 </div>
 
+<br />
+
 <div id="navigationbar02" class="navbarlevel2">
-    @Html.ActionLink("Add Menu", "AddMenu", "FoodCourtAdmin", null, new { @class="navbaritem2"})
-    @Html.ActionLink("Remove Menu", "RemoveMenu", "FoodCourtAdmin", null, new { @class="navbaritem2"})
-    @Html.ActionLink("Update Menu", "UpdateMenu", "FoodCourtAdmin", null, new {@class = "navbaritem2"})
-    @*@Html.ActionLink("Add Dish", "AddDish", "FoodCourtAdmin", null, new {@class = "navbaritem2"})
-    @Html.ActionLink("Remove Dish", "RemoveDish", "FoodCourtAdmin", null, new {@class = "navbaritem2"})
-    @Html.ActionLink("Add Caterer", "AddCaterer", "FoodCourtAdmin", null, new {@class = "navbaritem2"})
-    @Html.ActionLink("Remove Caterer", "RemoveCaterer", "FoodCourtAdmin", null, new {@class = "navbaritem2"}) *@   
+    @Html.ActionLink("Add Venue", "AddVenue", "PartyAdmin", null, new { @class="navbaritem2"})        
 </div>
 
 <br />
@@ -76,21 +72,21 @@
               <tr>
                 <td></td>
                 <td>@Html.LabelFor(model => model.VenueName)</td>        
-                <td>@Html.EditorFor(model => model.VenueName, new { @id = "VName"})</td>
+                <td>@Html.TextBoxFor(model => model.VenueName, new { @id = "VName"})</td>
                 <td>@Html.ValidationMessageFor(model => model.VenueName)</td>
               </tr>
     
               <tr>
                 <td></td>
                 <td>@Html.LabelFor(model => model.VenueAddress)</td>
-                <td>@Html.EditorFor(model => model.VenueAddress, new { @id = "VAddr"})</td>
+                <td>@Html.TextBoxFor(model => model.VenueAddress, new { @id = "VAddr"})</td>
                 <td>@Html.ValidationMessageFor(model => model.VenueAddress)</td>
               </tr>
     
               <tr>
                 <td></td>
                 <td>@Html.LabelFor(model => model.VenueCapacity)</td>
-                <td>@Html.EditorFor(model => model.VenueCapacity, new { @id = "VCap"})</td>
+                <td>@Html.TextBoxFor(model => model.VenueCapacity, new { @id = "VCap"})</td>
                 <td>@Html.ValidationMessageFor(model => model.VenueCapacity)</td>
               </tr>    
         </table>

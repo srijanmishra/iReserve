@@ -10,6 +10,7 @@ namespace iReserve.Models
     {
         [Required]
         [DataType(DataType.Password)]
+        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@.#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@.#$%^&*()_+]{6,}$", ErrorMessage = "Password must be at least 6 characters long and must contain at least 1 digit, 1 letter and 1 special character.")]
         [Display(Name = "Current password")]
         public string OldPassword { get; set; }
 

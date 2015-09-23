@@ -20,10 +20,10 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('#AddMovieBtn').click(function () {
-            var MovieName = $('#MName').text();
+            var MovieName = $('#MName').val();
             var ShowDate = $('#datefield2').val();
             var MovieLang = $('#MLanguage option:selected').text();
-            var MovieCost = $('#MCost').text();
+            var MovieCost = $('#MCost').val();
             var MatineeTime = 'false';
             var EveningTime = 'false';
             var NightTime = 'false';
@@ -74,8 +74,11 @@
     @Html.Partial("_LoginPartial", new {@class = "partialLogin"})
 </div>
 
+<br /> 
+
 <div id="navigationbar02" class="navbarlevel2">
     @Html.ActionLink("Add Movie", "AddMovie", "MovieAdmin", null, new { @class="navbaritem2"})
+    @Html.ActionLink("Remove Movie", "RemoveMovie", "MovieAdmin", null, new { @class="navbaritem2"})
 </div>
 
 <br />
@@ -93,7 +96,7 @@
               <tr>
                 <td></td>
                 <td>@Html.LabelFor(model => model.MovieName)</td>        
-                <td>@Html.EditorFor(model => model.MovieName, new { @id = "MName"})</td>
+                <td>@Html.TextBoxFor(model => model.MovieName, new { @id = "MName"})</td>
                 <td>@Html.ValidationMessageFor(model => model.MovieName)</td>
               </tr>
     
@@ -134,7 +137,7 @@
               <tr>
                 <td></td>
                 <td>@Html.LabelFor(model => model.Cost)</td>
-                <td>@Html.EditorFor(model => model.Cost, new { @id = "MCost"})</td>
+                <td>@Html.TextBoxFor(model => model.Cost, new { @id = "MCost"})</td>
                 <td>@Html.ValidationMessageFor(model => model.Cost)</td>
               </tr>
         </table>
