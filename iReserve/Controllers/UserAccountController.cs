@@ -36,6 +36,7 @@ namespace iReserve.Controllers
                     {
                         FormsAuthentication.SetAuthCookie(login.UserName, false);
                         Session["UserID"] = login.UserName;
+                        Session["UserRole"] = login.Role;
 
                         if (login.Role.Equals("D"))
                         {
@@ -47,17 +48,16 @@ namespace iReserve.Controllers
                             return RedirectToAction("AddMenu", "FoodCourtAdmin");
                         }
 
-                        /*
+                        
                         else if (login.Role.Equals("M"))
                         {
-                            return RedirectToAction("MovieIndex", "Home");
+                            return RedirectToAction("AddMovie", "Home");
                         }
-
+                       
                         else if (login.Role.Equals("P"))
                         {
-                            return RedirectToAction("PartyIndex", "Home");
+                            return RedirectToAction("AddVenue", "Home");
                         }
-                        */
 
                         else if (login.Role.Equals("U"))
                         {

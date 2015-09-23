@@ -16,7 +16,7 @@ namespace iReserve.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("AddMovie");
         }
 
         //
@@ -55,14 +55,6 @@ namespace iReserve.Controllers
             {
                 return View();
             }
-        }
-
-        //
-        // GET: /MovieAdmin/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
         }
 
         //

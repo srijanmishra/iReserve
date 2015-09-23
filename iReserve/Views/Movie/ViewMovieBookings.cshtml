@@ -18,6 +18,14 @@
 
 <br />       
 
+<div id="navigationbar02" class="navbarlevel2">
+    @Html.ActionLink("View Current Movies", "ViewCurrentMovies", "Movie", null, new { @class="navbaritem2"}) 
+    @Html.ActionLink("View Movie Bookings", "ViewMovieBookings", "Movie", null, new { @class="navbaritem2"}) 
+    @*@Html.ActionLink("Cancel Movie Bookings", "CancelMovieBookings", "Movie", null, new { @class="navbaritem2"})*@ 
+</div>
+
+<br />
+
 <div class="datagrid">
     <table>
         <thead>

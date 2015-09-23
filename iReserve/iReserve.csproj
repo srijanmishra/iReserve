@@ -359,7 +359,6 @@
     <Content Include="Views\Home\ViewAll.cshtml" />
     <Content Include="Views\Home\DeliveryIndex.cshtml" />
     <Content Include="Views\Movie\ViewCurrentMovies.cshtml" />
-    <Content Include="Views\MovieAdmin\Index.cshtml" />
     <Content Include="Views\MovieAdmin\AddMovie.cshtml" />
     <Content Include="Views\PartyAdmin\AddVenue.cshtml" />
     <Content Include="Views\FoodCourtAdmin\AddMenu.cshtml" />
