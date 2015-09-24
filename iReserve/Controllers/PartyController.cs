@@ -13,19 +13,60 @@ namespace iReserve.Controllers
         //
         // GET: /Party/
 
+        [Authorize]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Authorize]
         public ActionResult ViewPartyBookings()
         {
             PartyDAL agent = new PartyDAL();
-            var temp = Session["UserID"];
-            var userId = Convert.ToInt32(temp.ToString());
-            List<ViewPartyBookings> bookingList = agent.Bookings(userId, "");
+            var userid = Convert.ToInt32(Session["UserID"].ToString());
+            List<ViewPartyBookings> bookingList = agent.Bookings(10001, "");
 
             return View(bookingList);
+        }
+
+        [Authorize]
+        public ActionResult ViewVenues()
+        {
+            PartyDAL agent = new PartyDAL();
+            var venueList = agent.ViewVenues();
+            return View(venueList);
+        }
+
+        [Authorize]
+        public ActionResult MakeBooking(int venueId, DateTime eventDate, double cost)
+        {
+            PartyDAL agent = new PartyDAL();
+
+            try
+            {
+                PartyBooking booking =  new PartyBooking();
+                booking.EmployeeID = Convert.ToInt32(Session["UserID"].ToString());
+                booking.VenueID = venueId;
+                booking.EventDate = eventDate;
+                booking.Cost = cost;
+                bool res = agent.MakeBooking(booking);
+                if (res)
+                {
+                    TempData["message"] = "The booking is successful";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                else
+                {
+                    ModelState.AddModelError("", "The booking failed");
+                    return View(booking);
+                }
+
+            }
+            catch
+            {
+                return View();
+            }         
         }
     }
 }
