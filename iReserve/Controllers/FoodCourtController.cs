@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using iReserve.Models;
 using iReserve.ViewModels;
 using iReserve.DAL;
+using System.Diagnostics;
 
 namespace iReserve.Controllers
 {
@@ -87,6 +88,51 @@ namespace iReserve.Controllers
             ViewBag.option = optNo;
 
             return PartialView("_SearchResultsPartial", searchMenu);
+        }
+
+        public void MakeMealBooking(string menuId, string dishName, string pricePerPlate)
+        {
+            MakeBookingDetails obj = new MakeBookingDetails();
+
+            obj.EmployeeId = Convert.ToInt32(Session["UserID"]);
+            obj.MenuId = Convert.ToInt32(menuId);
+            obj.PricePerPlate = Convert.ToDouble(pricePerPlate);
+            obj.DishName = dishName;
+
+            TempData["model"] = obj;
+
+            //return RedirectToAction("BookMeal");
+        }
+               
+        public ActionResult BookMeal()
+        {
+            MakeBookingDetails obj = (MakeBookingDetails)TempData["model"];
+            return View(obj);
+        }
+
+        public string BookMealIntoDatabase(string EmpId, string MenuId, string NoOfPlates, string Cost)
+        {
+            FoodDAL agent = new FoodDAL();
+
+            MakeBookingDetails obj = new MakeBookingDetails();
+
+            obj.EmployeeId = Convert.ToInt32(EmpId);
+            obj.MenuId = Convert.ToInt32(MenuId);
+            obj.NumberOfPlates = Convert.ToInt32(NoOfPlates);
+            obj.DateOfBooking = DateTime.Today.ToShortDateString();
+            obj.TotalAmount = Convert.ToDouble(Cost);
+
+            bool res = agent.InsertBookingIntoDatabase(obj);
+
+            if (res)
+            {
+                return ("DONE");
+            }
+
+            else
+            {
+                return ("ERROR");
+            }
         }
     }
 }

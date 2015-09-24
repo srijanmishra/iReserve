@@ -1,0 +1,168 @@
+﻿@model iReserve.Models.MakeBookingDetails
+
+@using iReserve.Models;
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/AddStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
+}
+
+@{
+    
+}
+
+<script>
+    $(document).ready(function () {
+        $('#CalcAmt').click(function () {
+            var no = parseInt($('#NoOfPlates').val());
+            var price = parseFloat('@Model.PricePerPlate');
+            $('#Amt').html('Total Amount : Rs. ' + (no * price));
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#AddMenuBtn').click(function () {
+            var empId = '@Model.EmployeeId';
+            var menuId = '@Model.MenuId';
+            var noOfPlates = parseInt($('#NoOfPlates').val());
+            var price = parseFloat('@Model.PricePerPlate');
+            var amt = noOfPlates * price;
+            
+
+            $.ajax({
+                type: 'POST',
+                url: 'BookMealIntoDatabase',
+                data: { EmpId: empId, MenuId: menuId, NoOfPlates: noOfPlates, Cost: amt },
+                dataType: "text",
+                success: function (data) {
+                    var result = $.trim(data);
+                    if (result === "DONE") {
+                        alert("Meal Booked.");
+                        window.location.href = '@Url.Action("ViewFoodBookings", "FoodCourt")';
+                    }
+
+                    else {
+                        alert("ERROR: Meal not booked. Retry");
+                    }
+                }
+
+            });
+        });
+    });
+</script>
+
+<div id="navigationbar01" class="navbar">
+    @Html.ActionLink("Home", "Index", "Home", null, new { @class="navbaritem"})
+    @Html.ActionLink("Movie Bookings", "Index", "Movie", null, new {@class = "navbaritem"})
+    @Html.ActionLink("Food Court Bookings", "Index", "FoodCourt", null, new {@class = "navbaritem"})
+    @Html.ActionLink("Party Bookings", "Index", "Party", null, new {@class = "navbaritem"})
+    @Html.ActionLink("View All Bookings", "ViewAll", "Home", null, new { @class="navbaritem"})
+
+    @Html.Partial("_LoginPartial", new {@class = "partialLogin"})
+</div>
+
+<br />       
+
+<div id="navigationbar02" class="navbarlevel2">
+    @Html.ActionLink("Search Meal", "SearchMeal", "FoodCourt", null, new { @class="navbaritem2"})
+    @Html.ActionLink("View Meal Bookings", "ViewFoodBookings", "FoodCourt", null, new { @class="navbaritem2"}) 
+</div>
+
+<br />
+
+@using (Html.BeginForm()){
+    <fieldset>
+        <legend>Make a Meal Booking</legend>
+        <table class="tableForms2">
+              <tr>
+                  <th class="mid2"></th>
+                  <th class="mid2"></th>
+                  <th class="mid2"></th>
+                  <th class="mid2"></th>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Dish Name</td>        
+                <td>@Model.DishName</td>
+                <td></td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>Price Per Plate</td>
+                <td>@Model.PricePerPlate</td>
+                <td></td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>Number of Plates required</td>
+                <td>@Html.TextBoxFor(model => model.NumberOfPlates, new { @id = "NoOfPlates"})</td>
+                <td>@Html.ValidationMessageFor(model => model.NumberOfPlates)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td colspan="2">
+                    <div class="midclass">
+                        <input type="button" value="Calculate Amount" id="CalcAmt"/>
+                    </div>
+                </td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td colspan="2"></td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td colspan="2">
+                    <div class="midclass">
+                        <span id="Amt"></span>
+                    </div>
+                </td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td colspan="2">
+                    Payment
+                </td>
+                <td></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td>Card Type</td>
+                <td>
+                    <select>
+                        <option>Credit</option>
+                        <option>Debit</option>
+                    </select>
+                </td>                
+                <td></td>
+              </tr>
+
+              <tr>
+                <td></td>
+                <td>Card Number</td>
+                <td>
+                    <input type="text" />
+                </td>                
+                <td></td>
+              </tr>
+        </table>
+    </fieldset>
+}
+<br />
+<div class="midclass">
+    <input type="button" value="Book Meal" class="SubmitButton" id="AddMenuBtn" />
+</div>
+

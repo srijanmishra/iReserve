@@ -6,32 +6,28 @@
     var option = ViewBag.option;
 }
 
-@*<script>
+<script>
     $(document).ready(function(){
         $('.confirmbtn').click(function () {
             var trRef = $(this).parent().parent();
 
-            var menuID = $(trRef).find('td:eq(0)').html();
-            var FCName = $(trRef).find('td:eq(1)').html();
-            var CName = $(trRef).find('td:eq(2)').html();
-            var DName = $(trRef).find('td:eq(3)').html();
-            var SDate = $(trRef).find('td:eq(4)').html();
-            var NoP = $(trRef).find('td:eq(5)').html();
+            var menuId = $('#MenuIdHolder').val();
 
+            var dishName = $(trRef).find('td:eq(0)').text();
+            var pricePerPlate = $(trRef).find('td:eq(4)').text();
+            
             $.ajax({
                     type: 'POST',
-                    url: 'GetMenuDetailsForUpdate',
-                    data: { menuID: menuID, FCName: FCName, CName: CName, DName: DName, SDate: SDate, NoP: NoP },
+                    url: 'MakeMealBooking',
+                    data: { menuId: menuId, dishName:dishName, pricePerPlate: pricePerPlate },
                     dataType: "html",
-                    success: function (data, status, jqXHR) {
-                        $('#UpdateArea').html(data);
+                    success: function (data) {
+                        window.location.href = '@Url.Action("BookMeal", "FoodCourt")';
                     }
             });
         });
     });
-
-
-</script>*@
+</script>
 
 
 
@@ -80,12 +76,12 @@
         </tfoot>*@
         @{ var i = 0;}
         <tbody>
-            @if (Model != null || Model.Count<MealSearchModel>() != 0)
+            @if (Model != null && Model.Count<MealSearchModel>() != 0)
             {
                 foreach (var item in Model)
                 {
                     <tr>
-                        <td><input type="hidden" value=@item.MenuId />@item.DishName</td>
+                        <td><input type="hidden" value='@item.MenuId' id="MenuIdHolder" />@item.DishName</td>
                         @if (option != 4)
                         {
                             <td>@item.DishType</td>

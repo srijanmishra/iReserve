@@ -59,4 +59,19 @@ namespace iReserve.Models
         public double PricePerPlate { get; set; }
         public int NoOfPlatesAvailable { get; set; }
     }
+
+    public class MakeBookingDetails
+    {
+        public int EmployeeId { get; set; }
+        public int MenuId { get; set; }
+        public string DishName { get; set; }
+        public double PricePerPlate { get; set; }
+        
+        [Required]
+        [Range(1,10, ErrorMessage="Number of plates should be between 1 and 10")]
+        [RegularExpression(@"([1-9][0-9]*)", ErrorMessage = "Number of plates must contain only digits.")]
+        public int NumberOfPlates { get; set; }
+        public double TotalAmount { get; set; }
+        public string DateOfBooking { get; set; }
+    }
 }

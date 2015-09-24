@@ -366,5 +366,54 @@ namespace iReserve.DAL
 
             return searchResults;
         }
+
+        public bool InsertBookingIntoDatabase(MakeBookingDetails obj)
+        {
+            bool isInserted = false;
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed:" + e.Message);
+                isInserted = false;
+            }
+
+            try
+            {
+                cmd = new SqlCommand("INSERT INTO FoodBookingDB VALUES (@empId, @menuId, @noOfPlates, @bookingDate, @amount)", conn);
+                cmd.Parameters.AddWithValue("empId", Convert.ToInt32(obj.EmployeeId));
+                cmd.Parameters.AddWithValue("menuId", Convert.ToInt32(obj.MenuId));
+                cmd.Parameters.AddWithValue("noOfPlates", Convert.ToInt32(obj.NumberOfPlates));
+                cmd.Parameters.AddWithValue("bookingDate", Convert.ToDateTime(obj.DateOfBooking));
+                cmd.Parameters.AddWithValue("amount", Convert.ToDecimal(obj.TotalAmount));
+
+                int count1 = cmd.ExecuteNonQuery();
+
+                if (count1 >= 0)
+                {
+                   isInserted = true;                    
+                }
+
+                else
+                {
+                    isInserted = false;
+                }
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine("SQL operation failed:" + err.Message);
+                isInserted = false;
+            }
+
+            conn.Close();
+
+            return isInserted;
+        }
     }
 }

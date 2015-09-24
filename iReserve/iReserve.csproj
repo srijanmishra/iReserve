@@ -369,6 +369,7 @@
     <Content Include="Views\FoodCourt\SearchMeal.cshtml" />
     <Content Include="Views\FoodCourt\_SearchMealPartial.cshtml" />
     <Content Include="Views\FoodCourt\_SearchResultsPartial.cshtml" />
+    <Content Include="Views\FoodCourt\BookMeal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
