@@ -81,5 +81,290 @@ namespace iReserve.DAL
 
             return bookings;
         }
+
+        public List<MealSearchModel> SearchByFoodCourt(string FoodCourtName)
+        {
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed:" + e.Message);
+                return null;
+            }
+
+            List<MealSearchModel> searchResults = new List<MealSearchModel>();
+
+            try
+            {
+                cmd = new SqlCommand("SELECT EXT1.MenuID AS MenuID, EXT1.DishName AS DishName, EXT1.DishType AS DishType, EXT2.CatererName AS CatererName, EXT2.Specialty, EXT1.Price AS Price, EXT1.NoOfPlates AS NoOfPlates FROM (SELECT T1. MenuID AS MenuID, T1.CatererID AS CatererID, T1.NoOfPlates AS NoOfPlates, T2.DishName AS DishName, T2.Price AS Price, T2.IsVegetarian AS DishType FROM (SELECT A.MenuID AS MenuID, B.FoodCourtID AS FoodCourtID, A.CatererID AS CatererID, A.DishID AS DishID, A.NoOfPlates AS NoOfPlates FROM MenuDB AS A, FoodCourtDB AS B WHERE A.FoodCourtID = B.FoodCourtID AND B.FoodCourtName = @FCName) AS T1, DishDB AS T2 WHERE T1.DishID = T2.DishID) AS EXT1, (SELECT C.CatererName AS CatererName, C.CatererID AS CatererID, C.Specialty AS Specialty FROM CatererDB AS C, FoodCourtDB AS D WHERE (',' + CAST(RTRIM(C.FoodCourtID) AS NVARCHAR(7)) + ',') LIKE ('%,' + CAST((D.FoodCourtID) AS NVARCHAR(7)) + ',%')) AS EXT2 WHERE EXT1.CatererID = EXT2.CatererID", conn);
+
+                cmd.Parameters.AddWithValue("FCName", FoodCourtName);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    MealSearchModel menuItem = new MealSearchModel();
+
+                    menuItem.MenuId = reader.GetInt32(0);
+                    menuItem.DishName = reader.GetString(1);
+                    if (reader.GetBoolean(2))
+                    {
+                        menuItem.DishType = 'V';
+                    }
+                    else
+                    {
+                        menuItem.DishType = 'N';
+                    }
+                    menuItem.CatererName = reader.GetString(3);
+                    menuItem.CatererSpecialty = reader.GetString(4);
+                    menuItem.PricePerPlate = Convert.ToDouble(reader.GetDecimal(5));
+                    menuItem.NoOfPlatesAvailable = reader.GetInt32(6);
+
+                    searchResults.Add(menuItem);
+                }
+
+                reader.Close();
+            }
+
+            catch (SqlException err)
+            {
+                Debug.WriteLine("SQL Server connection failed " + err.Message);
+                return null;
+            }
+
+            catch (InvalidOperationException err)
+            {
+                Debug.WriteLine("SQL operation failed " + err.Message);
+                return null;
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine("ERROR: " + err.Message);
+                return null;
+            }
+
+            conn.Close();
+
+            return searchResults;
+        }
+
+        public List<MealSearchModel> SearchByCaterer(string CatererName)
+        {
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed:" + e.Message);
+                return null;
+            }
+
+            List<MealSearchModel> searchResults = new List<MealSearchModel>();
+
+            try
+            {
+                cmd = new SqlCommand("SELECT T1.MenuID AS MenuID, T2.DishName AS DishName, T2.IsVegetarian AS DishType, T3.FoodCourtName AS FoodCourtName, T1.Specialty AS Specialty, T2.Price AS Price, T1.NoOfPlates AS NoOfPlates FROM (SELECT A1.Specialty AS Specialty, A2.MenuID AS MenuID, A2.FoodCourtID AS FoodCourtID, A2.CatererID AS CatererID, A2.NoOfPlates AS NoOfPlates, A2.DishID AS DishID FROM CatererDB AS A1, MenuDB AS A2 WHERE A1.CatererID = A2.CatererID AND A1.CatererName = @CName) AS T1, DishDB AS T2, FoodCourtDB AS T3 WHERE T1.DishID = T2.DishID AND T1.FoodCourtID = T3.FoodCourtID", conn);
+
+                cmd.Parameters.AddWithValue("CName", CatererName);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    MealSearchModel menuItem = new MealSearchModel();
+
+                    menuItem.MenuId = reader.GetInt32(0);
+                    menuItem.DishName = reader.GetString(1);
+                    if (reader.GetBoolean(2))
+                    {
+                        menuItem.DishType = 'V';
+                    }
+                    else
+                    {
+                        menuItem.DishType = 'N';
+                    }
+                    menuItem.FoodCourtName = reader.GetString(3);
+                    menuItem.CatererSpecialty = reader.GetString(4);
+                    menuItem.PricePerPlate = Convert.ToDouble(reader.GetDecimal(5));
+                    menuItem.NoOfPlatesAvailable = reader.GetInt32(6);
+
+                    searchResults.Add(menuItem);
+                }
+
+                reader.Close();
+            }
+
+            catch (SqlException err)
+            {
+                Debug.WriteLine("SQL Server connection failed " + err.Message);
+                return null;
+            }
+
+            catch (InvalidOperationException err)
+            {
+                Debug.WriteLine("SQL operation failed " + err.Message);
+                return null;
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine("ERROR: " + err.Message);
+                return null;
+            }
+
+            conn.Close();
+
+            return searchResults;
+        }
+
+        public List<MealSearchModel> SearchBySpecialty(string Specialty)
+        {
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed:" + e.Message);
+                return null;
+            }
+
+            List<MealSearchModel> searchResults = new List<MealSearchModel>();
+
+            try
+            {
+                cmd = new SqlCommand("SELECT T1.MenuID AS MenuID, T2.DishName AS DishName, T2.IsVegetarian AS DishType, T3.FoodCourtName AS FoodCourtName, T1.CatererName AS CatererName, T2.Price AS Price, T1.NoOfPlates AS NoOfPlates FROM (SELECT A1.CatererName AS CatererName, A2.MenuID AS MenuID, A2.FoodCourtID AS FoodCourtID, A2.CatererID AS CatererID, A2.NoOfPlates AS NoOfPlates, A2.DishID AS DishID FROM CatererDB AS A1, MenuDB AS A2 WHERE A1.CatererID = A2.CatererID AND A1.Specialty = @CSpecialty) AS T1, DishDB AS T2, FoodCourtDB AS T3 WHERE T1.DishID = T2.DishID AND T1.FoodCourtID = T3.FoodCourtID", conn);
+
+                cmd.Parameters.AddWithValue("CSpecialty", Specialty);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    MealSearchModel menuItem = new MealSearchModel();
+
+                    menuItem.MenuId = reader.GetInt32(0);
+                    menuItem.DishName = reader.GetString(1);
+                    if (reader.GetBoolean(2))
+                    {
+                        menuItem.DishType = 'V';
+                    }
+                    else
+                    {
+                        menuItem.DishType = 'N';
+                    }
+                    menuItem.FoodCourtName = reader.GetString(3);
+                    menuItem.CatererName = reader.GetString(4);
+                    menuItem.PricePerPlate = Convert.ToDouble(reader.GetDecimal(5));
+                    menuItem.NoOfPlatesAvailable = reader.GetInt32(6);
+
+                    searchResults.Add(menuItem);
+                }
+
+                reader.Close();
+            }
+
+            catch (SqlException err)
+            {
+                Debug.WriteLine("SQL Server connection failed " + err.Message);
+                return null;
+            }
+
+            catch (InvalidOperationException err)
+            {
+                Debug.WriteLine("SQL operation failed " + err.Message);
+                return null;
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine("ERROR: " + err.Message);
+                return null;
+            }
+
+            conn.Close();
+
+            return searchResults;
+        }
+
+        public List<MealSearchModel> SearchByDishType(bool DishType)
+        {
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed:" + e.Message);
+                return null;
+            }
+
+            List<MealSearchModel> searchResults = new List<MealSearchModel>();
+
+            try
+            {
+                cmd = new SqlCommand("SELECT T1.MenuID AS MenuID, T2.DishName AS DishName, T3.FoodCourtName AS FoodCourtName, T1.CatererName AS CatererName, T1.Specialty AS Specialty, T2.Price AS Price, T1.NoOfPlates AS NoOfPlates FROM (SELECT A1.CatererName AS CatererName, A2.MenuID AS MenuID, A2.FoodCourtID AS FoodCourtID, A2.CatererID AS CatererID, A2.NoOfPlates AS NoOfPlates, A2.DishID AS DishID, A1.Specialty AS Specialty FROM CatererDB AS A1, MenuDB AS A2 WHERE A1.CatererID = A2.CatererID) AS T1, DishDB AS T2, FoodCourtDB AS T3 WHERE T1.DishID = T2.DishID AND T1.FoodCourtID = T3.FoodCourtID AND T2.IsVegetarian = @DType", conn);
+
+                cmd.Parameters.AddWithValue("DType", DishType);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    MealSearchModel menuItem = new MealSearchModel();
+
+                    menuItem.MenuId = reader.GetInt32(0);
+                    menuItem.DishName = reader.GetString(1);
+                    menuItem.FoodCourtName = reader.GetString(3);
+                    menuItem.CatererName = reader.GetString(4);
+                    menuItem.CatererSpecialty = reader.GetString(5);
+                    menuItem.PricePerPlate = Convert.ToDouble(reader.GetDecimal(6));
+                    menuItem.NoOfPlatesAvailable = reader.GetInt32(7);
+
+                    searchResults.Add(menuItem);
+                }
+
+                reader.Close();
+            }
+
+            catch (SqlException err)
+            {
+                Debug.WriteLine("SQL Server connection failed " + err.Message);
+                return null;
+            }
+
+            catch (InvalidOperationException err)
+            {
+                Debug.WriteLine("SQL operation failed " + err.Message);
+                return null;
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine("ERROR: " + err.Message);
+                return null;
+            }
+
+            conn.Close();
+
+            return searchResults;
+        }
     }
 }

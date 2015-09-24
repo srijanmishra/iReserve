@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -45,5 +46,17 @@ namespace iReserve.Models
         [Display(Name = "Dish Name")]
         [MaxLength(20, ErrorMessage = "Dish Name can have only 20 letters")]
         public string DishName { get; set; }
+    }
+
+    public class MealSearchModel
+    {
+        public int MenuId { get; set; }
+        public string DishName { get; set; }
+        public char DishType { get; set; }
+        public string FoodCourtName { get; set; }
+        public string CatererName { get; set; }
+        public string CatererSpecialty { get; set; }
+        public double PricePerPlate { get; set; }
+        public int NoOfPlatesAvailable { get; set; }
     }
 }
