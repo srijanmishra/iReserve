@@ -6,6 +6,35 @@
     var option = ViewBag.option;
 }
 
+@*<script>
+    $(document).ready(function(){
+        $('.confirmbtn').click(function () {
+            var trRef = $(this).parent().parent();
+
+            var menuID = $(trRef).find('td:eq(0)').html();
+            var FCName = $(trRef).find('td:eq(1)').html();
+            var CName = $(trRef).find('td:eq(2)').html();
+            var DName = $(trRef).find('td:eq(3)').html();
+            var SDate = $(trRef).find('td:eq(4)').html();
+            var NoP = $(trRef).find('td:eq(5)').html();
+
+            $.ajax({
+                    type: 'POST',
+                    url: 'GetMenuDetailsForUpdate',
+                    data: { menuID: menuID, FCName: FCName, CName: CName, DName: DName, SDate: SDate, NoP: NoP },
+                    dataType: "html",
+                    success: function (data, status, jqXHR) {
+                        $('#UpdateArea').html(data);
+                    }
+            });
+        });
+    });
+
+
+</script>*@
+
+
+
 <div class="datagrid">
     <table>
         <thead>
@@ -51,7 +80,7 @@
         </tfoot>*@
         @{ var i = 0;}
         <tbody>
-            @if (Model != null)
+            @if (Model != null || Model.Count<MealSearchModel>() != 0)
             {
                 foreach (var item in Model)
                 {
@@ -76,7 +105,7 @@
                         <td>@item.PricePerPlate</td>
                         <td>@item.NoOfPlatesAvailable</td>
                         <td>
-                            <input type="button" value="Update" id="confirmbtn" class="confirmbtn" />
+                            <input type="button" value="Select" id="confirmbtn" class="confirmbtn" />
                         </td>
                     </tr>
                 

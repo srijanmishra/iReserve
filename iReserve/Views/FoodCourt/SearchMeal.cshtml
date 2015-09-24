@@ -60,7 +60,7 @@
                         url: 'SearchMenus',
                         data: { optionNumber: 4, optionValue: 'True' },
                         dataType: 'html',
-                        success: function (data) {
+                        success: function (data, status, jqXHR) {
                             $('#step2').html(data);
                         }
                     });
@@ -72,7 +72,7 @@
                         url: 'SearchMenus',
                         data: { optionNumber: 4, optionValue: 'False' },
                         dataType: 'html',
-                        success: function (data) {
+                        success: function (data, status, jqXHR) {
                             $('#step2').html(data);
                         }
                     });

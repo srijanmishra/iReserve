@@ -332,11 +332,11 @@ namespace iReserve.DAL
 
                     menuItem.MenuId = reader.GetInt32(0);
                     menuItem.DishName = reader.GetString(1);
-                    menuItem.FoodCourtName = reader.GetString(3);
-                    menuItem.CatererName = reader.GetString(4);
-                    menuItem.CatererSpecialty = reader.GetString(5);
-                    menuItem.PricePerPlate = Convert.ToDouble(reader.GetDecimal(6));
-                    menuItem.NoOfPlatesAvailable = reader.GetInt32(7);
+                    menuItem.FoodCourtName = reader.GetString(2);
+                    menuItem.CatererName = reader.GetString(3);
+                    menuItem.CatererSpecialty = reader.GetString(4);
+                    menuItem.PricePerPlate = Convert.ToDouble(reader.GetDecimal(5));
+                    menuItem.NoOfPlatesAvailable = reader.GetInt32(6);
 
                     searchResults.Add(menuItem);
                 }
