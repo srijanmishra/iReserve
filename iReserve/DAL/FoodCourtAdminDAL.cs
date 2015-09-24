@@ -414,5 +414,47 @@ namespace iReserve.DAL
 
             return UpdateSuccess;
         }
+
+        public List<string> GetSpecialties()
+        {
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed:" + e.Message);
+                return null;
+            }
+
+            List<string> obj = new List<string>();
+
+            try
+            {
+                cmd = new SqlCommand("SELECT DISTINCT Specialty FROM CatererDB;", conn);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    obj.Add(reader.GetString(0));
+                }
+
+                reader.Close();
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                return null;
+            }
+
+            conn.Close();
+
+            return obj;
+        }
     }
 }

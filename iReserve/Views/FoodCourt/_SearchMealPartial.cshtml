@@ -1,0 +1,51 @@
+﻿@{
+    var option = ViewBag.option;
+}
+
+<script>
+    $(document).ready(function () {
+        $('#SearchBtn').click(function () {
+            var opt = '@option';
+            var selectedValue = $('.option2 option:selected').text();
+            //alert(opt + " " + selectedValue);
+
+            $.ajax({
+                type: 'POST',
+                url: 'SearchMenus',
+                data: { optionNumber: opt, optionValue: selectedValue },
+                dataType: 'html',
+                success: function (data) {
+                    $('#step3').html(data);
+                }
+            });
+        });
+    });
+</script>
+
+
+<div class="midclass">
+    @if (option == 1)
+    {
+        <h2>Select Food Court</h2>
+
+        @Html.DropDownList("FoodCourtName", new SelectList(@ViewBag.list), "--Select--", new { @id = "FoodCourtName", @style = "width:200px; height:30px;", @class="option2"})
+    }
+
+    else if (option == 2)
+    {
+        <h2>Select Caterer</h2>
+
+        @Html.DropDownList("CatererName", new SelectList(@ViewBag.list), "--Select--", new { @id = "CatererName", @style = "width:200px; height:30px;", @class="option2"})
+    }
+
+    else if (option == 3)
+    {
+        <h2>Select Caterer Specialty</h2>
+
+        @Html.DropDownList("Specialty", new SelectList(@ViewBag.list), "--Select--", new { @id = "Specialty", @style = "width:200px; height:30px;", @class="option2"})
+    }
+</div>
+<br />
+<div class="midclass">
+    <input type="button" value="Search Meal" class="SubmitButton" id="SearchBtn" />
+</div>

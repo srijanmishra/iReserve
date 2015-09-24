@@ -1,0 +1,100 @@
+﻿@model IEnumerable<iReserve.Models.MealSearchModel>
+
+@using iReserve.Models;
+
+@{
+    var option = ViewBag.option;
+}
+
+<div class="datagrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Dish Name</th>
+                @if (option != 4)
+                {
+                    <th>Dish Type</th>
+                }
+                @if (option != 1)
+                {
+                    <th>Food Court Name</th>
+                }
+                @if (option != 2)
+                {
+                    <th>Caterer Name</th>
+                }
+                @if (option != 3)
+                {
+                    <th>Caterer Specialty</th>
+                }
+                <th>Price Per Plate</th>
+                <th>Number of Plates Available</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        @*<tfoot>
+            <tr>
+                <td colspan="11">
+                    <div id="paging">
+                        <ul>
+                            <li><a href="#"><span>Previous</span></a></li>
+                            <li><a href="#" class="active"><span>1</span></a></li>
+                            <li><a href="#"><span>2</span></a></li>
+                            <li><a href="#"><span>3</span></a></li>
+                            <li><a href="#"><span>4</span></a></li>
+                            <li><a href="#"><span>5</span></a></li>
+                            <li><a href="#"><span>Next</span></a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>*@
+        @{ var i = 0;}
+        <tbody>
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td><input type="hidden" value=@item.MenuId />@item.DishName</td>
+                        @if (option != 4)
+                        {
+                            <td>@item.DishType</td>
+                        }
+                        @if (option != 1)
+                        {
+                            <td>@item.FoodCourtName</td>
+                        }
+                        @if (option != 2)
+                        {
+                            <td>@item.CatererName</td>
+                        }
+                        @if (option != 3)
+                        {
+                            <td>@item.CatererSpecialty</td>
+                        }
+                        <td>@item.PricePerPlate</td>
+                        <td>@item.NoOfPlatesAvailable</td>
+                        <td>
+                            <input type="button" value="Update" id="confirmbtn" class="confirmbtn" />
+                        </td>
+                    </tr>
+                
+                    i = i + 1;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="3" style="text-align:center">
+                            No data entries to show
+                    </td>
+                    <td colspan="2"></td>
+                </tr>   
+            }
+                         
+        </tbody>
+    </table>
+</div>
+

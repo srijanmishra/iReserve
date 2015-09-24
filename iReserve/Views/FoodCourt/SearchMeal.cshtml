@@ -1,0 +1,122 @@
+﻿@{
+    ViewBag.Title = "SearchMeal";
+}
+
+@using iReserve.Models;
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
+}
+
+<script>
+    $(document).ready(function () {
+        $('.SearchCategory').click(function () {
+            $('#step2').html("");
+            $('#step3').html("");
+
+            var option = this.value;
+
+            if (option === 'Food Court') {
+                $.ajax({
+                    type: 'POST',
+                    url: 'GetLists',
+                    data: { option: '1' },
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#step2').html(data);
+                    }
+                });
+            }
+
+            else if (option === 'Caterer') {
+                $.ajax({
+                    type: 'POST',
+                    url: 'GetLists',
+                    data: { option: '2' },
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#step2').html(data);
+                    }
+                });
+            }
+
+            else if (option === 'Specialty') {
+                $.ajax({
+                    type: 'POST',
+                    url: 'GetLists',
+                    data: { option: '3' },
+                    dataType: 'html',
+                    success: function (data) {
+                        $('#step2').html(data);
+                    }
+                });
+            }
+
+            else {
+                if (option === 'Veg') {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'SearchMenus',
+                        data: { optionNumber: 4, optionValue: 'True' },
+                        dataType: 'html',
+                        success: function (data) {
+                            $('#step2').html(data);
+                        }
+                    });
+                }
+
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'SearchMenus',
+                        data: { optionNumber: 4, optionValue: 'False' },
+                        dataType: 'html',
+                        success: function (data) {
+                            $('#step2').html(data);
+                        }
+                    });
+                }
+            }
+        });
+    });
+</script>
+
+<div id="navigationbar01" class="navbar">
+    @Html.ActionLink("Home", "Index", "Home", null, new { @class="navbaritem"})
+    @Html.ActionLink("Movie Bookings", "Index", "Movie", null, new {@class = "navbaritem"})
+    @Html.ActionLink("Food Court Bookings", "Index", "FoodCourt", null, new {@class = "navbaritem"})
+    @Html.ActionLink("Party Bookings", "Index", "Party", null, new {@class = "navbaritem"})
+    @Html.ActionLink("View All Bookings", "ViewAll", "Home", null, new { @class="navbaritem"})
+
+    @Html.Partial("_LoginPartial", new {@class = "partialLogin"})
+</div>
+
+<br />       
+
+<div id="navigationbar02" class="navbarlevel2">
+    @Html.ActionLink("Search Meal", "SearchMeal", "FoodCourt", null, new { @class="navbaritem2"})
+    @Html.ActionLink("View Meal Bookings", "ViewFoodBookings", "FoodCourt", null, new { @class="navbaritem2"}) 
+</div>
+
+<br />
+
+<div class="midclass">
+    <h2>Search Category</h2>
+
+    <br />
+
+    @Html.RadioButton("SearchCategory", "Food Court", new { @id = "RadioFoodCourt", @class = "SearchCategory" }) <span>Food Court</span>
+    @Html.RadioButton("SearchCategory", "Caterer", new { @id = "RadioCaterer", @class = "SearchCategory" }) <span>Caterer</span>
+    @Html.RadioButton("SearchCategory", "Specialty", new { @id = "RadioSpecialty", @class = "SearchCategory" }) <span>Caterer Specialty</span>
+    @Html.RadioButton("SearchCategory", "Veg", new { @id = "RadioVeg", @class = "SearchCategory" }) <span>Vegetarian</span>
+    @Html.RadioButton("SearchCategory", "Non Veg", new { @id = "RadioNonVeg", @class = "SearchCategory" }) <span>Non Vegetarian</span>
+</div>
+
+<br />
+
+<div id="step2"></div>
+
+<br />
+
+<div id="step3"></div>

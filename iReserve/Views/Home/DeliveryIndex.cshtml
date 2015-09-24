@@ -24,7 +24,7 @@
                     url: 'UpdateStatus',
                     data: { bookingID: bookingID, status: 'A' },
                     dataType: "html",
-                    success: function (data, status, jqXHR) {
+                    success: function (data) {
                         window.location.reload(true);
                     }
                 });
@@ -36,7 +36,7 @@
                     url: 'UpdateStatus',
                     data: { bookingID: bookingID, status: 'R' },
                     dataType: "html",
-                    success: function (data, status, jqXHR) {
+                    success: function (data) {
                         window.location.reload(true);
                     }
                 });
