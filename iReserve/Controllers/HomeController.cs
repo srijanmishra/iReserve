@@ -13,27 +13,38 @@ namespace iReserve.Controllers
     {
         public ActionResult Index()
         {
-            //ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your app description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("U") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            } 
+            
+            
             return View();
         }
 
         public ActionResult ViewAll()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("F") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             var temp = Session["UserID"];
             var userId = Convert.ToInt32(temp.ToString());
             MovieDAL agent1 = new MovieDAL();
@@ -54,25 +65,38 @@ namespace iReserve.Controllers
         {
             //ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
 
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("D") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             DeliveryDAL agent = new DeliveryDAL();
             DeliveryModel bookings = agent.Bookings();
             return View(bookings);
         }
 
         [OutputCache(Duration = 0)]
-        public void UpdateStatus(int bookingID, string status)
+        public string UpdateStatus(int bookingID, string status)
         {
             DeliveryDAL agent = new DeliveryDAL();
             bool res = agent.UpdateBookingStatus(bookingID, status);
 
             if (res)
             {
-                Response.Redirect("/Home/DeliveryIndex");
+                return "DONE";
             }
 
             else
             {
-                Debug.WriteLine("ERROR");
+                return "ERROR";
             }
         }
     }

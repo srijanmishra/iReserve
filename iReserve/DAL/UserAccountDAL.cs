@@ -14,70 +14,7 @@ namespace iReserve.DAL
         string ConnectionStr = null;
         SqlConnection conn = null;
         SqlCommand cmd = null;
-        
-        //public bool LoginCheck(UserLoginModel login)
-        //{
-        //    bool loginApproved = false;
-        //    HttpContext.Current.Session["userRole"] = "X";
-        //    try
-        //    {
-        //        ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        //        Debug.WriteLine("Connection String = " + ConnectionStr);
-        //        conn = new SqlConnection(ConnectionStr);
-        //        conn.Open();
-
-        //        cmd = new SqlCommand("select count(EmployeeID) from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
-        //        cmd.Parameters.AddWithValue("uname", login.UserName);
-        //        cmd.Parameters.AddWithValue("pswd", login.Password);
-
-        //        int count = (Int32)cmd.ExecuteScalar();
-
-        //        if (!count.Equals(1))
-        //        {
-        //            loginApproved = false;
-        //        }
-
-        //        else
-        //        {
-        //            cmd = new SqlCommand("select UserRole from EmployeeDB where EmployeeID=@uname and Password=@pswd", conn);
-        //            cmd.Parameters.AddWithValue("uname", login.UserName);
-        //            cmd.Parameters.AddWithValue("pswd", login.Password);
-
-        //            SqlDataReader resultSet = cmd.ExecuteReader();
-
-        //            if (resultSet == null || !resultSet.Read())
-        //            {
-        //                loginApproved = false;
-        //            }
-
-        //            else
-        //            {
-        //                string DBRole = resultSet[0].ToString();
-        //                if (DBRole.Contains(login.Role))
-        //                {
-        //                    HttpContext.Current.Session["userRole"] = login.Role;
-        //                    loginApproved = true;
-        //                }
-
-        //                else
-        //                {
-        //                    loginApproved = false;
-        //                }
-
-        //                resultSet.Close();
-        //            }
-        //        }
-
-        //        conn.Close();
-        //    }
-
-        //    catch (Exception)
-        //    {
-        //        loginApproved = false;
-        //    }
-        //    return loginApproved;
-        //}
-
+                
         public bool NewUserRegister(UserRegisterModel regUser)
         {
             bool registerApproved = false;
@@ -97,6 +34,8 @@ namespace iReserve.DAL
                 cmd.Parameters.AddWithValue("Email", regUser.EmailId);
                 cmd.Parameters.AddWithValue("Phno", regUser.PhoneNumber);
                 cmd.Parameters.AddWithValue("pswd", regUser.Password);
+
+                Debug.WriteLine("COMMAND: " + cmd.Parameters.ToString());
 
                 if (cmd.ExecuteNonQuery().Equals(1))
                 {
@@ -125,7 +64,7 @@ namespace iReserve.DAL
             try
             {
                 ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                Debug.WriteLine("Connection String = " + ConnectionStr);
+       
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
 
@@ -170,7 +109,7 @@ namespace iReserve.DAL
             try
             {
                 ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                Debug.WriteLine("Connection String = " + ConnectionStr);
+    
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
 
@@ -215,7 +154,7 @@ namespace iReserve.DAL
             try
             {
                 ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                Debug.WriteLine("Connection String = " + ConnectionStr);
+    
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
 
@@ -271,7 +210,7 @@ namespace iReserve.DAL
             try 
             {
                 ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                Debug.WriteLine("Connection String = " + ConnectionStr);
+            
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
 
@@ -309,7 +248,7 @@ namespace iReserve.DAL
             try
             {
                 ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                Debug.WriteLine("Connection String = " + ConnectionStr);
+              
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
 

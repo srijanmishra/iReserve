@@ -27,7 +27,7 @@ namespace iReserve.DAL
             try
             {
                 ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                Debug.WriteLine("Connection String = " + ConnectionStr);
+                
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
             }
@@ -86,12 +86,11 @@ namespace iReserve.DAL
 
         public bool UpdateBookingStatus(int BookingID, string Status)
         {
-            Debug.WriteLine("StringLength = " + Status.Length);
             bool updateStatus = false;
             try
             {
                 ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                Debug.WriteLine("Connection String = " + ConnectionStr);
+                
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
             }

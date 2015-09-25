@@ -16,10 +16,10 @@
 }
 
 <div id="navigationbar01" class="navbar">
-    
+    The rest of the world at the click of a mouse.
 </div>
 
-<br />       
+<br />    
 
 <section id="loginForm">
 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
@@ -84,7 +84,7 @@
         </table>
         <br />
         <div class="midclass">
-            <input type="submit" value="Log in" class="SubmitButton"/>
+            <input type="submit" value="Log in" class="SubmitButton" id="loginbtn"/>
             <p>
                 @Html.ActionLink("Register", "Register") if you don't have an account.
             </p>

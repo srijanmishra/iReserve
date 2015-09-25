@@ -10,18 +10,21 @@ namespace iReserve.Controllers
 {
     public class PartyController : Controller
     {
-        //
-        // GET: /Party/
-
-        [Authorize]
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        [Authorize]
         public ActionResult ViewPartyBookings()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("U") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             PartyDAL agent = new PartyDAL();
             var userid = Convert.ToInt32(Session["UserID"].ToString());
             List<ViewPartyBookings> bookingList = agent.Bookings(10001, "");
@@ -29,15 +32,26 @@ namespace iReserve.Controllers
             return View(bookingList);
         }
 
-        [Authorize]
         public ActionResult ViewVenues()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("U") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             PartyDAL agent = new PartyDAL();
             var venueList = agent.ViewVenues();
             return View(venueList);
         }
 
-        [Authorize]
         public ActionResult MakeBooking(int venueId, DateTime eventDate, double cost)
         {
             PartyDAL agent = new PartyDAL();

@@ -12,16 +12,21 @@ namespace iReserve.Controllers
 {
     public class FoodCourtController : Controller
     {
-        //
-        // GET: /FoodCourt/
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         public ActionResult ViewFoodBookings()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("U") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             FoodDAL agent = new FoodDAL();
             var temp = Session["UserID"];
             var userId = Convert.ToInt32(temp.ToString());
@@ -32,6 +37,19 @@ namespace iReserve.Controllers
 
         public ActionResult SearchMeal()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("U") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             return View();
         }
 
@@ -106,6 +124,19 @@ namespace iReserve.Controllers
                
         public ActionResult BookMeal()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("U") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             MakeBookingDetails obj = (MakeBookingDetails)TempData["model"];
             return View(obj);
         }

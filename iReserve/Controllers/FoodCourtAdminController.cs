@@ -17,6 +17,20 @@ namespace iReserve.Controllers
 
         public ActionResult AddMenu()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("F") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
+
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
             ViewBag.list1 = agent.FoodCourts();
             ViewBag.list2 = agent.Caterers();
@@ -52,6 +66,19 @@ namespace iReserve.Controllers
 
         public ActionResult RemoveMenu()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("F") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
             MenuViewModel list = agent.GetMenus();
             return View(list);
@@ -61,7 +88,7 @@ namespace iReserve.Controllers
         // POST: /FoodCourtAdmin/RemoveMenuItem_Confirmed
 
         [OutputCache(Duration = 0)]
-        public void RemoveMenuItem_Confirmed(int menuID)
+        public string RemoveMenuItem_Confirmed(int menuID)
         {
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
 
@@ -69,17 +96,30 @@ namespace iReserve.Controllers
 
             if (res)
             {
-                Response.Redirect("/FoodCourtAdmin/RemoveMenu");
+                return "DONE";
             }
 
             else
             {
-                Debug.WriteLine("ERROR");
+                return "ERROR";
             }
         }
 
         public ActionResult UpdateMenu()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("F") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             FoodCourtAdminDAL agent = new FoodCourtAdminDAL();
             MenuViewModel list = agent.GetMenus();
             

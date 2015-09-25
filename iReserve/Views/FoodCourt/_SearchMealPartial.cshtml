@@ -7,8 +7,7 @@
         $('#SearchBtn').click(function () {
             var opt = '@option';
             var selectedValue = $('.option2 option:selected').text();
-            //alert(opt + " " + selectedValue);
-
+            
             $.ajax({
                 type: 'POST',
                 url: 'SearchMenus',

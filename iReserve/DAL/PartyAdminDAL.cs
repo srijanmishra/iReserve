@@ -20,7 +20,7 @@ namespace iReserve.DAL
             try
             {
                 ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                Debug.WriteLine("Connection String = " + ConnectionStr);
+         
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
             }
@@ -71,7 +71,7 @@ namespace iReserve.DAL
             try
             {
                 ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                Debug.WriteLine("Connection String = " + ConnectionStr);
+        
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
             }
@@ -117,7 +117,7 @@ namespace iReserve.DAL
             try
             {
                 ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-                Debug.WriteLine("Connection String = " + ConnectionStr);
+       
                 conn = new SqlConnection(ConnectionStr);
                 conn.Open();
             }

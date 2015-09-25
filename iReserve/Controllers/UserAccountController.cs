@@ -15,6 +15,10 @@ namespace iReserve.Controllers
         // GET: /UserAccount/Login
         public ActionResult Login()
         {
+            Session["UserID"] = null;
+            Session["UserRole"] = null;
+
+            FormsAuthentication.SignOut();
             return View();
         }
 
@@ -25,6 +29,8 @@ namespace iReserve.Controllers
         public ActionResult Login(UserLoginModel login)
         {
             UserAccountDAL agent = new UserAccountDAL();
+            login.Password = PasswordGenerator.EncryptPassword(login.Password);
+            
             try
             {
                 bool res = agent.IDCheck(login.UserName, login.Password);
@@ -103,31 +109,40 @@ namespace iReserve.Controllers
         // POST: /UserAccount/Login
 
         [HttpPost]
-        public ActionResult Register(UserRegisterModel regUser)
+        public string Register(string UserId, string UserName, string JoiningDate, string Password, string EmailId, string PhoneNumber)
         {
             UserAccountDAL agent = new UserAccountDAL();
+            UserRegisterModel regUser = new UserRegisterModel();
 
+            regUser.EmployeeID = UserId;
+            regUser.Name = UserName;
+            regUser.DateOfJoining = Convert.ToDateTime(JoiningDate);
+            regUser.PhoneNumber = PhoneNumber;
+            regUser.EmailId = EmailId;
+            regUser.Password = PasswordGenerator.EncryptPassword(Password);
+            
             try
             {
                 bool res = agent.NewUserRegister(regUser);
                 if (res)
                 {
+                    FormsAuthentication.SetAuthCookie(regUser.EmployeeID, false);
                     Session["UserID"] = regUser.EmployeeID;
                     Session["UserRole"] = "U";
-                    TempData["message"] = "Password generated";
-                    return RedirectToAction("Index", "Home");
+                    return "DONE";
                 }
 
                 else
                 {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
-                    return View(regUser);
+                    //ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    //return View(regUser);
+                    return "ERROR: Registration incorrect";
                 }
 
             }
             catch
             {
-                return View();
+                return "ERROR: Registration incorrect";
             }
         }
 
@@ -153,6 +168,13 @@ namespace iReserve.Controllers
 
         public ActionResult ChangePassword()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            
             return View();
         }
 
@@ -163,6 +185,7 @@ namespace iReserve.Controllers
         public ActionResult ChangePassword(PasswordChangeModel pswdChange)
         {
             UserAccountDAL agent = new UserAccountDAL();
+            pswdChange.NewPassword = PasswordGenerator.EncryptPassword(pswdChange.NewPassword);
 
             bool res = agent.PasswordChanger(Session["UserID"].ToString(), pswdChange.OldPassword, pswdChange.NewPassword);
 
@@ -184,9 +207,15 @@ namespace iReserve.Controllers
         public ActionResult LogOff()
         {
             Session["UserID"] = null;
+            Session["UserRole"] = null;
 
             FormsAuthentication.SignOut();
             return RedirectToAction("Login", "UserAccount");
+        }
+
+        public string GetPassword()
+        {
+            return PasswordGenerator.Generate(6);
         }
     }
 }

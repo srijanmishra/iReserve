@@ -44,8 +44,7 @@
                 alert("ERROR: Please select a timing");
             }
 
-            else {
-                alert(MovieName + " " + ShowDate + " " + MatineeTime + " " + EveningTime + " " + NightTime + " " + MovieLang + " " + MovieCost);
+            else {                
                 $.ajax({
                     type: 'POST',
                     url: 'AddMovie',
@@ -53,7 +52,6 @@
                     dataType: "text",
                     success: function (data) {
                         var result = $.trim(data);
-                        alert(data);
                         if (result === "DONE") {
                             alert("Movie Created.");
                             window.location.reload(true);

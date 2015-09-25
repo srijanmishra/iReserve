@@ -52,6 +52,50 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#regbtn').click(function () {
+                var userId = $('#userId').val();
+                var userName = $('#userName').val();
+                var joiningDate = $('#datefield').val();
+                var emailId = $('#emailId').val();
+                var phoneNumber = $('#phoneNo').val();
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '/UserAccount/GetPassword',
+                    data: {},
+                    dataType: "text",
+                    success: function (data) {
+                        var pswd = data;
+                        if (data.indexOf("ERROR") < 0) {
+                            // make another ajax call to generate password
+                            $.ajax({
+                                type: 'POST',
+                                url: '/UserAccount/Register',
+                                data: { UserId: userId, UserName: userName, JoiningDate: joiningDate, Password: pswd, EmailId: emailId, PhoneNumber: phoneNumber },
+                                dataType: "text",
+                                success: function (data) {
+                                    alert('Password: ' + pswd);
+                                    window.location.href = '@Url.Action("Index", "Home")';
+                                }
+                            });
+
+                            
+                        }
+
+                        else {
+                            // Display error
+                            $('#errordiv').html(data + "<br/>");
+                        }
+                    }
+                });
+            });
+        });
+
+</script>
+
 }
 
 @section ViewingStyles {
@@ -59,10 +103,12 @@
 }
 
 <div id="navigationbar01" class="navbar">
-    
+    The world at the click of a mouse.
 </div>
 
-<br />       
+<br />   
+
+<div id="errordiv"></div>    
 
 @using (Html.BeginForm()) {
     @Html.AntiForgeryToken()
@@ -81,7 +127,7 @@
                     @Html.LabelFor(m => m.EmployeeID)                    
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.EmployeeID)
+                    @Html.TextBoxFor(m => m.EmployeeID, new { @id="userId"})
                 </td>
                 <td>
                     @Html.ValidationMessageFor(m => m.EmployeeID)
@@ -93,7 +139,7 @@
                     @Html.LabelFor(m => m.Name)
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.Name, new {@id = "UserName"})
+                    @Html.TextBoxFor(m => m.Name, new {@id = "userName"})
                 </td>
                 <td>
                     <input type="button" value="Check if Available" id="CheckButton" />
@@ -119,7 +165,7 @@
                     @Html.LabelFor(m => m.EmailId)
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.EmailId)
+                    @Html.TextBoxFor(m => m.EmailId, new { @id="emailId"})
                 </td>
                 <td>
                     @Html.ValidationMessageFor(m => m.EmailId)
@@ -131,13 +177,13 @@
                     @Html.LabelFor(m => m.PhoneNumber)
                 </td>
                 <td>
-                    @Html.TextBoxFor(m => m.PhoneNumber)
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @id="phoneNo"})
                 </td>
                 <td>
                     @Html.ValidationMessageFor(m => m.PhoneNumber)
                 </td>
             </tr>
-            <tr>
+            @*<tr>
                 <td></td>
                 <td>
                     @Html.LabelFor(m => m.Password)
@@ -160,11 +206,11 @@
                 <td>
                     @Html.ValidationMessageFor(m => m.ConfirmPassword)
                 </td>
-            </tr>
+            </tr>*@
         </table>
         <br />
         <div class="midclass">
-            <input type="submit" value="Sign Me Up" class="SubmitButton"/>
+            <input type="button" value="Sign Me Up" class="SubmitButton" id="regbtn"/>
         </div>
     </fieldset>
 }

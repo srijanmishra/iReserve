@@ -12,18 +12,23 @@ namespace iReserve.Controllers
     public class MovieAdminController : Controller
     {
         //
-        // GET: /MovieAdmin/
-
-        public ActionResult Index()
-        {
-            return RedirectToAction("AddMovie");
-        }
-
-        //
         // GET: /MovieAdmin/AddMovie
 
         public ActionResult AddMovie()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("M") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             return View();
         }
 
@@ -87,26 +92,21 @@ namespace iReserve.Controllers
             }
         }
 
-        //
-        // POST: /MovieAdmin/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         public ActionResult RemoveMovie()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("M") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             MovieAdminDAL agent = new MovieAdminDAL();
             Dictionary<int, AddMovie> list = agent.MovieShows();
             return View(list);
@@ -116,7 +116,7 @@ namespace iReserve.Controllers
         // POST: /FoodCourtAdmin/RemoveMenuItem_Confirmed
 
         [OutputCache(Duration = 0)]
-        public void RemoveMovieItemConfirmed(int movieId)
+        public string RemoveMovieItemConfirmed(int movieId)
         {
             MovieAdminDAL agent = new MovieAdminDAL();
 
@@ -124,12 +124,12 @@ namespace iReserve.Controllers
 
             if (res)
             {
-                Response.Redirect("/MovieAdmin/RemoveMovieShow");
+                return "DONE";
             }
 
             else
             {
-                Debug.WriteLine("ERROR");
+                return "ERROR";
             }
         }
     }

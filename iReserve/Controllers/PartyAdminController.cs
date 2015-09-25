@@ -12,18 +12,23 @@ namespace iReserve.Controllers
     public class PartyAdminController : Controller
     {
         //
-        // GET: /PartyAdmin/
-
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        //
         // GET: /PartyAdmin/Create
 
         public ActionResult AddVenue()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("P") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             return View();
         }
 
@@ -62,60 +67,21 @@ namespace iReserve.Controllers
             }
         }
 
-        //
-        // GET: /PartyAdmin/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /PartyAdmin/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /PartyAdmin/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /PartyAdmin/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         public ActionResult RemoveVenue()
         {
+            //Authentication
+            string type = (string)Session["UserRole"];
+            if (type == null)
+            {
+                return RedirectToAction("Register", "UserAccount");
+            }
+            else if (type.CompareTo("P") != 0)
+            {
+                Session["UserID"] = null;
+                Session["UserRole"] = null;
+                return RedirectToAction("Login", "UserAccount");
+            }
+
             PartyAdminDAL agent = new PartyAdminDAL();
             Dictionary<int, AddVenue> list = agent.VenueList();
             return View(list);
@@ -125,7 +91,7 @@ namespace iReserve.Controllers
         // POST: /FoodCourtAdmin/RemoveMenuItem_Confirmed
 
         [OutputCache(Duration = 0)]
-        public void RemoveVenueConfirmed(int venueId)
+        public string RemoveVenueConfirmed(int venueId)
         {
             PartyAdminDAL agent = new PartyAdminDAL();
 
@@ -133,12 +99,12 @@ namespace iReserve.Controllers
 
             if (res)
             {
-                Response.Redirect("/VenueAdmin/RemoveVenue");
+                return "DONE";
             }
 
             else
             {
-                Debug.WriteLine("ERROR");
+                return "ERROR";
             }
         }
     }
