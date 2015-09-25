@@ -38,7 +38,7 @@ namespace iReserve.Controllers
             {
                 return RedirectToAction("Register", "UserAccount");
             }
-            else if (type.CompareTo("F") != 0)
+            else if (type.CompareTo("U") != 0)
             {
                 Session["UserID"] = null;
                 Session["UserRole"] = null;

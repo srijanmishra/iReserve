@@ -12,9 +12,9 @@
 }
 
 <div id="navigationbar01" class="navbar">
-    @Html.ActionLink("Movie Bookings", "Index", "Movie", null, new { @class = "navbaritem" })
-    @Html.ActionLink("Food Court Bookings", "Index", "FoodCourt", null, new { @class = "navbaritem" })
-    @Html.ActionLink("Party Bookings", "Index", "Party", null, new { @class = "navbaritem" })
+    @Html.ActionLink("Movie Bookings", "ViewMovieBookings", "Movie", null, new { @class = "navbaritem" })
+    @Html.ActionLink("Food Court Bookings", "ViewFoodBookings", "FoodCourt", null, new { @class = "navbaritem" })
+    @Html.ActionLink("Party Bookings", "ViewPartyBookings", "Party", null, new { @class = "navbaritem" })
     @Html.ActionLink("View All Bookings", "ViewAll", "Home", null, new { @class="navbaritem"})
 
     @Html.Partial("_LoginPartial", new { @class = "partialLogin" })
@@ -28,17 +28,17 @@
 <table style="width:100%">
   <tr>
     <td>
-        <a href="@Url.Action("Index", "Movie")">
+        <a href="@Url.Action("ViewMovieBookings", "Movie")">
             <img src='@Url.Content("~/Images/movie-theater.jpg")' alt="Alternate Text" height="320" width="480"/>
         </a>
     </td>
     <td>
-        <a href="@Url.Action("Index", "FoodCourt")">
+        <a href="@Url.Action("ViewFoodBookings", "FoodCourt")">
             <img src='@Url.Content("~/Images/food-booking.jpg")' alt="Alternate Text" height="320" width="480"/>
         </a>        
     </td> 
     <td>
-        <a href="@Url.Action("Index", "Party")">
+        <a href="@Url.Action("ViewPartyBookings", "Party")">
             <img src='@Url.Content("~/Images/party.jpg")' alt="Alternate Text" height="320" width="480"/>
         </a>
     </td>

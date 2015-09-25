@@ -84,9 +84,9 @@
 
 <div id="navigationbar01" class="navbar">
     @Html.ActionLink("Home", "Index", "Home", null, new { @class="navbaritem"})
-    @Html.ActionLink("Movie Bookings", "Index", "Movie", null, new {@class = "navbaritem"})
-    @Html.ActionLink("Food Court Bookings", "Index", "FoodCourt", null, new {@class = "navbaritem"})
-    @Html.ActionLink("Party Bookings", "Index", "Party", null, new {@class = "navbaritem"})
+    @Html.ActionLink("Movie Bookings", "ViewMovieBookings", "Movie", null, new {@class = "navbaritem"})
+    @Html.ActionLink("Food Court Bookings", "ViewFoodBookings", "FoodCourt", null, new {@class = "navbaritem"})
+    @Html.ActionLink("Party Bookings", "ViewPartyBookings", "Party", null, new {@class = "navbaritem"})
     @Html.ActionLink("View All Bookings", "ViewAll", "Home", null, new { @class="navbaritem"})
 
     @Html.Partial("_LoginPartial", new {@class = "partialLogin"})
