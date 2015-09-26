@@ -27,19 +27,34 @@ namespace iReserve.DAL
 
                 string insertDate = regUser.DateOfJoining.ToString("MM/dd/yyyy");
 
-                cmd = new SqlCommand("insert into EmployeeDB (EmployeeID, EmployeeName, DoJ, Email, PhoneNo, Password, UserRole, Deductions) values (@userID, @uname, @DoJ, @Email, @Phno, @pswd, 'U', 0.0)", conn);
+                cmd = new SqlCommand("SELECT UserRole FROM EmployeeDB WHERE EmployeeID = @userID");
                 cmd.Parameters.AddWithValue("userID", regUser.EmployeeID);
-                cmd.Parameters.AddWithValue("uname", regUser.Name);
-                cmd.Parameters.AddWithValue("DoJ", insertDate);
-                cmd.Parameters.AddWithValue("Email", regUser.EmailId);
-                cmd.Parameters.AddWithValue("Phno", regUser.PhoneNumber);
-                cmd.Parameters.AddWithValue("pswd", regUser.Password);
+                
+                string userRole = Convert.ToString(cmd.ExecuteScalar());
 
-                Debug.WriteLine("COMMAND: " + cmd.Parameters.ToString());
-
-                if (cmd.ExecuteNonQuery().Equals(1))
+                if (userRole != null && !userRole.Contains("U"))
                 {
-                    registerApproved = true;
+                    userRole = userRole + "U";
+                    cmd = new SqlCommand("INSERT INTO EmployeeDB (EmployeeID, EmployeeName, DoJ, Email, PhoneNo, Password, UserRole, Deductions) VALUES (@userID, @uname, @DoJ, @Email, @Phno, @pswd, @userRole, 0.0)", conn);
+                    cmd.Parameters.AddWithValue("userID", regUser.EmployeeID);
+                    cmd.Parameters.AddWithValue("uname", regUser.Name);
+                    cmd.Parameters.AddWithValue("DoJ", insertDate);
+                    cmd.Parameters.AddWithValue("Email", regUser.EmailId);
+                    cmd.Parameters.AddWithValue("Phno", regUser.PhoneNumber);
+                    cmd.Parameters.AddWithValue("pswd", regUser.Password);
+                    cmd.Parameters.AddWithValue("userRole", userRole);
+
+                    Debug.WriteLine("COMMAND: " + cmd.Parameters.ToString());
+
+                    if (cmd.ExecuteNonQuery().Equals(1))
+                    {
+                        registerApproved = true;
+                    }
+
+                    else
+                    {
+                        registerApproved = false;
+                    }
                 }
 
                 else

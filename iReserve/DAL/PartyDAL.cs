@@ -94,19 +94,29 @@ namespace iReserve.DAL
 
             try
             {
-                cmd = new SqlCommand("INSERT INTO PartyBookingDB([EmployeeID], [VenueID], [BookingDate], [EventDate], [Cost]) VALUES (@employeeid, @venueid, @bookingdate, @eventdate, @cost)", conn);
-                cmd.Parameters.AddWithValue("employeeid", booking.EmployeeID);
+                cmd = new SqlCommand("SELECT COUNT(*) FROM PartyBookingDB WHERE VenueID = @venueid AND BookingDate = @bookingdate");
                 cmd.Parameters.AddWithValue("venueid", booking.VenueID);
                 cmd.Parameters.AddWithValue("bookingdate", DateTime.Now);
-                cmd.Parameters.AddWithValue("eventdate", booking.EventDate);
-                cmd.Parameters.AddWithValue("cost", booking.Cost);
-                
-                if (cmd.ExecuteNonQuery().Equals(1))
+
+                if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
                 {
-                    bookingStatus = true;
+                    cmd = new SqlCommand("INSERT INTO PartyBookingDB([EmployeeID], [VenueID], [BookingDate], [EventDate], [Cost]) VALUES (@employeeid, @venueid, @bookingdate, @eventdate, @cost)", conn);
+                    cmd.Parameters.AddWithValue("employeeid", booking.EmployeeID);
+                    cmd.Parameters.AddWithValue("venueid", booking.VenueID);
+                    cmd.Parameters.AddWithValue("bookingdate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("eventdate", booking.EventDate);
+                    cmd.Parameters.AddWithValue("cost", booking.Cost);
+
+                    if (cmd.ExecuteNonQuery().Equals(1))
+                    {
+                        bookingStatus = true;
+                    }
                 }
 
-                conn.Close();
+                else
+                {
+                    bookingStatus = false;
+                }
             }
 
             catch (SqlException err)
@@ -123,6 +133,8 @@ namespace iReserve.DAL
             {
                 Debug.WriteLine("ERROR: " + err.Message);
             }
+
+            conn.Close();
 
             return bookingStatus;
         }

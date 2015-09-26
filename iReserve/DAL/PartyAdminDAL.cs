@@ -34,17 +34,28 @@ namespace iReserve.DAL
 
             try
             {
-                SqlCommand cmd = new SqlCommand("INSERT into VenueDB([VenueName], [VenueAddress], [VenueCapacity]) VALUES (@venue, @address, @capacity)", conn);
+                cmd = new SqlCommand("SELECT COUNT(*) FROM VenueDB WHERE VenueName = @venue AND VenueAddress = @address AND VenueCapacity = @capacity");
                 cmd.Parameters.AddWithValue("venue", venue.VenueName);
                 cmd.Parameters.AddWithValue("address", venue.VenueAddress);
                 cmd.Parameters.AddWithValue("capacity", venue.VenueCapacity);
-                
-                if (cmd.ExecuteNonQuery().Equals(1))
+
+                if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
                 {
-                    addVenueStatus = true;
+                    cmd = new SqlCommand("INSERT into VenueDB([VenueName], [VenueAddress], [VenueCapacity]) VALUES (@venue, @address, @capacity)", conn);
+                    cmd.Parameters.AddWithValue("venue", venue.VenueName);
+                    cmd.Parameters.AddWithValue("address", venue.VenueAddress);
+                    cmd.Parameters.AddWithValue("capacity", venue.VenueCapacity);
+
+                    if (cmd.ExecuteNonQuery().Equals(1))
+                    {
+                        addVenueStatus = true;
+                    }
                 }
 
-                conn.Close();
+                else
+                {
+                    addVenueStatus = false;
+                }
             }
 
             catch (SqlException err)
@@ -61,6 +72,8 @@ namespace iReserve.DAL
             {
                 Debug.WriteLine("ERROR: " + err.Message);
             }
+
+            conn.Close();
 
             return addVenueStatus;
         }

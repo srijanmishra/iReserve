@@ -35,24 +35,34 @@ namespace iReserve.DAL
 
 			try
 			{
-				cmd = new SqlCommand("INSERT INTO MovieDB([Title], [Language]) OUTPUT inserted.MovieID VALUES (@title, @language)", conn);
-				cmd.Parameters.AddWithValue("title", movie.MovieName);
-				cmd.Parameters.AddWithValue("language", movie.Language);
-				
-				int movieId = Convert.ToInt32(cmd.ExecuteScalar());
-				SqlCommand cmdShow = new SqlCommand("INSERT into ShowDB([MovieID], [ShowDate], [Timing], [BookedTickets], [Price]) VALUES (@movieid, @showdate, @show, @bookedTickets, @price)", conn);
-				cmdShow.Parameters.AddWithValue("movieid", movieId);
-				cmdShow.Parameters.AddWithValue("showDate", movie.ShowDate);
-				cmdShow.Parameters.AddWithValue("show", movie.Show);
-				cmdShow.Parameters.AddWithValue("bookedTickets", 0);
-				cmdShow.Parameters.AddWithValue("price", movie.Cost);
-				
-				if (cmdShow.ExecuteNonQuery().Equals(1))
-				{
-					addMovieStatus = true;
-				}
+                cmd = new SqlCommand("SELECT COUNT(*) FROM MovieDB WHERE Title = @title AND Language = @language");
+                cmd.Parameters.AddWithValue("title", movie.MovieName);
+                cmd.Parameters.AddWithValue("language", movie.Language);
 
-				conn.Close();
+                if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
+                {
+                    cmd = new SqlCommand("INSERT INTO MovieDB([Title], [Language]) OUTPUT inserted.MovieID VALUES (@title, @language)", conn);
+                    cmd.Parameters.AddWithValue("title", movie.MovieName);
+                    cmd.Parameters.AddWithValue("language", movie.Language);
+
+                    int movieId = Convert.ToInt32(cmd.ExecuteScalar());
+                    SqlCommand cmdShow = new SqlCommand("INSERT into ShowDB([MovieID], [ShowDate], [Timing], [BookedTickets], [Price]) VALUES (@movieid, @showdate, @show, @bookedTickets, @price)", conn);
+                    cmdShow.Parameters.AddWithValue("movieid", movieId);
+                    cmdShow.Parameters.AddWithValue("showDate", movie.ShowDate);
+                    cmdShow.Parameters.AddWithValue("show", movie.Show);
+                    cmdShow.Parameters.AddWithValue("bookedTickets", 0);
+                    cmdShow.Parameters.AddWithValue("price", movie.Cost);
+
+                    if (cmdShow.ExecuteNonQuery().Equals(1))
+                    {
+                        addMovieStatus = true;
+                    }
+                }
+
+                else
+                {
+                    addMovieStatus = false;
+                }
 			}
 
 			catch (SqlException err)
@@ -68,7 +78,9 @@ namespace iReserve.DAL
 			catch (Exception err)
 			{
 				Debug.WriteLine("ERROR: " + err.Message);
-			}
+            }
+
+            conn.Close();
 
 			return addMovieStatus;
 		}

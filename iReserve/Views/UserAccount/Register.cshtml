@@ -61,40 +61,56 @@
                 var joiningDate = $('#datefield').val();
                 var emailId = $('#emailId').val();
                 var phoneNumber = $('#phoneNo').val();
-                
+
+
                 $.ajax({
                     type: 'POST',
-                    url: '/UserAccount/GetPassword',
-                    data: {},
-                    dataType: "text",
+                    url: '/UserAccount/CheckName',
+                    data: { userName: userName },
+                    dataType: 'json',
                     success: function (data) {
-                        var pswd = data;
-                        if (data.indexOf("ERROR") < 0) {
-                            // make another ajax call to generate password
+                        if (data == undefined) {
                             $.ajax({
                                 type: 'POST',
-                                url: '/UserAccount/Register',
-                                data: { UserId: userId, UserName: userName, JoiningDate: joiningDate, Password: pswd, EmailId: emailId, PhoneNumber: phoneNumber },
+                                url: '/UserAccount/GetPassword',
+                                data: {},
                                 dataType: "text",
                                 success: function (data) {
-                                    alert('Password: ' + pswd);
-                                    window.location.href = '@Url.Action("Index", "Home")';
+                                    var pswd = data;
+                                    if (data.indexOf("ERROR") < 0) {
+                                        // make another ajax call to generate password
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '/UserAccount/Register',
+                                            data: { UserId: userId, UserName: userName, JoiningDate: joiningDate, Password: pswd, EmailId: emailId, PhoneNumber: phoneNumber },
+                                            dataType: "text",
+                                            success: function (data) {
+                                                alert('Password: ' + pswd);
+                                                window.location.href = '@Url.Action("Index", "Home")';
+                                            }
+                                        });
+                                    }
+
+                                    else {
+                                        // Display error
+                                        $('#errordiv').html(data + "<br/>");
+                                    }
                                 }
                             });
-
-                            
                         }
 
                         else {
-                            // Display error
-                            $('#errordiv').html(data + "<br/>");
+                            $("#message").html("Account with this name already exists.");
+                            $("#message").css("color", "red");
+                            $("#UserName").css("background-color", "#FF5C5C");
+                            $("#UserName").css("color", "white");
                         }
                     }
                 });
             });
         });
 
-</script>
+    </script>
 
 }
 
