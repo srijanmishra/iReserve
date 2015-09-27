@@ -375,6 +375,7 @@
     <Content Include="Views\MovieAdmin\RemoveMovie.cshtml" />
     <Content Include="Views\PartyAdmin\RemoveVenue.cshtml" />
     <Content Include="Views\Party\BookParty.cshtml" />
+    <Content Include="Views\MovieAdmin\_ConfirmMovieCancel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

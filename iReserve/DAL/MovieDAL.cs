@@ -103,7 +103,7 @@ namespace iReserve.DAL
             try
             {
                 //cmd = new SqlCommand("SELECT Test.BookingID AS BookingId, Test.EmployeeID AS EmployeeNumber, M.Title AS MovieName, Test.ShowDate AS ShowDate, Test.Timing AS Show, Test.BookingDate AS BookingDate, Test.NoOfSeats AS NumberOfSeats, Test.CardType AS CardType, Test.CardNo AS CardNo, Test.Amount AS Amount, Test.Confirmation AS Confirmation FROM (SELECT A.BookingID AS BookingID, A.EmployeeID AS EmployeeID, A.NoOfSeats AS NoOfSeats, A.Confirmation AS Confirmation, A.CardType AS CardType, A.CardNo AS CardNo, A.BookingDate AS BookingDate, A.Amount AS Amount, B.ShowDate AS ShowDate, B.Timing AS Timing, B.MovieID FROM MovieBookingDB AS A JOIN ShowDB AS B ON A.ShowID = B.ShowID WHERE A.EmployeeID=@UserID) AS Test JOIN MovieDB AS M ON Test.MovieID = M.MovieID;", conn);
-                cmd = new SqlCommand("SELECT Movie.MovieID as MovieID, Movie.Title AS Title, Movie.Language AS Language, Show.ShowDate AS ShowDate FROM MovieDB AS Movie JOIN ShowDB AS Show ON Movie.MovieID = Show.MovieID WHERE (Show.ShowDate<dateadd(ms, -3, dateadd(wk, datediff(wk, 0, getdate()) + 1, 0)) and Show.ShowDate>dateadd(ms, -3, dateadd(wk, datediff(wk, 0, getdate()) + 1, 0))-2);", conn);
+                cmd = new SqlCommand("SELECT Movie.MovieID as MovieID, Movie.Title AS Title, Movie.Language AS Language, Show.ShowDate AS ShowDate, Show.Timing AS ShowTime FROM MovieDB AS Movie JOIN ShowDB AS Show ON Movie.MovieID = Show.MovieID WHERE (Show.ShowDate<dateadd(ms, -3, dateadd(wk, datediff(wk, 0, getdate()) + 1, 0)) and Show.ShowDate>dateadd(ms, -3, dateadd(wk, datediff(wk, 0, getdate()) + 1, 0))-2);", conn);
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -111,21 +111,22 @@ namespace iReserve.DAL
 
                 while (reader.Read())
                 {
-                    int movieId = Convert.ToInt32(reader.GetString(0));
+                    int movieId = reader.GetInt32(0);
                     if (movieListings.ContainsKey(movieId))
                     {
                         DateTime date = reader.GetDateTime(3);
-                        movieListings[movieId].ShowDate += ',' + date.ToString();
+                        movieListings[movieId].ShowDate += "; " + date.ToShortDateString() + ", " + reader.GetString(4);
                     }
                     else
                     {
                         ViewCurrentMovies movie = new ViewCurrentMovies();
 
-                        movie.MovieID = Convert.ToInt32(reader.GetString(0));
+                        movie.MovieID = reader.GetInt32(0);
                         movie.MovieName = reader.GetString(1);
                         movie.Language = reader.GetString(2);
                         DateTime date = reader.GetDateTime(3);
-                        movie.ShowDate = date.ToString();
+                        movie.ShowDate = date.ToShortDateString();
+                        movie.ShowDate += ", " + reader.GetString(4);
 
                         movieListings[movieId] = movie;
                     }

@@ -17,18 +17,15 @@
             var trRef = $(this).parent().parent();
 
             var movieID = $(trRef).find('td:eq(0)').html();
-            var matinee = $(trRef).find('input[id="Matinee"]').prop("checked");
-            var evening = $(trRef).find('input[id="Evening"]').prop("checked");
-            var night = $(trRef).find('input[id="Night"]').prop("checked");
 
             if ($(this).parent().find('#RadioRemove').attr('checked')) {
                 $.ajax({
                     type: 'POST',
-                    url: 'RemoveMovieItemConfirmed',
-                    data: { movieID: movieID, matinee: matinee, evening: evening, night: night },
-                    dataType: "text",
-                    success: function (data, status, jqXHR) {
-                        window.location.reload(true);
+                    url: 'GetNumberOfTicketsSold',
+                    data: { movieID: movieID },
+                    dataType: "html",
+                    success: function (data) {
+                        $('#confirm').html(data);
                     }
                 });
             }
@@ -39,7 +36,6 @@
         });
     });
 </script>
-
 
 <br />       
 
@@ -153,3 +149,6 @@
         }
     }
 </script>
+
+<br />
+<div id="confirm"></div>

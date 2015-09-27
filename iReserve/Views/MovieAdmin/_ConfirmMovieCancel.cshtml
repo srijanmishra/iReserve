@@ -1,0 +1,38 @@
+﻿<div class="midclass">
+    <h3>
+        No of Tickets sold : @ViewBag.NoOfTickets
+        <br />
+        Are you sure you want to cancel show?
+    </h3>
+
+    <input type="button" value="Yes" class="SubmitButton" id="YesCancel" style="display:inline"/>
+    <input type="button" value="No" class="SubmitButton" id="NoCancel" style="display:inline"/>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#YesCancel').click(function () {
+            var movieID = '@ViewBag.MovieId';
+
+            $.ajax({
+                type: 'POST',
+                url: 'RemoveMovieItemConfirmed',
+                data: { movieID: movieID },
+                dataType: "text",
+                success: function (data, status, jqXHR) {
+                    window.location.reload(true);
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#NoCancel').click(function () {
+            $(this).html("");
+            window.location.reload();
+        });
+    });
+</script>

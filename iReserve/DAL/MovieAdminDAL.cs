@@ -91,7 +91,7 @@ namespace iReserve.DAL
 			return addMovieStatus;
 		}
 
-		public bool RemoveShow(int movieId, string show)
+		public bool RemoveShow(int movieId)
 		{
 			bool updateStatus = false;
 			try
@@ -109,18 +109,16 @@ namespace iReserve.DAL
 
 			try
 			{
-                cmd = new SqlCommand("DELETE FROM MovieBookingDB WHERE ShowID IN (SELECT ShowID FROM ShowDB WHERE MovieID = @movieid AND Timing = '@show')", conn);
+                cmd = new SqlCommand("DELETE FROM MovieBookingDB WHERE ShowID IN (SELECT ShowID FROM ShowDB WHERE MovieID = @movieid)", conn);
                 cmd.Parameters.AddWithValue("movieid", movieId);
-                cmd.Parameters.AddWithValue("show", show);
-
+                
                 int count1 = Convert.ToInt32(cmd.ExecuteNonQuery());
 
                 if (count1 >= 0)
                 {
-                    cmd = new SqlCommand("DELETE from ShowDB WHERE MovieID=@movieid AND Timing = @show", conn);
+                    cmd = new SqlCommand("DELETE from ShowDB WHERE MovieID=@movieid", conn);
                     cmd.Parameters.AddWithValue("movieid", movieId);
-                    cmd.Parameters.AddWithValue("show", show);
-
+                    
                     int count2 = cmd.ExecuteNonQuery();
 
                     if (count2 >= 1)
@@ -213,8 +211,49 @@ namespace iReserve.DAL
 
             return movieList;
         }
-    
-    }
 
-	
+        public int ReturnNoOfTickets(int movieid)
+        {
+            int res = 0;
+
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed " + e.Message);
+                return Convert.ToInt32(null);
+            }
+
+            try
+            {
+                cmd = new SqlCommand("SELECT BookedTickets FROM ShowDB WHERE MovieID = @movieid", conn);
+                cmd.Parameters.AddWithValue("movieid", movieid);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    int temp = reader.GetInt32(0);
+                    res += temp;
+                }
+
+                reader.Close();
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                return Convert.ToInt32(null);
+            }
+
+            conn.Close();
+
+            return res;
+        }
+    }
 }

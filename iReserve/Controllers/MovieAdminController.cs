@@ -117,18 +117,12 @@ namespace iReserve.Controllers
         // POST: /FoodCourtAdmin/RemoveMenuItem_Confirmed
 
         [OutputCache(Duration = 0)]
-        public string RemoveMovieItemConfirmed(int movieId, bool matinee, bool evening, bool night)
+        public string RemoveMovieItemConfirmed(int movieId)
         {
             MovieAdminDAL agent = new MovieAdminDAL();
-            bool res1 = false, res2 = false, res3 = false;
-            if (matinee)
-                res1 = agent.RemoveShow(movieId, "Matinee");
-            if (evening)
-                res2 = agent.RemoveShow(movieId, "Evening");
-            if (night)
-                res3 = agent.RemoveShow(movieId, "Night");
-
-            if (res1 && res2 && res3)
+            bool res = agent.RemoveShow(movieId);
+            
+            if (res)
             {
                 return "DONE";
             }
@@ -137,6 +131,20 @@ namespace iReserve.Controllers
             {
                 return "ERROR";
             }
+        }
+
+        public ActionResult GetNumberOfTicketsSold(string movieID)
+        {
+            int MovieId = Convert.ToInt32(movieID);
+
+            MovieAdminDAL agent = new MovieAdminDAL();
+
+            int res = agent.ReturnNoOfTickets(MovieId);
+
+            ViewBag.NoOfTickets = res;
+            ViewBag.MovieId = MovieId;
+
+            return PartialView("_ConfirmMovieCancel");
         }
     }
 }
