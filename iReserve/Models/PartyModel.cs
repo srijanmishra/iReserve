@@ -31,8 +31,19 @@ namespace iReserve.Models
     {
         public int EmployeeID { get; set; }
         public int VenueID { get; set; }
+        
+        [Required]
         public DateTime EventDate { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        [RegularExpression(@"(?=.)^\$?(([1-9][0-9]{0,2})|[0-9]+)?(\.[0-9]{1,2})?$", ErrorMessage = "Cost can contain only numbers and a decimal point.")]
         public double Cost { get; set; }
+    }
+
+    public class VenueNameId
+    {
+        public string VenueName { get; set; }
+        public int VenueID { get; set; }
     }
 
     public class VenueDetails

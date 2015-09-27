@@ -27,42 +27,53 @@
             var MatineeTime = 'false';
             var EveningTime = 'false';
             var NightTime = 'false';
+            var count = 0;
             
             if ($('#Matinee:checked').length == 1) {
                 MatineeTime = 'true';
+                count = count + 1;
             }
 
             if ($('#Evening:checked').length == 1) {
                 EveningTime = 'true';
+                count = count + 1;
             }
 
             if ($('#Night:checked').length == 1) {
                 NightTime = 'true';
+                count = count + 1;
             }
 
-            if (MatineeTime == 'false' && EveningTime == 'false' && NightTime == 'false') {
-                alert("ERROR: Please select a timing");
+            if (count <= 2) {
+
+                if (MatineeTime == 'false' && EveningTime == 'false' && NightTime == 'false') {
+                    alert("ERROR: Please select a timing");
+                }
+
+                else {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'AddMovie',
+                        data: { MovieName: MovieName, ShowDate: ShowDate, MatineeTime: MatineeTime, EveningTime: EveningTime, NightTime: NightTime, MovieLang: MovieLang, MovieCost: MovieCost },
+                        dataType: "text",
+                        success: function (data) {
+                            var result = $.trim(data);
+                            if (result === "DONE") {
+                                alert("Movie Created.");
+                                window.location.reload(true);
+                            }
+
+                            else {
+                                alert("Movie not added. Retry");
+                            }
+                        }
+
+                    });
+                }
             }
 
-            else {                
-                $.ajax({
-                    type: 'POST',
-                    url: 'AddMovie',
-                    data: { MovieName: MovieName, ShowDate: ShowDate, MatineeTime: MatineeTime, EveningTime: EveningTime, NightTime: NightTime, MovieLang: MovieLang, MovieCost: MovieCost},
-                    dataType: "text",
-                    success: function (data) {
-                        var result = $.trim(data);
-                        if (result === "DONE") {
-                            alert("Movie Created.");
-                            window.location.reload(true);
-                        }
-
-                        else {
-                            alert("Movie not added. Retry");
-                        }
-                    }
-
-                });
+            else {
+                alert("ERROR: You can select a max of two shows per movie.");
             }
         });
     });
@@ -76,7 +87,7 @@
 
 <div id="navigationbar02" class="navbarlevel2">
     @Html.ActionLink("Add Movie", "AddMovie", "MovieAdmin", null, new { @class="navbaritem2"})
-    @*@Html.ActionLink("Remove Movie", "RemoveMovie", "MovieAdmin", null, new { @class="navbaritem2"})*@
+    @Html.ActionLink("Cancel Movie", "RemoveMovie", "MovieAdmin", null, new { @class="navbaritem2"})
 </div>
 
 <br />

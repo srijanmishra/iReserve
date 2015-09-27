@@ -1,0 +1,112 @@
+﻿@model iReserve.Models.PartyBooking
+
+@using iReserve.Models;
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
+}
+
+@section Scripts{
+    <link rel="stylesheet" href="~/Content/themes/base/jquery-ui.css"/>
+    <script src="~/Scripts/jquery-ui-1.11.4.js"></script>
+    <script src="~/Scripts/jquery-ui-1.8.24.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DateField.js"></script>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#BookPartyBtn').click(function () {
+            var VenueName = $('#VenueName option:selected').text();
+            var EventDate  = $('#datefield2').val();
+            var Cost = $('#Cost').val();
+
+            if (VenueName == '--Select--') {
+                alert("ERROR: Please make proper selection");
+            }
+
+            else {
+                $.ajax({
+                    type: 'POST',
+                    url: 'MakeBooking',
+                    data: { VenueName: VenueName, EventDate: EventDate, Cost: Cost },
+                    dataType: "text",
+                    success: function (data) {
+                        var result = $.trim(data);
+                        if (result === "DONE") {
+                            alert("Party booking complete.");
+                            window.location.href  = '@Url.Action("ViewPartyBookings", "Party")';
+                        }
+
+                        else {
+                            alert("Party booking failed. Retry.");
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+
+<div id="navigationbar01" class="navbar">
+    @Html.ActionLink("Home", "Index", "Home", null, new { @class="navbaritem"})
+    @Html.ActionLink("Movie Bookings", "ViewMovieBookings", "Movie", null, new { @class = "navbaritem" })
+    @Html.ActionLink("Food Court Bookings", "ViewFoodBookings", "FoodCourt", null, new { @class = "navbaritem" })
+    @Html.ActionLink("Party Bookings", "ViewPartyBookings", "Party", null, new { @class = "navbaritem" })
+    @Html.ActionLink("View All Bookings", "ViewAll", "Home", null, new { @class="navbaritem"})
+
+    @Html.Partial("_LoginPartial", new { @class = "partialLogin" })
+</div>
+
+<br />       
+
+<div id="navigationbar02" class="navbarlevel2">
+    @Html.ActionLink("Book Party", "BookParty", "Party", null, new { @class="navbaritem2"})  
+    @Html.ActionLink("View Party Bookings", "ViewPartyBookings", "Party", null, new { @class="navbaritem2"})       
+</div>
+
+<br />
+
+@using (Html.BeginForm()){
+    <fieldset>
+        <legend>Add Menu</legend>
+        <table class="tableForms">
+              <tr>
+                  <th class="side"></th>
+                  <th class="mid"></th>
+                  <th class="mid"></th>
+                  <th class="side"></th>
+              </tr>
+              <tr>
+                <td></td>
+                <td>Venue Name</td>        
+                <td>
+                    @Html.DropDownList("VenueName", new SelectList(@ViewBag.list1), "--Select--", new { @id = "VenueName", @style = "width:200px;"})
+                </td>
+                <td></td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>Event Date</td>
+                <td>
+                    @Html.TextBoxFor(model => model.EventDate, new {@type="text", @id="datefield2", @readonly="readonly", @style="background:white", @class="futureDates"})</td>
+                <td>@Html.ValidationMessageFor(model => model.EventDate)</td>
+              </tr>
+    
+              <tr>
+                <td></td>
+                <td>Cost</td>
+                <td>@Html.TextBoxFor(model => model.Cost, new { @id="Cost"})</td>
+                <td>@Html.ValidationMessageFor(model => model.Cost)</td>
+              </tr>
+        </table>
+    </fieldset>
+}
+<br />
+<div class="midclass">
+    <input type="button" value="Book Party" class="SubmitButton" id="BookPartyBtn" />
+</div>

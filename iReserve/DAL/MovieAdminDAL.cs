@@ -32,10 +32,11 @@ namespace iReserve.DAL
 			}
 
 			bool addMovieStatus = false;
+            int movieId;
 
 			try
 			{
-                cmd = new SqlCommand("SELECT COUNT(*) FROM MovieDB WHERE Title = @title AND Language = @language");
+                cmd = new SqlCommand("SELECT COUNT(*) FROM MovieDB WHERE Title = @title AND Language = @language", conn);
                 cmd.Parameters.AddWithValue("title", movie.MovieName);
                 cmd.Parameters.AddWithValue("language", movie.Language);
 
@@ -45,23 +46,28 @@ namespace iReserve.DAL
                     cmd.Parameters.AddWithValue("title", movie.MovieName);
                     cmd.Parameters.AddWithValue("language", movie.Language);
 
-                    int movieId = Convert.ToInt32(cmd.ExecuteScalar());
-                    SqlCommand cmdShow = new SqlCommand("INSERT into ShowDB([MovieID], [ShowDate], [Timing], [BookedTickets], [Price]) VALUES (@movieid, @showdate, @show, @bookedTickets, @price)", conn);
-                    cmdShow.Parameters.AddWithValue("movieid", movieId);
-                    cmdShow.Parameters.AddWithValue("showDate", movie.ShowDate);
-                    cmdShow.Parameters.AddWithValue("show", movie.Show);
-                    cmdShow.Parameters.AddWithValue("bookedTickets", 0);
-                    cmdShow.Parameters.AddWithValue("price", movie.Cost);
-
-                    if (cmdShow.ExecuteNonQuery().Equals(1))
-                    {
-                        addMovieStatus = true;
-                    }
+                    movieId = Convert.ToInt32(cmd.ExecuteScalar());
                 }
 
                 else
                 {
-                    addMovieStatus = false;
+                    cmd = new SqlCommand("SELECT MovieID FROM MovieDB WHERE Title = @title AND Language = @language", conn);
+                    cmd.Parameters.AddWithValue("title", movie.MovieName);
+                    cmd.Parameters.AddWithValue("language", movie.Language);
+
+                    movieId = Convert.ToInt32(cmd.ExecuteScalar());
+                }
+
+                SqlCommand cmdShow = new SqlCommand("INSERT into ShowDB([MovieID], [ShowDate], [Timing], [BookedTickets], [Price]) VALUES (@movieid, @showdate, @show, @bookedTickets, @price)", conn);
+                cmdShow.Parameters.AddWithValue("movieid", movieId);
+                cmdShow.Parameters.AddWithValue("showDate", movie.ShowDate);
+                cmdShow.Parameters.AddWithValue("show", movie.Show);
+                cmdShow.Parameters.AddWithValue("bookedTickets", 0);
+                cmdShow.Parameters.AddWithValue("price", movie.Cost);
+
+                if (cmdShow.ExecuteNonQuery().Equals(1))
+                {
+                    addMovieStatus = true;
                 }
 			}
 
@@ -85,7 +91,7 @@ namespace iReserve.DAL
 			return addMovieStatus;
 		}
 
-		public bool RemoveShow(int movieId)
+		public bool RemoveShow(int movieId, string show)
 		{
 			bool updateStatus = false;
 			try
@@ -103,36 +109,51 @@ namespace iReserve.DAL
 
 			try
 			{
-				cmd = new SqlCommand("DELETE from ShowDB WHERE MovieID=@movieid", conn);
-				cmd.Parameters.AddWithValue("movieid", movieId);
-				
-				int count = (Int32)cmd.ExecuteNonQuery();
+                cmd = new SqlCommand("DELETE FROM MovieBookingDB WHERE ShowID IN (SELECT ShowID FROM ShowDB WHERE MovieID = @movieid AND Timing = '@show')", conn);
+                cmd.Parameters.AddWithValue("movieid", movieId);
+                cmd.Parameters.AddWithValue("show", show);
 
-				if (count.Equals(0))
-				{
-					updateStatus = false;
-				}
+                int count1 = Convert.ToInt32(cmd.ExecuteNonQuery());
 
-				else
-				{
-					updateStatus = true;
-				}
+                if (count1 >= 0)
+                {
+                    cmd = new SqlCommand("DELETE from ShowDB WHERE MovieID=@movieid AND Timing = @show", conn);
+                    cmd.Parameters.AddWithValue("movieid", movieId);
+                    cmd.Parameters.AddWithValue("show", show);
 
-				conn.Close();
+                    int count2 = cmd.ExecuteNonQuery();
+
+                    if (count2 >= 1)
+                    {
+                        updateStatus = true;
+                    }
+
+                    else
+                    {
+                        updateStatus = false;
+                    }
+                }
+
+                else
+                {
+                    updateStatus = false;
+                }
 			}
 
 			catch (Exception err)
 			{
 				Debug.WriteLine(err.Message);
 				updateStatus = false;
-			}
+            }
+
+            conn.Close();
 
 			return updateStatus;
 		}
         
-        public Dictionary<int, AddMovie> MovieShows()
+        public MovieViewModel MovieShows()
         {
-            var movieList = new Dictionary<int,AddMovie>();
+            var movieList = new MovieViewModel();
             
             try
             {
@@ -149,30 +170,33 @@ namespace iReserve.DAL
 
             try
             {
-                cmd = new SqlCommand("SELECT MovieID, ShowDate, Timing, BookedTickets FROM ShowDB WHERE ShowDate>CURRENT_TIMESTAMP", conn);
+                movieList.MovieIdList = new List<int>();
+                movieList.MovieItemList = new List<Models.AddMovie>();
+
+                cmd = new SqlCommand("SELECT A.MovieID, A.ShowDate, A.Timing, A.BookedTickets, B.Title, B.Language FROM ShowDB AS A, MovieDB AS B WHERE ShowDate > CURRENT_TIMESTAMP AND A.MovieID = B.MovieID", conn);
 
                 SqlDataReader reader = cmd.ExecuteReader();
                 
                 while (reader.Read())
                 {
                     int movieId = reader.GetInt32(0);
-                    SqlCommand cmdMovie = new SqlCommand("SELECT Title, Language FROM MovieDB WHERE MovieID=@movieid", conn);
-                    cmdMovie.Parameters.AddWithValue("movieid", movieId);
-                    SqlDataReader movieReader = cmdMovie.ExecuteReader();
-                    if (!movieList.ContainsKey(movieId))
+                    
+                    if (!movieList.MovieIdList.Contains(movieId))
 	                {
+                        movieList.MovieIdList.Add(movieId);
                         AddMovie movie = new AddMovie();
-                        movie.MovieName = movieReader.GetString(0);
-                        movie.Language = movieReader.GetString(1);
-                        movie.ShowDate = Convert.ToDateTime(reader.GetString(1));
+                        movie.MovieName = reader.GetString(4);
+                        movie.Language = reader.GetString(5);
+                        movie.ShowDate = reader.GetDateTime(1);
                         movie.Show = reader.GetString(2);
                         movie.BookedTickets = reader.GetInt32(3);
-                        movieList[movieId] = movie;
+                        movieList.MovieItemList.Add(movie);
 	                }
                     else
                     {
-                        movieList[movieId].Show += reader.GetString(2);
-                        movieList[movieId].BookedTickets += reader.GetInt32(3);
+                        int tempId = movieList.MovieIdList.FindIndex(x=>x.Equals(movieId));
+                        movieList.MovieItemList[tempId].Show += reader.GetString(2);
+                        movieList.MovieItemList[tempId].BookedTickets += reader.GetInt32(3);
                     }
                 }
 

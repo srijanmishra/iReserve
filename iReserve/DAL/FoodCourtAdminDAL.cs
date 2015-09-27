@@ -185,7 +185,7 @@ namespace iReserve.DAL
 
                 if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)
                 {
-                    cmd = new SqlCommand("INSERT INTO MenuDB VALUES (@foodcourtid, @catererid, @servingdate, @noofplates, @DID);", conn);
+                    cmd = new SqlCommand("INSERT INTO MenuDB VALUES (@foodcourtid, @catererid, @servingdate, @noofplates, @dishid);", conn);
                     cmd.Parameters.AddWithValue("foodcourtid", FoodCourtID);
                     cmd.Parameters.AddWithValue("catererid", CatererID);
                     cmd.Parameters.AddWithValue("servingdate", ServingDate);
@@ -303,7 +303,7 @@ namespace iReserve.DAL
 
             try
             {
-                cmd = new SqlCommand("UPDATE FoodBookingDB SET Confirmation = 'False' WHERE MenuID = @menuId", conn);
+                cmd = new SqlCommand("DELETE FROM FoodBookingDB WHERE MenuID = @menuId", conn);
                 cmd.Parameters.AddWithValue("menuId", menuID);
 
                 int count1 = cmd.ExecuteNonQuery();
@@ -322,10 +322,6 @@ namespace iReserve.DAL
 
                     else
                     {
-                        cmd = new SqlCommand("UPDATE FoodBookingDB SET Confirmation = True WHERE MenuID = @menuId", conn);
-                        cmd.Parameters.AddWithValue("menuId", menuID);
-
-                        cmd.ExecuteNonQuery();
                         IsRemoved = false;
                     }
                 }
@@ -366,51 +362,34 @@ namespace iReserve.DAL
             try
             {
 
-                cmd = new SqlCommand("UPDATE FoodBookingDB SET Confirmation = 'False' WHERE MenuID = @menuId", conn);
-                cmd.Parameters.AddWithValue("menuId", obj.MenuID);
+                cmd = new SqlCommand("SELECT FoodCourtID FROM FoodCourtDB WHERE FoodCourtName = @foodcourtname;", conn);
+                cmd.Parameters.AddWithValue("foodcourtname", obj.MenuItem.FoodCourtName);
 
-                int count1 = cmd.ExecuteNonQuery();
+                int FoodCourtID = Convert.ToInt32(cmd.ExecuteScalar());
 
-                if (count1 >= 0)
+                cmd = new SqlCommand("SELECT CatererID FROM CatererDB WHERE CatererName = @caterername;", conn);
+                cmd.Parameters.AddWithValue("caterername", obj.MenuItem.CatererName);
+
+                int CatererID = Convert.ToInt32(cmd.ExecuteScalar());
+
+                cmd = new SqlCommand("SELECT DishID FROM DishDB WHERE DishName = @dishname;", conn);
+                cmd.Parameters.AddWithValue("dishname", obj.MenuItem.DishName);
+
+                int DishID = Convert.ToInt32(cmd.ExecuteScalar());
+
+                cmd = new SqlCommand("UPDATE MenuDB SET FoodCourtID = @foodcourtid, CatererID = @catererid, ServingDate = @servingdate, NoOfPlates = @noofplates, DishID = @dishid WHERE MenuID = @menuid", conn);
+                cmd.Parameters.AddWithValue("foodcourtid", FoodCourtID);
+                cmd.Parameters.AddWithValue("catererid", CatererID);
+                cmd.Parameters.AddWithValue("servingdate", obj.MenuItem.ServingDate);
+                cmd.Parameters.AddWithValue("noofplates", obj.MenuItem.NumberOfPlates);
+                cmd.Parameters.AddWithValue("dishid", DishID);
+                cmd.Parameters.AddWithValue("menuid", obj.MenuID);
+
+                int count = cmd.ExecuteNonQuery();
+
+                if (count.Equals(1))
                 {
-                    cmd = new SqlCommand("SELECT FoodCourtID FROM FoodCourtDB WHERE FoodCourtName = @foodcourtname;", conn);
-                    cmd.Parameters.AddWithValue("foodcourtname", obj.MenuItem.FoodCourtName);
-
-                    int FoodCourtID = Convert.ToInt32(cmd.ExecuteScalar());
-
-                    cmd = new SqlCommand("SELECT CatererID FROM CatererDB WHERE CatererName = @caterername;", conn);
-                    cmd.Parameters.AddWithValue("caterername", obj.MenuItem.CatererName);
-
-                    int CatererID = Convert.ToInt32(cmd.ExecuteScalar());
-
-                    cmd = new SqlCommand("SELECT DishID FROM DishDB WHERE DishName = @dishname;", conn);
-                    cmd.Parameters.AddWithValue("dishname", obj.MenuItem.DishName);
-
-                    int DishID = Convert.ToInt32(cmd.ExecuteScalar());
-
-                    cmd = new SqlCommand("UPDATE MenuDB SET FoodCourtID = @foodcourtid, CatererID = @catererid, ServingDate = @servingdate, NoOfPlates = @noofplates, DishID = @dishid WHERE MenuID = @menuid", conn);
-                    cmd.Parameters.AddWithValue("foodcourtid", FoodCourtID);
-                    cmd.Parameters.AddWithValue("catererid", CatererID);
-                    cmd.Parameters.AddWithValue("servingdate", obj.MenuItem.ServingDate);
-                    cmd.Parameters.AddWithValue("noofplates", obj.MenuItem.NumberOfPlates);
-                    cmd.Parameters.AddWithValue("dishid", DishID);
-                    cmd.Parameters.AddWithValue("menuid", obj.MenuID);
-
-                    int count2 = cmd.ExecuteNonQuery();
-
-                    if (count2.Equals(1))
-                    {
-                        UpdateSuccess = true;
-                    }
-
-                    else
-                    {
-                        cmd = new SqlCommand("UPDATE FoodBookingDB SET Confirmation = True WHERE MenuID = @menuId", conn);
-                        cmd.Parameters.AddWithValue("menuId", obj.MenuID);
-
-                        cmd.ExecuteNonQuery();
-                        UpdateSuccess = false;
-                    }
+                    UpdateSuccess = true;
                 }
 
                 else

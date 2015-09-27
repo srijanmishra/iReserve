@@ -1,0 +1,110 @@
+﻿@model iReserve.ViewModels.VenueViewModel
+
+@using iReserve.Models;
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
+}
+
+<div id="navigationbar01" class="navbar">
+    @Html.Partial("_LoginPartial", new { @class = "partialLogin" })
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('.confirmbtn').click(function () {
+            var trRef = $(this).parent().parent();
+
+            var venueID = $(trRef).find('td:eq(0)').html();
+
+            if ($(this).parent().find('#RadioRemove').attr('checked')) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'RemoveVenueConfirmed',
+                    data: { venueID: venueID },
+                    dataType: "html",
+                    success: function (data, status, jqXHR) {
+                        window.location.reload(true);
+                    }
+                });
+            }
+
+            else {
+                alert('ERROR: ' + venueID + ' Option not selected. Please select option and confirm.');
+            }
+        });
+    });
+</script>
+
+<br />       
+
+<div id="navigationbar02" class="navbarlevel2">
+    @Html.ActionLink("Add Venue", "AddVenue", "PartyAdmin", null, new { @class="navbaritem2"})
+    @Html.ActionLink("Remove Venue", "RemoveVenue", "PartyAdmin", null, new { @class="navbaritem2"}) 
+</div>
+
+<br />
+
+<div class="datagrid">
+    <table>
+        <thead>
+            <tr>
+                <th>Venue ID</th>
+                <th>Venue Name</th>
+                <th>Address</th>
+                <th>Capacity</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        @*<tfoot>
+            <tr>
+                <td colspan="11">
+                    <div id="paging">
+                        <ul>
+                            <li><a href="#"><span>Previous</span></a></li>
+                            <li><a href="#" class="active"><span>1</span></a></li>
+                            <li><a href="#"><span>2</span></a></li>
+                            <li><a href="#"><span>3</span></a></li>
+                            <li><a href="#"><span>4</span></a></li>
+                            <li><a href="#"><span>5</span></a></li>
+                            <li><a href="#"><span>Next</span></a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>*@
+        @{ var i = 0;}
+        <tbody>
+            @if (Model.VenueIdList.Count != 0)
+            {
+                foreach (var item in Model.VenueList)
+                {
+                    <tr>
+                        <td>@Model.VenueIdList[i]</td>
+                        <td>@item.VenueName</td>
+                        <td>@item.VenueAddress</td>
+                        <td>@item.VenueCapacity</td>
+                        <td>
+                            @Html.RadioButtonFor(m => m.isSelected[i], "Remove", new { @id = "RadioRemove" }) <span>Remove</span>
+                            <input type="button" value="Confirm" id="confirmbtn" class="confirmbtn" />
+                        </td>
+                    </tr>
+                
+                    i = i + 1;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="3" style="text-align:center">
+                            No data entries to show
+                    </td>
+                    <td colspan="2"></td>
+                </tr>   
+            }
+                         
+        </tbody>
+    </table>
+</div>

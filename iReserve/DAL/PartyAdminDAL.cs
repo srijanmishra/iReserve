@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using iReserve.Models;
+using iReserve.ViewModels;
 
 namespace iReserve.DAL
 {
@@ -34,7 +35,7 @@ namespace iReserve.DAL
 
             try
             {
-                cmd = new SqlCommand("SELECT COUNT(*) FROM VenueDB WHERE VenueName = @venue AND VenueAddress = @address AND VenueCapacity = @capacity");
+                cmd = new SqlCommand("SELECT COUNT(*) FROM VenueDB WHERE VenueName = @venue AND VenueAddress = @address AND VenueCapacity = @capacity", conn);
                 cmd.Parameters.AddWithValue("venue", venue.VenueName);
                 cmd.Parameters.AddWithValue("address", venue.VenueAddress);
                 cmd.Parameters.AddWithValue("capacity", venue.VenueCapacity);
@@ -96,7 +97,7 @@ namespace iReserve.DAL
 
             try
             {
-                cmd = new SqlCommand("DELETE from VenueDB WHERE VenueID=@venueid", conn);
+                cmd = new SqlCommand("DELETE FROM VenueDB WHERE VenueID=@venueid", conn);
                 cmd.Parameters.AddWithValue("venueid", venueId);
 
                 int count = (Int32)cmd.ExecuteNonQuery();
@@ -110,8 +111,6 @@ namespace iReserve.DAL
                 {
                     updateStatus = true;
                 }
-
-                conn.Close();
             }
 
             catch (Exception err)
@@ -120,12 +119,14 @@ namespace iReserve.DAL
                 updateStatus = false;
             }
 
+            conn.Close();
+
             return updateStatus;
         }
 
-        public Dictionary<int, AddVenue> VenueList()
+        public VenueViewModel VenueList()
         {
-           var venueList = new Dictionary<int,AddVenue>();
+           var venueList = new VenueViewModel();
             
             try
             {
@@ -145,15 +146,21 @@ namespace iReserve.DAL
                 cmd = new SqlCommand("SELECT VenueID, VenueName, VenueAddress, VenueCapacity FROM VenueDB", conn);
 
                 SqlDataReader reader = cmd.ExecuteReader();
-                
+
+                venueList.VenueIdList = new List<int>();
+                venueList.VenueList = new List<AddVenue>();
+                venueList.isSelected = new List<bool>();
+
                 while (reader.Read())
                 {
                     AddVenue venue = new AddVenue();
-                    int venueId = reader.GetInt32(0);
+                    int venueid = reader.GetInt32(0);
+                    venueList.VenueIdList.Add(venueid);
                     venue.VenueName = reader.GetString(1);
                     venue.VenueAddress = reader.GetString(2);
                     venue.VenueCapacity = reader.GetInt32(3);
-                    venueList[venueId] = venue;	                
+                    venueList.VenueList.Add(venue);
+                    venueList.isSelected.Add(false);
                 }
 
                 reader.Close();

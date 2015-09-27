@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using iReserve.DAL;
 using iReserve.Models;
+using iReserve.ViewModels;
 
 namespace iReserve.Controllers
 {
@@ -83,7 +84,7 @@ namespace iReserve.Controllers
             }
 
             PartyAdminDAL agent = new PartyAdminDAL();
-            Dictionary<int, AddVenue> list = agent.VenueList();
+            VenueViewModel list = agent.VenueList();
             return View(list);
         }
 

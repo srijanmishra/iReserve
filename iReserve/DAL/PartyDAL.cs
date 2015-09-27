@@ -94,7 +94,7 @@ namespace iReserve.DAL
 
             try
             {
-                cmd = new SqlCommand("SELECT COUNT(*) FROM PartyBookingDB WHERE VenueID = @venueid AND BookingDate = @bookingdate");
+                cmd = new SqlCommand("SELECT COUNT(*) FROM PartyBookingDB WHERE VenueID = @venueid AND BookingDate = @bookingdate", conn);
                 cmd.Parameters.AddWithValue("venueid", booking.VenueID);
                 cmd.Parameters.AddWithValue("bookingdate", DateTime.Now);
 
@@ -141,7 +141,6 @@ namespace iReserve.DAL
 
         public List<VenueDetails> ViewVenues()
         {
-            PartyDAL agent = new PartyDAL();
             var venues = new List<VenueDetails>();
 
             try
@@ -186,6 +185,92 @@ namespace iReserve.DAL
             conn.Close();           
 
             return venues;
+        }
+
+        public List<string> GetVenues()
+        {
+            var venues = new List<string>();
+
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed " + e.Message);
+                return null;
+            }
+
+            try
+            {
+                cmd = new SqlCommand("SELECT VenueName FROM VenueDB", conn);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    var venueItem = reader.GetString(0);
+
+                    venues.Add(venueItem);
+                }
+
+                reader.Close();
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                return null;
+            }
+
+            conn.Close();
+
+            return venues;
+        }
+
+        public object FindVenueId(string VenueName)
+        {
+            int VenueId = 0;
+            try
+            {
+                ConnectionStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+                Debug.WriteLine("Connection String = " + ConnectionStr);
+                conn = new SqlConnection(ConnectionStr);
+                conn.Open();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("SQL Server connection failed " + e.Message);
+                return null;
+            }
+
+            try
+            {
+                cmd = new SqlCommand("SELECT VenueID FROM VenueDB WHERE VenueName = @venueName", conn);
+                cmd.Parameters.AddWithValue("venueName", VenueName);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    VenueId = reader.GetInt32(0);
+                }
+
+                reader.Close();
+            }
+
+            catch (Exception err)
+            {
+                Debug.WriteLine(err.Message);
+                return null;
+            }
+
+            conn.Close();
+
+            return VenueId;
         }
     }
 }

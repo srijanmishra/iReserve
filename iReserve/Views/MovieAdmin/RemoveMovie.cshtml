@@ -1,0 +1,155 @@
+﻿@model iReserve.ViewModels.MovieViewModel
+
+@using iReserve.Models;
+
+@section ViewingStyles {
+    <link rel="stylesheet" type="text/css" href="~/Content/Viewings.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/Navigation.css">
+}
+
+<div id="navigationbar01" class="navbar">
+    @Html.Partial("_LoginPartial", new { @class = "partialLogin" })
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('.confirmbtn').click(function () {
+            var trRef = $(this).parent().parent();
+
+            var movieID = $(trRef).find('td:eq(0)').html();
+            var matinee = $(trRef).find('input[id="Matinee"]').prop("checked");
+            var evening = $(trRef).find('input[id="Evening"]').prop("checked");
+            var night = $(trRef).find('input[id="Night"]').prop("checked");
+
+            if ($(this).parent().find('#RadioRemove').attr('checked')) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'RemoveMovieItemConfirmed',
+                    data: { movieID: movieID, matinee: matinee, evening: evening, night: night },
+                    dataType: "text",
+                    success: function (data, status, jqXHR) {
+                        window.location.reload(true);
+                    }
+                });
+            }
+
+            else {
+                alert('ERROR: ' + movieID + ' Option not selected. Please select option and confirm.');
+            }
+        });
+    });
+</script>
+
+
+<br />       
+
+<div id="navigationbar02" class="navbarlevel2">
+    @Html.ActionLink("Add Movie", "AddMovie", "MovieAdmin", null, new { @class="navbaritem2"})
+    @Html.ActionLink("Cancel Movie", "RemoveMovie", "MovieAdmin", null, new { @class="navbaritem2"})   
+</div>
+
+<br />
+
+<div class="datagrid">
+    <table id="movieList">
+        <thead>
+            <tr>
+                <th>Movie ID</th>
+                <th>Movie Name</th>
+                <th>Show Date</th>
+                <th>Language</th>
+                <th>Matinee</th>
+                <th>Evening</th>
+                <th>Night</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        @*<tfoot>
+            <tr>
+                <td colspan="11">
+                    <div id="paging">
+                        <ul>
+                            <li><a href="#"><span>Previous</span></a></li>
+                            <li><a href="#" class="active"><span>1</span></a></li>
+                            <li><a href="#"><span>2</span></a></li>
+                            <li><a href="#"><span>3</span></a></li>
+                            <li><a href="#"><span>4</span></a></li>
+                            <li><a href="#"><span>5</span></a></li>
+                            <li><a href="#"><span>Next</span></a></li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>*@
+        @{ var i = 0;}
+        <tbody>
+            @if (Model!=null && Model.MovieIdList.Count != 0)
+            {
+                foreach (var item in Model.MovieItemList)
+                {
+                    <tr>
+                        <td>@Model.MovieIdList[i]</td>
+                        <td>@item.MovieName</td>
+                        <td>@item.ShowDate</td>
+                        <td>@item.Language</td>
+                        <td>
+                            <input type="checkbox" id="Matinee" value="Matinee" />
+                        </td>
+                        <td>
+                            <input type="checkbox" id="Evening" value="Evening" />
+                        </td>
+                        <td>
+                            <input type="checkbox" id="Night" value="Night" />
+                        </td>
+                        <td>
+                            @Html.RadioButtonFor(m => m.isSelected[i], "Remove", new { @id = "RadioRemove" }) <span>Remove</span>
+                            <input type="button" value="Confirm" id="confirmbtn" class="confirmbtn" />
+                        </td>
+                    </tr>
+                
+                    i = i + 1;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="3" style="text-align:center">
+                            No data entries to show
+                    </td>
+                    <td colspan="2"></td>
+                </tr>   
+            }
+                         
+        </tbody>
+    </table>
+</div>
+
+<script>
+    var shows;
+    shows = [@Html.Raw(Json.Encode(Model))];
+
+    for (var j = 0; j < '@Model.MovieItemList.Count'; j++) {
+        var temp = j + 1;
+        if (shows[0].MovieItemList[j].Show.indexOf("Matinee") >= 0) {
+            $('#movieList tr:eq(' + temp + ') td').find('input[id="Matinee"]').prop("checked", true);
+        }
+        else {
+            $('#movieList tr:eq(' + temp + ') td').find('input[id="Matinee"]').prop("checked", false);
+        }
+
+        if (shows[0].MovieItemList[j].Show.indexOf("Evening") >= 0) {
+            $('#movieList tr:eq(' + temp + ') td').find('input[id="Evening"]').prop("checked", true);
+        }
+        else {
+            $('#movieList tr:eq(' + temp + ') td').find('input[id="Evening"]').prop("checked", false);
+        }
+
+        if (shows[0].MovieItemList[j].Show.indexOf("Night") >= 0) {
+            $('#movieList tr:eq(' + temp + ') td').find('input[id="Night"]').prop("checked", true);
+        }
+        else {
+            $('#movieList tr:eq(' + temp + ') td').find('input[id="Night"]').prop("checked", false);
+        }
+    }
+</script>

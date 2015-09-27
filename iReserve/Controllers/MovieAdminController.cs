@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using iReserve.DAL;
 using iReserve.Models;
+using iReserve.ViewModels;
 
 namespace iReserve.Controllers
 {
@@ -108,7 +109,7 @@ namespace iReserve.Controllers
             }
 
             MovieAdminDAL agent = new MovieAdminDAL();
-            Dictionary<int, AddMovie> list = agent.MovieShows();
+            MovieViewModel list = agent.MovieShows();
             return View(list);
         }
 
@@ -116,13 +117,18 @@ namespace iReserve.Controllers
         // POST: /FoodCourtAdmin/RemoveMenuItem_Confirmed
 
         [OutputCache(Duration = 0)]
-        public string RemoveMovieItemConfirmed(int movieId)
+        public string RemoveMovieItemConfirmed(int movieId, bool matinee, bool evening, bool night)
         {
             MovieAdminDAL agent = new MovieAdminDAL();
+            bool res1 = false, res2 = false, res3 = false;
+            if (matinee)
+                res1 = agent.RemoveShow(movieId, "Matinee");
+            if (evening)
+                res2 = agent.RemoveShow(movieId, "Evening");
+            if (night)
+                res3 = agent.RemoveShow(movieId, "Night");
 
-            bool res = agent.RemoveShow(movieId);
-
-            if (res)
+            if (res1 && res2 && res3)
             {
                 return "DONE";
             }
