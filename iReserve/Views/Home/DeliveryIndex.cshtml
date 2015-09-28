@@ -15,9 +15,10 @@
     $(document).ready(function(){
         $('.confirmbtn').click(function () {
             var trRef = $(this).parent().parent();
+            var tdRef = $(this).parent();
             
             var bookingID = $(trRef).find('td:eq(0)').html();
-            if ($(this).find('#RadioApproved').prop('checked')) {
+            if ($(tdRef).find('#RadioApproved').prop('checked')) {
                 $.ajax({
                     type: 'POST',
                     url: 'UpdateStatus',
@@ -29,7 +30,7 @@
                 });
             }
 
-            else if ($(this).find('#RadioRejected').prop('checked')) {
+            else if ($(tdRef).find('#RadioRejected').prop('checked')) {
                 $.ajax({
                     type: 'POST',
                     url: 'UpdateStatus',
@@ -97,8 +98,8 @@
                         <td>@booking.Amount</td>
                         <td>@booking.ApprovalStatus</td>
                         <td>
-                            @Html.RadioButtonFor(m => m.bookingCollection[i].ApprovalStatus, "A", new { @id =("RadioApproved" + i) }) <span>Approve</span>
-                            @Html.RadioButtonFor(m => m.bookingCollection[i].ApprovalStatus, "R", new { @id = ("RadioRejected" + i) }) <span>Reject</span>
+                            @Html.RadioButtonFor(m => m.bookingCollection[i].ApprovalStatus, "A", new { @id =("RadioApproved") }) <span>Approve</span>
+                            @Html.RadioButtonFor(m => m.bookingCollection[i].ApprovalStatus, "R", new { @id = ("RadioRejected") }) <span>Reject</span>
                             <input type="button" value="Confirm" id="confirmbtn" class="confirmbtn" />
                         </td>
                     </tr>
