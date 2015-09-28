@@ -97,6 +97,10 @@ namespace iReserve.DAL
 
             try
             {
+                cmd = new SqlCommand("DELETE FROM PartyBookingDB WHERE VenueID = @venueid", conn);
+                cmd.Parameters.AddWithValue("venueid", venueId);
+                cmd.ExecuteNonQuery();
+
                 cmd = new SqlCommand("DELETE FROM VenueDB WHERE VenueID=@venueid", conn);
                 cmd.Parameters.AddWithValue("venueid", venueId);
 

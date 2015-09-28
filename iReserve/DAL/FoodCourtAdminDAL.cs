@@ -176,11 +176,10 @@ namespace iReserve.DAL
 
                 int DishID = Convert.ToInt32(cmd.ExecuteScalar());
 
-                cmd = new SqlCommand("SELECT COUNT(*) FROM MenuDB WHERE FoodCourtID = @foodcourtid AND CatererID = @catererid AND ServingDate = @servingdate AND NoOfPlates = @noofplates AND DishID = @dishid", conn);
+                cmd = new SqlCommand("SELECT COUNT(*) FROM MenuDB WHERE FoodCourtID = @foodcourtid AND CatererID = @catererid AND ServingDate = @servingdate AND DishID = @dishid", conn);
                 cmd.Parameters.AddWithValue("foodcourtid", FoodCourtID);
                 cmd.Parameters.AddWithValue("catererid", CatererID);
                 cmd.Parameters.AddWithValue("servingdate", ServingDate);
-                cmd.Parameters.AddWithValue("noofplates", NoOfPlates);
                 cmd.Parameters.AddWithValue("dishid", DishID);
 
                 if (Convert.ToInt32(cmd.ExecuteScalar()) == 0)

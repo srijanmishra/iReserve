@@ -12,7 +12,7 @@
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
     <script type="text/javascript" src="~/Scripts/DateField.js"></script>
 
-    <script>
+    @*<script>
         $(document).ready(function () {
             $("#CheckButton").click(function () {
                 var userName = $('#UserName').val();
@@ -40,6 +40,36 @@
                 });
             });
         });
+    </script>*@
+    
+    <script>
+        function CheckUserAvailability() {
+            var username = document.getElementById("userName").value;
+            var serviceurl = "http://localhost:53046/Service1.svc/checkavailability?username=" + username;
+            jQuery.support.cors = true;
+            $.ajax({
+                url: serviceurl,
+                cache: false,
+                type: "GET",
+                async: false,
+                dataType: "jsonp",
+                success: function (data) {
+                    console.log(data);
+                    var retval = JSON.parse(data);
+
+                    if (retval["available"] == false)
+                        alert("Username Not Available.")
+                    else {
+                        //document.getElementById("Register").disabled = false;
+                        alert("Username Available.")
+                    }
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    debugger;
+                    alert("Service Error");
+                }
+            });
+        }
     </script>
         
     <script>
@@ -79,16 +109,18 @@
                                     var pswd = data;
                                     if (data.indexOf("ERROR") < 0) {
                                         // make another ajax call to generate password
-                                        $.ajax({
-                                            type: 'POST',
-                                            url: '/UserAccount/Register',
-                                            data: { UserId: userId, UserName: userName, JoiningDate: joiningDate, Password: pswd, EmailId: emailId, PhoneNumber: phoneNumber },
-                                            dataType: "text",
-                                            success: function (data) {
-                                                alert('Password: ' + pswd);
-                                                window.location.href = '@Url.Action("Index", "Home")';
-                                            }
-                                        });
+                                        setTimeout(function () {
+                                            $.ajax({
+                                                type: 'POST',
+                                                url: '/UserAccount/Register',
+                                                data: { UserId: userId, UserName: userName, JoiningDate: joiningDate, Password: pswd, EmailId: emailId, PhoneNumber: phoneNumber },
+                                                dataType: "text",
+                                                success: function (data) {
+                                                    alert('Use the following password to login. You can change the password after you log in. \nPassword: ' + pswd);
+                                                    window.location.href = '@Url.Action("Login", "UserAccount")';
+                                                }
+                                            });
+                                        }, 2000);
                                     }
 
                                     else {
@@ -109,7 +141,6 @@
                 });
             });
         });
-
     </script>
 
 }
@@ -158,7 +189,7 @@
                     @Html.TextBoxFor(m => m.Name, new {@id = "userName"})
                 </td>
                 <td>
-                    <input type="button" value="Check if Available" id="CheckButton" />
+                    <input type="button" value="Check if Available" id="CheckButton" onclick="CheckUserAvailability()"/>
                     <span id="message"></span>
                     @Html.ValidationMessageFor(m => m.Name)                    
                 </td>
