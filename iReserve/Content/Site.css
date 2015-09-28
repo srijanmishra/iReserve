@@ -1,11 +1,7 @@
-﻿body 
+﻿.col1 
+text
 {
-    background-color:white;
-}
-
-.col1 
-{
-    text-align:left;
+    -align:left;
     width: 75%;
 }
 
@@ -21,6 +17,7 @@
     width: 100%;
     background-color: #1919A3;
     color:antiquewhite;
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(0.3, #ffffff), color-stop(1, #1919A3))
 }
 
 .tablelogin
