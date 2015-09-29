@@ -15,7 +15,7 @@ namespace iReserve.Models
         public string OldPassword { get; set; }
 
         [Required]
-        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@.#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@.#$%^&*()_+]{6,}$", ErrorMessage = "Password must be at least 6 characters long and must contain at least 1 digit, 1 letter and 1 special character.")]
+        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@.#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@.#$%^&*()_+]{5,}$", ErrorMessage = "Password must be at least 6 characters long and must contain at least 1 digit, 1 letter and 1 special character.")]
         [DataType(DataType.Password)]
         [Display(Name = "New password")]
         public string NewPassword { get; set; }
@@ -36,7 +36,7 @@ namespace iReserve.Models
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@.#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@.#$%^&*()_+]{6,}$", ErrorMessage = "Password must be at least 6 characters long and must contain at least 1 digit, 1 letter and 1 special character.")]
+        [RegularExpression(@"^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@.#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@.#$%^&*()_+]{5,}$", ErrorMessage = "Password must be at least 6 characters long and must contain at least 1 digit, 1 letter and 1 special character.")]
         public string Password { get; set; }
 
         [Required]

@@ -27,9 +27,9 @@ namespace iReserve.DAL
 
                 string insertDate = regUser.DateOfJoining.ToString("MM/dd/yyyy");
 
-                cmd = new SqlCommand("SELECT UserRole FROM EmployeeDB WHERE EmployeeID = @userID");
+                cmd = new SqlCommand("SELECT UserRole FROM EmployeeDB WHERE EmployeeID = @userID", conn);
                 cmd.Parameters.AddWithValue("userID", regUser.EmployeeID);
-                
+
                 string userRole = Convert.ToString(cmd.ExecuteScalar());
 
                 if (userRole != null && !userRole.Contains("U"))
